@@ -20,6 +20,13 @@ public class TargetUI : MonoBehaviour, IhasTargetPos
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetMouseButtonDown(0))
+        {
+            UIMediator.Instance.Hide(param);
+        }
+        if(Input.GetMouseButtonDown(1))
+        {
+            UIMediator.Instance.Show(param);
+        }
     }
 }

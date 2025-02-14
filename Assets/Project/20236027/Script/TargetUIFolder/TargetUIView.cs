@@ -44,14 +44,18 @@ public class TargetUIView : ViewBase
     public override void OnHide<T>(T param)
     {
         base.OnHide(param);
+        //gameObject.SetActive(false);
+        canvas.gameObject.SetActive(false);
     }
     public override void OnShow<T>(T param)
     {
         base.OnShow(param);
+        gameObject.SetActive(true);
     }
     public override void OnFinal<T>(T param)
     {
         base.OnFinal(param);
+        Destroy(gameObject);
     }
     //public override void OnFinal<T>(T param)
     //{
