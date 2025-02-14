@@ -18,7 +18,7 @@ public class TargetManager : MonoBehaviour
     [SerializeField]
     float searchScope;
 
-    PlayerAction inputActions = new PlayerAction();
+    PlayerAction inputActions ;
     private void Awake()
     {
         if (Instance == null)
@@ -31,8 +31,8 @@ public class TargetManager : MonoBehaviour
     {
         inputActions = new();
         inputActions.Enable();
-        inputActions.Player.LLock.canceled += (x) => ChangeTarget(-1);
-        inputActions.Player.RLock.canceled += (x) => ChangeTarget(1);
+        inputActions.Player.LLock.started += (x) => ChangeTarget(-1);
+        inputActions.Player.RLock.started += (x) => ChangeTarget(1);
 
 
     }
