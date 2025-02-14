@@ -126,6 +126,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 6247754395224687182}
   targetUIImage: {fileID: 5909894584083225353}
+  _eulerStartPos: {x: 0, y: 0, z: 0}
+  _eulerEndPos: {x: 0, y: 0, z: 360}
+  _eulerMoveUITimer: 3
+  _eulerLoopCount: -1
+  _eulerLoopType: 0
+  _eulerEaseType: 0
+  _colorStart: {r: 0, g: 1, b: 0, a: 0.23529412}
+  _colorEnd: {r: 0, g: 1, b: 0, a: 0.81960785}
+  _colorMoveUITimer: 1
+  _colorLoopCount: -1
+  _colorLoopType: 3
+  _colorEaseType: 0
+  _ScaleStart: {x: 1.5, y: 1.5, z: 1.5}
+  _scaleEnd: {x: 0.5, y: 0.5, z: 0.5}
+  _scaleMoveUITimer: 1
+  _scaleLoopCount: -1
+  _scaleLoopType: 3
+  _scaleEaseType: 0
 --- !u!1 &8798488893093089847
 GameObject:
   m_ObjectHideFlags: 0

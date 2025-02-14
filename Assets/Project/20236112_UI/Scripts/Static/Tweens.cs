@@ -62,4 +62,12 @@ public static class Tweens
             .BindToLocalScale(tweenTransform)
             .AddTo(gameObject);
     }
+    public static MotionHandle ImageLoopColorTween(Image tweenImage, Color initImageColor, Color targetImageColor, float duration, int loops,LoopType loopType,LitMotion.Ease ease, GameObject gameObject)
+    {
+        return LMotion.Create(initImageColor, targetImageColor, duration)
+            .WithEase(ease)
+            .WithLoops(loops,loopType)
+            .BindToColor(tweenImage)
+            .AddTo(gameObject);
+    }
 }
