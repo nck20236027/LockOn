@@ -5,8 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TargetManager : MonoBehaviour
+public class TargetManager : MonoBehaviour,IhasTargetPos
 {
+    private TargetUIParam param;
     public static TargetManager Instance;
     [SerializeField]
     List<ILockTargetable> targets = new();
@@ -19,22 +20,28 @@ public class TargetManager : MonoBehaviour
     float searchScope;
 
     PlayerAction inputActions ;
+
+    public Vector3 GetPos => target.GetTokenPosition;
+
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else Destroy(gameObject);
 
+        param = new();
     }
     // Start is called before the first frame update
     void Start()
     {
+
         inputActions = new();
         inputActions.Enable();
         inputActions.Player.LLock.started += (x) => ChangeTarget(-1);
         inputActions.Player.RLock.started += (x) => ChangeTarget(1);
 
-
+        UIMediator.Instance.Init(param);
+        UIMediator.Instance.Animation(param);
     }
 
     private void OnDestroy()
