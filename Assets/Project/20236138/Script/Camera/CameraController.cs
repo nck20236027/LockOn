@@ -25,20 +25,6 @@ public class CameraController : MonoBehaviour, ICameraContollorable
      public CinemachineInputProvider inputProvider;
 
 
-    [SerializeField] 
-    private CinemachineVirtualCamera _virtualCamera;
-    [SerializeField]
-    private CinemachineImpulseSource _impulseSource;
-    public void CameraSheikh()
-    {
-        _impulseSource.GenerateImpulse();
-    }
-
-    public void CameraChange()
-    {
-        _virtualCamera.enabled = !_virtualCamera.enabled;
-    }
-
     private void Start()
     {
 
@@ -53,43 +39,11 @@ public class CameraController : MonoBehaviour, ICameraContollorable
 
     }
 #endif
-    [SerializeField] private InputAction _inputAction;
 
-    private void Awake()
-    {
-        // Input Actionの生成
-        _inputAction = new InputAction(
-            "TestAction",           // Action名
-            InputActionType.Button, // Action Type
-            "<Keyboard>/A",         // BindingのControl Path
-            "hold",                 // Interaction
-            "scale(factor=2.5)",    // Processor
-            "Button"                // 種類の制限
-        );
-
-        // performedコールバックを受け取るように設定
-        _inputAction.performed += OnReadAction;
-
-        // 入力の受け取りを有効化する必要がある
-        _inputAction.Enable();
-    }
-
-    private void OnDestroy()
-    {
-        // 終了時にActionを無効化する
-        _inputAction?.Disable();
-    }
-
-    // TestActionのperformedコールバック
-    private void OnReadAction(InputAction.CallbackContext context)
-    {
-        // 受け取った値をログ出力
-        Debug.Log($"入力値 : {context.ReadValue<float>()}");
-    }
-
-
-
-
+    [SerializeField] 
+    private CinemachineVirtualCamera _virtualCamera;
+    [SerializeField]
+    private CinemachineImpulseSource _impulseSource;
 
 
     [SerializeField]
@@ -98,9 +52,6 @@ public class CameraController : MonoBehaviour, ICameraContollorable
     InputAction _mouseAction;
     public Transform Target { get => target; set => target = value; }
     private Transform target;
-    Vector3 position = Vector3.zero;
-    [SerializeField]
-    Vector2 cameraRotationPoint = Vector2.zero;
 
     [SerializeField, Header("スティックでのカメラ移動のはやさ")]
     float _basisStickSpeed;
@@ -137,13 +88,14 @@ public class CameraController : MonoBehaviour, ICameraContollorable
         
     }
 
-    public void CameraChange()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void CameraSheikh()
     {
-        throw new System.NotImplementedException();
+        _impulseSource.GenerateImpulse();
     }
+
+    public void CameraChange()
+    {
+        _virtualCamera.enabled = !_virtualCamera.enabled;
+    }
+    
 }

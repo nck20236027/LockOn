@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour,IMoveObjectable
 {
-    public PlayerAction playerInput ; 
+    public PlayerAction _playerInput ; 
     //コンポーネント
     [HideInInspector]
     private Rigidbody _rb;
@@ -50,17 +50,18 @@ public class Player : MonoBehaviour,IMoveObjectable
     // Start is called before the first frame update
     void Start()
     {
-        playerInput = new();
-        playerInput.Enable();
-        playerInput.Player.Boost.canceled += BoostAction;
-        playerInput.Player.Deceleration.canceled += DecelerationAction;
+        _playerInput = new();
+        _playerInput.Enable();
+        _playerInput.Player.Boost.started += BoostAction;
+        _playerInput.Player.Boost.canceled += BoostAction;
+        _playerInput.Player.Deceleration.canceled += DecelerationAction;
         _rb = GetComponent<Rigidbody>();
         _stateMachine.Initialize(ModeStateType.Move);
     }
 
     void OnDestroy()
     {
-        playerInput.Disable();
+        _playerInput.Disable();
     }
 
     // Update is called once per frame
