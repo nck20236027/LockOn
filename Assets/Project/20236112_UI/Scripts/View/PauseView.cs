@@ -22,8 +22,8 @@ public class PauseView : ViewBase
     [SerializeField] 
     private RectTransform[] rectTransforms;
 
-    [SerializeField] 
-    private Vector3 tweenSale;
+    //[SerializeField] 
+    //private Vector3 tweenSale;
 
     //[SerializeField]
     private int tergetFontSize = 100;
