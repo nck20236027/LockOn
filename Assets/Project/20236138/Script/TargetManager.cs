@@ -18,6 +18,7 @@ public class TargetManager : MonoBehaviour
     [SerializeField]
     float searchScope;
 
+    PlayerAction inputActions = new PlayerAction();
     private void Awake()
     {
         if (Instance == null)
@@ -28,7 +29,17 @@ public class TargetManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        inputActions = new();
+        inputActions.Enable();
+        inputActions.Player.LLock.canceled += (x) => ChangeTarget(-1);
+        inputActions.Player.RLock.canceled += (x) => ChangeTarget(1);
+
+
+    }
+
+    private void OnDestroy()
+    {
+        inputActions.Disable();
     }
 
     // Update is called once per frame
@@ -47,22 +58,6 @@ public class TargetManager : MonoBehaviour
     public void RemoveLockTarget(ILockTargetable target)
     {
         targets.Remove(target);
-    }
-
-
-    public void LChangeTarget(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed)
-        {
-            ChangeTarget(-1);
-        }
-    }
-    public void RChangeTarget(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed)
-        {
-            ChangeTarget(1);
-        }
     }
 
     //ロックするターゲットを変更

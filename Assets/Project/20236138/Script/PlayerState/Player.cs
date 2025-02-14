@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour,IMoveObjectable
 {
+    public PlayerAction playerInput ; 
     //コンポーネント
     [HideInInspector]
     private Rigidbody _rb;
@@ -49,23 +50,23 @@ public class Player : MonoBehaviour,IMoveObjectable
     // Start is called before the first frame update
     void Start()
     {
+        playerInput = new();
+        playerInput.Enable();
+        playerInput.Player.Boost.canceled += BoostAction;
+        playerInput.Player.Deceleration.canceled += DecelerationAction;
         _rb = GetComponent<Rigidbody>();
         _stateMachine.Initialize(ModeStateType.Move);
+    }
+
+    void OnDestroy()
+    {
+        playerInput.Disable();
     }
 
     // Update is called once per frame
     void Update()
     {
         _stateMachine.OnUpdate();
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            cameraController.Interface.CameraSheikh();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            cameraController.Interface.CameraChange();
-
-        }
     }
     private void FixedUpdate()
     {
