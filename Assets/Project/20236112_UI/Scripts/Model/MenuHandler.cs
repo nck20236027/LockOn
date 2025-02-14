@@ -29,6 +29,7 @@ public class MenuHandler : MonoBehaviour
 
     private MenuClose menuClose;
     private OptionClose optionClose;
+    private QuitClose quitClose;
 
     private int _currentIndex = 0;
     private int _optionCurrentIndex = 0;
@@ -44,10 +45,11 @@ public class MenuHandler : MonoBehaviour
     {
         mActions.Add(new MenuClose(pauseParam,inputHandler.SetMenuCloseInput));
         mActions.Add(new OptionOpen(settingParam, pauseParam, inputHandler.SetOptionOpenInput));
-        mActions.Add(new QuitOpen(quitParam));
+        mActions.Add(new QuitOpen(pauseParam,quitParam,inputHandler.SetQuitOpenInput));
 
         menuClose = new MenuClose(pauseParam,inputHandler.SetMenuCloseInput);
         optionClose = new OptionClose(pauseParam, settingParam, inputHandler.SetOptionInputEnable, inputHandler.SetMenuInputEnable);
+        quitClose = new QuitClose(pauseParam, quitParam, inputHandler.SetQuitInputEnable, inputHandler.SetMenuInputEnable);
 
         //pauseParam.resameButton = pauseController.Resame;
         //pauseParam.quitButton = quitController.OpenQuit;
@@ -65,6 +67,7 @@ public class MenuHandler : MonoBehaviour
         inputHandler.onChoice = Choice;
         inputHandler.onChangeSliderValue = OnChangeSliderValue;
         inputHandler.onOptionClose = optionClose.CloseOptionAction;
+        inputHandler.onQuitClose = quitClose.OnTitleAction;
 
         inputHandler.Init();
         //mHandler.onAction = mHandler.OnMenu;
@@ -84,8 +87,6 @@ public class MenuHandler : MonoBehaviour
         //MenuParam.resameButton = pauseModel.Resame;
 
     }
-
-
 
 
     public void OnChangeCameraSensitivity(float value)
