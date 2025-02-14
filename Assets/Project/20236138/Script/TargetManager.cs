@@ -21,7 +21,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
 
     PlayerAction inputActions ;
 
-    public Vector3 GetPos => target.GetTokenPosition;
+    public Vector3 GetPos => target != null ?  target.GetTokenPosition : Vector3.zero;
 
     private void Awake()
     {
@@ -30,6 +30,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
         else Destroy(gameObject);
 
         param = new();
+        param.targetPos = this;
     }
     // Start is called before the first frame update
     void Start()
