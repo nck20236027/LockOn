@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class InputHandler
     public Action onSubmit;
     public Action onQuiter;
     public Action onOptionClose;
+    public Action onQuitClose;
     //public Action onCancel;
 
     public Action<float> onSliderSelect;
@@ -33,6 +35,7 @@ public class InputHandler
         _playerAction.Menu.Navigate.performed += OnUISelectY;
         _playerAction.Menu.Submit.canceled += OnSubmit;
         _playerAction.Option.OptionClose.canceled += OnOptionClose;
+        _playerAction.Quit.Submit.canceled += OnQuitCancel;
 
         _playerAction.Option.SliderSelected.performed += OnSliderSelect;
         _playerAction.Option.SliderValueChange.performed += OnChangeSliderValue;
@@ -73,6 +76,11 @@ public class InputHandler
         onOptionClose();
     }
 
+    public void OnQuitCancel(InputAction.CallbackContext context)
+    {
+        SetQuitCloseInput ();
+        onQuitClose();
+    }
 
     public void OnSliderSelect(InputAction.CallbackContext context)
     {
@@ -80,7 +88,7 @@ public class InputHandler
         if (input.y == 0) { return; }
         float directionY = Mathf.Sign(input.y);
         onSliderSelect(directionY);
-        
+
     }
 
     public void OnChangeSliderValue(InputAction.CallbackContext context)
@@ -124,6 +132,17 @@ public class InputHandler
             _playerAction.Player.Disable();
         }
     }
+    public void SetQuitInputEnable(bool isEnable)
+    {
+        if (isEnable == true)
+        {
+            _playerAction.Player.Enable();
+        }
+        else
+        {
+            _playerAction.Player.Disable();
+        }
+    }
 
     public void SetOptionOpenInput()
     {
@@ -139,6 +158,17 @@ public class InputHandler
         SetPlayerInputEnable(true);
     }
 
+    public void SetQuitOpenInput()
+    {
+        SetMenuInputEnable(false);
+        SetQuitInputEnable(true);
+    }
+
+    public void SetQuitCloseInput()
+    {
+        SetMenuInputEnable(true);
+        SetQuitInputEnable(false);
+    }
 
     //InputSystem‘¤‚É“o˜^‚·‚é‚â‚Â
     public void OnMenu(InputAction.CallbackContext context)

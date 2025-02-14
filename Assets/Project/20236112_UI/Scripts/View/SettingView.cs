@@ -17,8 +17,8 @@ public class SettingView : ViewBase
     [SerializeField]
     private Slider[] sliders;
 
-    [SerializeField]
-    private Image sliderHandle;
+    //[SerializeField]
+    //private Image sliderHandle;
 
     //[SerializeField]
     //private Button button;

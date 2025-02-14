@@ -208,9 +208,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 7738178934292813023}
-  resameButton: {fileID: 0}
-  settingButton: {fileID: 0}
-  quitButton: {fileID: 0}
   texts:
   - {fileID: 2687859786397299798}
   - {fileID: 3058120429767859294}
@@ -220,9 +217,11 @@ MonoBehaviour:
   - {fileID: 8697946859210090611}
   - {fileID: 6449954919671387778}
   - {fileID: 4878569494625598930}
-  tweenSale: {x: 2, y: 2, z: 2}
   changeEase: 0
-  tweenTime: 0.3
+  expandTime: 0.1
+  reduceTime: 0.1
+  unselectColor: {r: 0, g: 0, b: 0, a: 1}
+  selectColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &5141583841506493177
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 0.392}
+  m_Color: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
