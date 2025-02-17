@@ -50,7 +50,11 @@ public class SettingView : ViewBase
         //スライダーの初期化
         sliders[(int)OptionChoiseType.CameraSensitivity].minValue = settingParam.minCameraSensitiveAffinity;
         sliders[(int)OptionChoiseType.CameraSensitivity].maxValue = settingParam.maxCameraSensitiveAffinity;
-        sliders[(int)OptionChoiseType.CameraSensitivity].onValueChanged.AddListener(value => settingParam.OnSetCameraSensitivity(value));
+        sliders[(int)OptionChoiseType.CameraSensitivity].onValueChanged.AddListener(value => settingParam.onSetCameraSensitivity(value));
+
+        sliders[(int)OptionChoiseType.SEVolume].minValue = settingParam.minSEVolue;
+        sliders[(int)OptionChoiseType.SEVolume].maxValue = settingParam.maxSEVolue;
+        sliders[(int)OptionChoiseType.SEVolume].onValueChanged.AddListener(value => settingParam.onChangeSEVolue(value));
 
         //button.onClick.AddListener(() => volumeSlider.value = 1);
 
@@ -102,8 +106,8 @@ public class SettingView : ViewBase
 public enum OptionChoiseType
 {
     CameraSensitivity = 0,
-    CameraGumma,
-    MasterVolume,
     SEVolume,
-    BGMVolume
+    //MasterVolume,
+    //BGMVolume
+    //CameraGumma,
 }

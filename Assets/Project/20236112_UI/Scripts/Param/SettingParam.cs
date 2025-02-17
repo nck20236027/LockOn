@@ -8,8 +8,12 @@ public class SettingParam : ParamBase
     public int currentIndex;
     public float changeAmount;
 
-    public Action<float> OnSetCameraSensitivity;
+    public Action<float> onSetCameraSensitivity;
     public float minCameraSensitiveAffinity;
     public float maxCameraSensitiveAffinity;
+
+    public Action<float> onChangeSEVolue;
+    public float minSEVolue;
+    public float maxSEVolue;
 
 }

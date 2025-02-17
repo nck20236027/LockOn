@@ -36,9 +36,9 @@ public class MenuHandler : MonoBehaviour
 
     private float cameraSensitivity = 0;
 
-    [SerializeField, Range(0, 10)]
-    private int changeAmount;
-    private float ChangeAmount => changeAmount * 0.1f;
+    [SerializeField]
+    private float[] changeAmoutValues;
+
     //private float ChangeAmount { get { return changeAmount * 0.1f; } }
 
     private void Awake()
@@ -73,6 +73,8 @@ public class MenuHandler : MonoBehaviour
         //mHandler.onAction = mHandler.OnMenu;
     }
 
+
+    //サービスロケーターで受け取る
     private void Start()
     {
         //menuParam.resameButton = null;    Initより後に処理するとNullのまま生成することになる
@@ -81,6 +83,10 @@ public class MenuHandler : MonoBehaviour
         UIMediator.Instance.Init(quitParam);
 
         //
+        settingParam.onSetCameraSensitivity = OnChangeCameraSensitivity;
+        settingParam.onChangeSEVolue = OnChangeSEVolume;
+        settingParam.minSEVolue = ServiceLocator<SEManager>.GetInstance().MinVolumeValue;
+        settingParam.maxSEVolue = ServiceLocator<SEManager>.GetInstance().MaxVolumeValue;
         UIMediator.Instance.Init(settingParam);
 
         //MenuParam.settingButton = pauseModel.SettingMenu;
@@ -88,7 +94,7 @@ public class MenuHandler : MonoBehaviour
 
     }
 
-
+    //ここも
     public void OnChangeCameraSensitivity(float value)
     {
 
@@ -114,9 +120,14 @@ public class MenuHandler : MonoBehaviour
     {
         Debug.Log(direction);
         settingParam.currentIndex = _optionCurrentIndex;
-        settingParam.changeAmount = ChangeAmount * direction;
+        settingParam.changeAmount = changeAmoutValues[_currentIndex] * direction;
         Debug.Log($"model,{settingParam.changeAmount}");
         UIMediator.Instance.Reload(settingParam);
+    }
+
+    public void OnChangeSEVolume(float value)
+    {
+        ServiceLocator<SEManager>.GetInstance().SetSEVolume(value);
     }
 
 
