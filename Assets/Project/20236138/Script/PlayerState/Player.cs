@@ -10,8 +10,6 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     //コンポーネント
     [HideInInspector]
     private Rigidbody _rb;
-    [SerializeReference]
-    ICameraContollorable _cameraContollorable ;
     public GenericInterfaceWrapper<ICameraContollorable,CameraController> cameraController;
 
     //ターゲットのオブジェクト

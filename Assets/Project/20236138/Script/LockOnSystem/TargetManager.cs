@@ -89,9 +89,9 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
         {
             target = cameraInTargets.First();
         }
-        player.ChangeTarget(target);
+        _player.ChangeTarget(target);
     }
     //ターゲットをロックする条件
     private bool IsTargetTerms(ILockTargetable token) => token.GetIsView
-        && (token.GetTokenPosition - player.transform.position).sqrMagnitude <= Mathf.Pow(searchScope, 2);
+        && (token.GetTokenPosition - _player.transform.position).sqrMagnitude <= Mathf.Pow(searchScope, 2);
 }
