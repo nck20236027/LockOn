@@ -27,7 +27,7 @@ public class BoostState : ModeStateBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        _stateChangedTime += Time.deltaTime;
+        _player.FuelQuantity -= _state.FuelConsumptio * Time.deltaTime;
         if(_stateChangedTime > _player.BoostStateUnChangeTime&& !_player.isBoostButton)
         {
             stateMachine.ChangeState(ModeStateType.Move);
@@ -37,6 +37,7 @@ public class BoostState : ModeStateBase
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
+        _stateChangedTime += Time.fixedDeltaTime;
         MoveTarget();
     }
 

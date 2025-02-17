@@ -4,22 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour,IMoveObjectable
+public class Player : MonoBehaviour,IMoveObjectable,IDamagable
 {
     public PlayerAction _playerInput ; 
     //コンポーネント
     [HideInInspector]
     private Rigidbody _rb;
+    [SerializeReference]
+    ICameraContollorable _cameraContollorable ;
     public GenericInterfaceWrapper<ICameraContollorable,CameraController> cameraController;
 
     //ターゲットのオブジェクト
-    ILockTargetable _target;
+    private ILockTargetable _target;
+    public ILockTargetable GetTarget => _target;
 
     //playerのステータス
     [SerializeField, Header("最大の燃料量")]
     float _maxFuelQuantity;
     [Header("現在の燃料量")]
     public float fuelQuantity;
+    public float FuelQuantity { get { return fuelQuantity; } set { fuelQuantity = Mathf.Max(value, _maxFuelQuantity); } }
     [Header("ブーストが開始したとき~切り替えれない時間")]
     public float BoostStateUnChangeTime;
     [ Header("通常のステータス")]
@@ -54,6 +58,7 @@ public class Player : MonoBehaviour,IMoveObjectable
         _playerInput.Enable();
         _playerInput.Player.Boost.started += BoostAction;
         _playerInput.Player.Boost.canceled += BoostAction;
+        _playerInput.Player.Deceleration.started += DecelerationAction;
         _playerInput.Player.Deceleration.canceled += DecelerationAction;
         _rb = GetComponent<Rigidbody>();
         _stateMachine.Initialize(ModeStateType.Move);
@@ -114,6 +119,10 @@ public class Player : MonoBehaviour,IMoveObjectable
         isDecelerationButton = callback.canceled ? false : true;
     }
 
+    public void Damage(int damage)
+    {
+        FuelQuantity -= damage;
+    }
 }
 
 

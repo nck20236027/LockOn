@@ -25,6 +25,7 @@ public class DecelerationState : ModeStateBase
     public override void OnUpdate()
     {
         base.OnUpdate();
+        _player.FuelQuantity -= _state.FuelConsumptio * Time.deltaTime;
         if (!_player.isDecelerationButton)
         {
             stateMachine.ChangeState(ModeStateType.Move);

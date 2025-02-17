@@ -13,7 +13,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
     List<ILockTargetable> targets = new();
 
     [SerializeField]
-    Player player;
+    Player _player;
     [SerializeField]
     ILockTargetable target;
     [SerializeField]
@@ -22,6 +22,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
     PlayerAction inputActions ;
 
     public Vector3 GetPos => target != null ?  target.GetTokenPosition : Vector3.zero;
+    public Vector3 GetPlayerPos => _player.transform.position;
 
     private void Awake()
     {
