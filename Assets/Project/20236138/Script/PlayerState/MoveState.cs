@@ -25,6 +25,8 @@ public class MoveState : ModeStateBase
     public override void OnUpdate()
     {
         base.OnUpdate();
+        _player.FuelQuantity += (_player.GetTarget != null ?
+            _player.GetTarget.ChangeConsuptio(-_state.FuelConsumptio): _state.FuelConsumptio) * Time.deltaTime ;
         if(_player.isBoostButton)
         {
             stateMachine.ChangeState(ModeStateType.Boost);

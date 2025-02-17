@@ -48,8 +48,6 @@ public class CameraController : MonoBehaviour, ICameraContollorable
 
     [SerializeField]
     InputAction _stickAction = new InputAction();
-    [SerializeField]
-    InputAction _mouseAction;
     public Transform Target { get => target; set => target = value; }
     private Transform target;
 
@@ -60,7 +58,9 @@ public class CameraController : MonoBehaviour, ICameraContollorable
     float _basisMouseSpeed;
     [SerializeField]
     CinemachineFreeLook _freelook;
+    private int _controlInt = 90;
 
+    Vector2 _moveVector = Vector2.zero;
     void Start()
     {
         _stickAction = new InputAction(
@@ -77,10 +77,21 @@ public class CameraController : MonoBehaviour, ICameraContollorable
             (x) =>
             {
                 Vector2 vec = x.ReadValue<Vector2>();
-                _freelook.m_XAxis.Value += vec.x * _stickintensity * 90;
-                _freelook.m_YAxis.Value += vec.y * _stickintensity ;
+                _moveVector = vec;
+            };
+        _stickAction.canceled +=
+            (x) =>
+            {
+                Vector2 vec = x.ReadValue<Vector2>();
+                _moveVector = vec;
             };
         _stickAction.Enable();
+    }
+
+    private void Update()
+    {
+        _freelook.m_XAxis.Value += _moveVector.x * _stickintensity * _controlInt;
+        _freelook.m_YAxis.Value += _moveVector.y * _stickintensity;
     }
     public void SetStickSpeed(float speed)
     {

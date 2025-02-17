@@ -2,25 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetToken : MonoBehaviour,ILockTargetable
+public abstract class EnemyBase : MonoBehaviour,IDamagable,ILockTargetable
 {
-    private Renderer renderer;
-    public bool GetIsView { get { return renderer.isVisible; } }
+    public Transform GetTransform => transform;
 
     public Vector3 GetTokenPosition => transform.position;
 
-    Transform ILockTargetable.GetTransform => transform;
+    public abstract bool GetIsView { get; }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        renderer = GetComponent<Renderer>();
         TargetManager.Instance.AddLockTarget(this);
     }
 
     // Update is called once per frame
-    private void OnDestroy()
+    void Update()
+    {
+        
+    }
+
+    protected virtual void OnDestroy()
     {
         TargetManager.Instance.RemoveLockTarget(this);
     }
+
+    public abstract void Damage(int damage);
 }

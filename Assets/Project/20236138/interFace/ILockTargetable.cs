@@ -8,5 +8,6 @@ public interface ILockTargetable
     public Transform GetTransform { get; }
     public Vector3 GetTokenPosition { get; }
     public bool GetIsView { get; }
+    public float ChangeConsuptio(float _consuptio) { return _consuptio; }
 
 }
