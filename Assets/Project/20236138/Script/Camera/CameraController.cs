@@ -45,15 +45,18 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     [SerializeField]
     private CinemachineImpulseSource _impulseSource;
 
-    public float MaxIntensity;
-    public float MinIntensity;
+    private float _maxIntensity;
+    public float MaxIntensity { get => _maxIntensity; set => _maxIntensity = value; }
+    private float _minIntensity;
+    public float MinIntensity { get => _minIntensity; set => _minIntensity = value; }
 
     [SerializeField]
     InputAction _stickAction = new InputAction();
 
     [SerializeField, Header("スティックでのカメラ移動のはやさ")]
     float _basisStickSpeed;
-    public float _basisintensity = 1;
+    private float _basisintensity = 1;
+    public float BasisIntensity { get => _basisintensity; set => _basisintensity = value; }
     [SerializeField, Header("マウスでのカメラ移動のはやさ")]
     float _basisMouseSpeed;
     [SerializeField]
