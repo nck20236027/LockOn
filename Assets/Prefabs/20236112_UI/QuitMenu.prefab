@@ -365,10 +365,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 6138045844177347258}
-  texts: []
-  tergetColor: {r: 0, g: 0, b: 0, a: 0}
-  rectTransforms: []
-  tweenSale: {x: 0, y: 0, z: 0}
+  texts:
+  - {fileID: 8246134988774113557}
+  - {fileID: 7818871818528370829}
+  tergetColor: {r: 1, g: 1, b: 1, a: 1}
+  rectTransforms:
+  - {fileID: 8463304049597708209}
+  - {fileID: 7548391576054003843}
   changeEase: 0
   expandTime: 0.1
   reduceTime: 0.1

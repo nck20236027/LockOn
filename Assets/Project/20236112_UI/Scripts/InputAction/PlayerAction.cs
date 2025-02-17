@@ -474,7 +474,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Menu"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""0278f556-1494-4502-bd06-02cfc1cb49b7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

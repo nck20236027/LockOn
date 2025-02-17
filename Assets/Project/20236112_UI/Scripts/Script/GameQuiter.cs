@@ -1,11 +1,14 @@
-public class GameQuiter
+public class GameQuiter : IQuitAction
 {
-    public void QuitGame()
+    public QuitActionType QuitActionType => QuitActionType.Title;
+
+    //public GameQuiter()
+    //{
+    //    OnQuitAction();
+    //}
+
+    public void OnQuitAction()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("TitleScene", 1f, 1f);
     }
 }

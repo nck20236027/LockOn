@@ -8,5 +8,5 @@ public enum MenuActionType
 {
     BackGame = 0,
     OpenOption,
-    Title,
+    Quit,
 }
