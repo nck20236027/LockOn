@@ -12,7 +12,7 @@ public enum CameraType
 
 }
 
-public class CameraController : MonoBehaviour, ICameraContollorable
+public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClass
 {
 #if a
     [SerializeField]
@@ -45,15 +45,15 @@ public class CameraController : MonoBehaviour, ICameraContollorable
     [SerializeField]
     private CinemachineImpulseSource _impulseSource;
 
+    public float MaxIntensity;
+    public float MinIntensity;
 
     [SerializeField]
     InputAction _stickAction = new InputAction();
-    public Transform Target { get => target; set => target = value; }
-    private Transform target;
 
     [SerializeField, Header("スティックでのカメラ移動のはやさ")]
     float _basisStickSpeed;
-    float _stickintensity = 1;
+    public float _basisintensity = 1;
     [SerializeField, Header("マウスでのカメラ移動のはやさ")]
     float _basisMouseSpeed;
     [SerializeField]
@@ -63,6 +63,7 @@ public class CameraController : MonoBehaviour, ICameraContollorable
     Vector2 _moveVector = Vector2.zero;
     void Start()
     {
+        ServiceLocator<CameraController>.Register(this);
         _stickAction = new InputAction(
             "Move",
             InputActionType.PassThrough,
@@ -90,12 +91,12 @@ public class CameraController : MonoBehaviour, ICameraContollorable
 
     private void Update()
     {
-        _freelook.m_XAxis.Value += _moveVector.x * _stickintensity * _controlInt;
-        _freelook.m_YAxis.Value += _moveVector.y * _stickintensity;
+        _freelook.m_XAxis.Value += _moveVector.x * _basisintensity * _controlInt;
+        _freelook.m_YAxis.Value += _moveVector.y * _basisintensity;
     }
     public void SetStickSpeed(float speed)
     {
-        _stickintensity = speed;
+        _basisintensity = speed;
         
     }
 
