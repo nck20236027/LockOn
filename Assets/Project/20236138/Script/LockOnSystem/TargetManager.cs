@@ -48,7 +48,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
 
     private void OnDestroy()
     {
-        inputActions.Disable();
+        inputActions?.Disable();
     }
 
     // Update is called once per frame

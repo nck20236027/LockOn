@@ -44,9 +44,10 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     private CinemachineVirtualCamera _virtualCamera;
     [SerializeField]
     private CinemachineImpulseSource _impulseSource;
-
+    [SerializeField]
     private float _maxIntensity;
     public float MaxIntensity { get => _maxIntensity; set => _maxIntensity = value; }
+    [SerializeField]
     private float _minIntensity;
     public float MinIntensity { get => _minIntensity; set => _minIntensity = value; }
 
