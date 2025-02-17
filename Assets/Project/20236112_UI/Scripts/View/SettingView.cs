@@ -47,10 +47,11 @@ public class SettingView : ViewBase
         //volumeSlider.minValue = settingParam.minCameraSensitiveAffinity;
         //volumeSlider.maxValue = settingParam.maxCameraSensitiveAffinity;
 
-        //スライダーの初期化
-        sliders[(int)OptionChoiseType.CameraSensitivity].minValue = settingParam.minCameraSensitiveAffinity;
-        sliders[(int)OptionChoiseType.CameraSensitivity].maxValue = settingParam.maxCameraSensitiveAffinity;
-        sliders[(int)OptionChoiseType.CameraSensitivity].onValueChanged.AddListener(value => settingParam.onSetCameraSensitivity(value));
+        ////スライダーの初期化
+        //sliders[(int)OptionChoiseType.CameraSensitivity].value = settingParam.initCameraSensitiveAffinity;
+        //sliders[(int)OptionChoiseType.CameraSensitivity].minValue = settingParam.minCameraSensitiveAffinity;
+        //sliders[(int)OptionChoiseType.CameraSensitivity].maxValue = settingParam.maxCameraSensitiveAffinity;
+        //sliders[(int)OptionChoiseType.CameraSensitivity].onValueChanged.AddListener(value => settingParam.onSetCameraSensitivity(value));
 
         sliders[(int)OptionChoiseType.SEVolume].minValue = settingParam.minSEVolue;
         sliders[(int)OptionChoiseType.SEVolume].maxValue = settingParam.maxSEVolue;

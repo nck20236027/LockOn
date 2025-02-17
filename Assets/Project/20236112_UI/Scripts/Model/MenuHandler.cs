@@ -87,6 +87,11 @@ public class MenuHandler : MonoBehaviour
         settingParam.onChangeSEVolue = OnChangeSEVolume;
         settingParam.minSEVolue = ServiceLocator<SEManager>.GetInstance().MinVolumeValue;
         settingParam.maxSEVolue = ServiceLocator<SEManager>.GetInstance().MaxVolumeValue;
+
+        //settingParam.minCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance().MinIntensity;
+        //settingParam.maxCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance().MaxIntensity;
+
+        //settingParam.initCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance()._basisintensity;
         UIMediator.Instance.Init(settingParam);
 
         //MenuParam.settingButton = pauseModel.SettingMenu;
@@ -98,8 +103,8 @@ public class MenuHandler : MonoBehaviour
     public void OnChangeCameraSensitivity(float value)
     {
 
-        hasCameraSensitivity.CameraSensitivity = value;
-        Debug.Log(cameraSensitivity);
+        //ServiceLocator<CameraController>.GetInstance()._basisintensity = value;
+        //Debug.Log(cameraSensitivity);
     }
 
     public void ControlMenu()
