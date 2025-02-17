@@ -104,7 +104,7 @@ public class MenuHandler : MonoBehaviour
     {
 
         ServiceLocator<CameraController>.GetInstance().BasisIntensity = value;
-        //Debug.Log(cameraSensitivity);
+        Debug.Log(cameraSensitivity);
     }
 
     public void ControlMenu()
