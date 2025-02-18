@@ -64,7 +64,9 @@ public class QuitView : ViewBase
 
     public override void OnReload<T>(T param)
     {
-        var quitParam = param as PauseParam;
+
+        var quitParam = param as QuitParam;
+        Debug.Log(quitParam.currentIndex);
         Text tweenText = texts[quitParam.currentIndex];
         Text beforeText = texts[beforeIndex];
 

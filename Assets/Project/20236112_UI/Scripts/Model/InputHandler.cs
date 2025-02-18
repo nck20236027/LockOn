@@ -37,7 +37,7 @@ public class InputHandler
         _playerAction.Menu.Navigate.performed += OnUISelectY;
         _playerAction.Menu.Submit.canceled += OnSubmit;
 
-        _playerAction.Quit.Submit.canceled += OnQuitCancel;
+        _playerAction.Quit.Submit.canceled += OnQuitSubmit;
         _playerAction.Quit.Navigate.performed += OnUISelectX;
 
         _playerAction.Option.OptionClose.canceled += OnOptionClose;
@@ -75,6 +75,12 @@ public class InputHandler
         SetMenuCloseInput();
         onMenuSubmit();
     }
+
+    public void OnQuitSubmit(InputAction.CallbackContext context)
+    {
+        onQuitSubmit();
+    }
+
     public void OnOptionClose(InputAction.CallbackContext context)
     {
         onOptionClose();

@@ -123,11 +123,14 @@ public class MenuHandler : MonoBehaviour
 
     public void OnMenuSubmit()
     {
+        Debug.Log("MenuSubmit");
+
         menuActions[_currentIndex].OnMenuAction();
     }
 
     public void OnQuitSubmit()
     {
+        Debug.Log("QuitSubmit");
         quitActions[_quitCurrentIndex].OnQuitAction();
     }
 
