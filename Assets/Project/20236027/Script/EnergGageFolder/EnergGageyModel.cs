@@ -9,22 +9,33 @@ public class EnergyGageModel : MonoBehaviour
     public float maxEnergyGauge;
     public float nowEnergyGauge;
     private EnergyGageParam param;
+    private float energyTimeLost = 1f;
+
+    public float damagePoint;
     void Start()
     {
         param = new EnergyGageParam();
+        nowEnergyGauge = maxEnergyGauge;
         //param.maxEnergyGauge = 200f;
         param.maxEnergyGauge = maxEnergyGauge;
         param.nowEnergyGauge = nowEnergyGauge;
         param.nowEnergyGauge = param.maxEnergyGauge;
+        param.damageEnergyPoint = damagePoint;
+        param.energyTimeLost = energyTimeLost;
         param.buttonState = ButtonState.Non;
 
         UIMediator.Instance.Init(param);
+        Debug.Log($"{1f/200f}");
     }
 
     // Update is called once per frame
     void Update()
     {
-        param.nowEnergyGauge -= 0.01f;
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            param.damageEnergyPoint = damagePoint;
+            UIMediator.Instance.Animation(param);
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             param.buttonState = ButtonState._isInputDown;
@@ -34,11 +45,12 @@ public class EnergyGageModel : MonoBehaviour
         else if (Input.GetKey(KeyCode.Space))
         {
             param.buttonState = ButtonState._isInputNow;
-            param.nowEnergyGauge -= 0.05f;
+            param.energyTimeLost = 20f;
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
             param.buttonState = ButtonState._isInputUp;
+            param.energyTimeLost = 1f;
         }
 
         UIMediator.Instance.Reload(param);

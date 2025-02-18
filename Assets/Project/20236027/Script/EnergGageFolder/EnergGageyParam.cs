@@ -6,6 +6,9 @@ public class EnergyGageParam : ParamBase
     public float maxEnergyGauge;
     public float nowEnergyGauge;
 
+    public float energyTimeLost;
+    public bool isDamage;
+    public float damageEnergyPoint;
 
 }
 public enum ButtonState
