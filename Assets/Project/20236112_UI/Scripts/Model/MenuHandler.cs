@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class MenuHandler : MonoBehaviour
 {
-    private List<IMenuAction> mActions = new List<IMenuAction>();
+    private List<IMenuAction> menuActions = new List<IMenuAction>();
+    private List<IQuitAction> quitActions = new List<IQuitAction>();
 
     //private Dictionary<int ,IMenuAction> mMenuDic;
 
@@ -33,6 +30,7 @@ public class MenuHandler : MonoBehaviour
 
     private int _currentIndex = 0;
     private int _optionCurrentIndex = 0;
+    private int _quitCurrentIndex = 0;
 
     private float cameraSensitivity = 0;
 
@@ -43,11 +41,14 @@ public class MenuHandler : MonoBehaviour
 
     private void Awake()
     {
-        mActions.Add(new MenuClose(pauseParam,inputHandler.SetMenuCloseInput));
-        mActions.Add(new OptionOpen(settingParam, pauseParam, inputHandler.SetOptionOpenInput));
-        mActions.Add(new QuitOpen(pauseParam,quitParam,inputHandler.SetQuitOpenInput));
+        menuActions.Add(new MenuClose(pauseParam, inputHandler.SetMenuCloseInput));
+        menuActions.Add(new OptionOpen(settingParam, pauseParam, inputHandler.SetOptionOpenInput));
+        menuActions.Add(new QuitOpen(pauseParam, quitParam, inputHandler.SetQuitInputEnable, inputHandler.SetMenuInputEnable));
 
-        menuClose = new MenuClose(pauseParam,inputHandler.SetMenuCloseInput);
+        quitActions.Add(new QuitClose(pauseParam, quitParam, inputHandler.SetQuitInputEnable, inputHandler.SetMenuInputEnable));
+        quitActions.Add(new GameQuiter());
+
+        menuClose = new MenuClose(pauseParam, inputHandler.SetMenuCloseInput);
         optionClose = new OptionClose(pauseParam, settingParam, inputHandler.SetOptionInputEnable, inputHandler.SetMenuInputEnable);
         quitClose = new QuitClose(pauseParam, quitParam, inputHandler.SetQuitInputEnable, inputHandler.SetMenuInputEnable);
 
@@ -62,12 +63,16 @@ public class MenuHandler : MonoBehaviour
 
         //inputHandler.onMenuAction = menuHandler.ControlMenu;  //ëΩòaìcë§Ç≈çÏÇÈéûÇ…Ç±ÇÒÇ»ïóÇ…èëÇ≠
         inputHandler.onMenuAction = ControlMenu;
-        inputHandler.onSubmit = OnSubmit;
+        inputHandler.onMenuSubmit = OnMenuSubmit;
+        inputHandler.onQuitSubmit = OnQuitSubmit;
+
         inputHandler.onSliderSelect = SliderSelect;
-        inputHandler.onChoice = Choice;
+        inputHandler.onMenuChoice = MenuChoice;
+        inputHandler.onQuitChoice = QuitChoice;
         inputHandler.onChangeSliderValue = OnChangeSliderValue;
+
         inputHandler.onOptionClose = optionClose.CloseOptionAction;
-        inputHandler.onQuitClose = quitClose.OnTitleAction;
+        inputHandler.onQuitClose = quitClose.OnQuitAction;
 
         inputHandler.Init();
         //mHandler.onAction = mHandler.OnMenu;
@@ -87,6 +92,11 @@ public class MenuHandler : MonoBehaviour
         settingParam.onChangeSEVolue = OnChangeSEVolume;
         settingParam.minSEVolue = ServiceLocator<SEManager>.GetInstance().MinVolumeValue;
         settingParam.maxSEVolue = ServiceLocator<SEManager>.GetInstance().MaxVolumeValue;
+
+        settingParam.minCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance().MinIntensity;
+        settingParam.maxCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance().MaxIntensity;
+
+        settingParam.initCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance().BasisIntensity;
         UIMediator.Instance.Init(settingParam);
 
         //MenuParam.settingButton = pauseModel.SettingMenu;
@@ -98,7 +108,7 @@ public class MenuHandler : MonoBehaviour
     public void OnChangeCameraSensitivity(float value)
     {
 
-        hasCameraSensitivity.CameraSensitivity = value;
+        ServiceLocator<CameraController>.GetInstance().BasisIntensity = value;
         Debug.Log(cameraSensitivity);
     }
 
@@ -111,9 +121,17 @@ public class MenuHandler : MonoBehaviour
         //    UIMediator.Instance.Show(quitParam);
     }
 
-    public void OnSubmit()
+    public void OnMenuSubmit()
     {
-        mActions[_currentIndex].OnMenuAction();
+        Debug.Log("MenuSubmit");
+
+        menuActions[_currentIndex].OnMenuAction();
+    }
+
+    public void OnQuitSubmit()
+    {
+        Debug.Log("QuitSubmit");
+        quitActions[_quitCurrentIndex].OnQuitAction();
     }
 
     public void OnChangeSliderValue(float direction)
@@ -148,10 +166,7 @@ public class MenuHandler : MonoBehaviour
         UIMediator.Instance.Animation(settingParam);
     }
 
-
-
-
-    public void Choice(float direction)
+    public void MenuChoice(float direction)
     {
         _currentIndex -= (int)direction;
         if (_currentIndex > 2)
@@ -167,6 +182,24 @@ public class MenuHandler : MonoBehaviour
 
         pauseParam.currentIndex = _currentIndex;
         UIMediator.Instance.Reload(pauseParam);
+    }
+
+    public void QuitChoice(float direction)
+    {
+        Debug.Log(_quitCurrentIndex);
+        _quitCurrentIndex -= (int)direction;
+        if (_quitCurrentIndex > 1)
+        {
+            _quitCurrentIndex = 1;
+            return;
+        }
+        if (_quitCurrentIndex < 0)
+        {
+            _quitCurrentIndex = 0;
+            return;
+        }
+        quitParam.currentIndex = _quitCurrentIndex;
+        UIMediator.Instance.Reload(quitParam);
     }
 
 

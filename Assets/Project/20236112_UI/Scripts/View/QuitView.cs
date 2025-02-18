@@ -13,6 +13,7 @@ public class QuitView : ViewBase
 
     [SerializeField]
     private Text[] texts;
+    private int beforeIndex;
 
     [SerializeField]
     private Color tergetColor;
@@ -20,14 +21,13 @@ public class QuitView : ViewBase
     [SerializeField]
     private RectTransform[] rectTransforms;
 
-    [SerializeField]
-    private Vector3 tweenSale;
+    //[SerializeField]
+    //private Vector3 tweenSale;
 
     //[SerializeField]
     private int tergetFontSize = 100;
     private int initFointSize = 60;
 
-    private int beforeIndex;
 
     [SerializeField]
     private Ease changeEase = Ease.Linear;
@@ -53,32 +53,32 @@ public class QuitView : ViewBase
         canvas.gameObject.SetActive(false);
         QuitParam quitParam = param as QuitParam;
 
-        //Text firstSelectText = texts[quitParam.currentIndex];
+        Text firstSelectText = texts[quitParam.currentIndex];
 
-        //Tweens.FontSizeTween(firstSelectText, initFointSize, tergetFontSize, expandTime, changeEase, gameObject);
-        //Tweens.TextColorTween(firstSelectText, tergetColor, tergetColor, expandTime, changeEase, gameObject);
+        Tweens.FontSizeTween(firstSelectText, initFointSize, tergetFontSize, expandTime, changeEase, gameObject);
+        Tweens.TextColorTween(firstSelectText, tergetColor, tergetColor, expandTime, changeEase, gameObject);
 
-        //beforeIndex = quitParam.currentIndex;
+        beforeIndex = quitParam.currentIndex;
 
-        //acceptButton.onClick.AddListener(() => quitParam.endGame());
-        //quitCancelButton.onClick.AddListener(()=> quitParam.cancelQuitButton());
     }
 
     public override void OnReload<T>(T param)
     {
-        //var quitParam = param as PauseParam;
-        //Text tweenText = texts[quitParam.currentIndex];
-        //Text beforeText = texts[beforeIndex];
 
-        //RectTransform rectTransform = rectTransforms[quitParam.currentIndex];
+        var quitParam = param as QuitParam;
+        Debug.Log(quitParam.currentIndex);
+        Text tweenText = texts[quitParam.currentIndex];
+        Text beforeText = texts[beforeIndex];
 
-        //Tweens.TextColorTween(beforeText, tergetColor, unselectColor, expandTime, changeEase, gameObject);
-        //Tweens.FontSizeTween(beforeText, tergetFontSize, initFointSize, reduceTime, changeEase, gameObject);
+        RectTransform rectTransform = rectTransforms[quitParam.currentIndex];
 
-        //Tweens.TextColorTween(tweenText, tergetColor, selectColor, expandTime, changeEase, gameObject);
-        //Tweens.FontSizeTween(tweenText, initFointSize, tergetFontSize, expandTime, changeEase, gameObject);
+        Tweens.TextColorTween(beforeText, tergetColor, unselectColor, expandTime, changeEase, gameObject);
+        Tweens.FontSizeTween(beforeText, tergetFontSize, initFointSize, reduceTime, changeEase, gameObject);
 
-        //beforeIndex = quitParam.currentIndex;
+        Tweens.TextColorTween(tweenText, tergetColor, selectColor, expandTime, changeEase, gameObject);
+        Tweens.FontSizeTween(tweenText, initFointSize, tergetFontSize, expandTime, changeEase, gameObject);
+
+        beforeIndex = quitParam.currentIndex;
 
     }
 

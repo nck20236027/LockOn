@@ -9,6 +9,7 @@ public class MenuClose : IMenuAction
     public Action<bool> onCloseMenEnable;
     public Action onSetMenuCloseInput;
 
+    public MenuActionType MenuActionType => MenuActionType.BackGame;
 
 
     public MenuClose(PauseParam pauseParam,Action onCloseMenuAction)
@@ -17,7 +18,6 @@ public class MenuClose : IMenuAction
         //this.onCloseMenEnable = onCloseMenuAction;
     }
 
-    public MenuActionType MenuActionType => MenuActionType.BackGame;
 
     public void OnMenuAction()
     {

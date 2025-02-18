@@ -16,6 +16,8 @@ public class PauseView : ViewBase
 
     [SerializeField]
     private Text[] texts;
+    private int beforeIndex;
+
     [SerializeField]
     private Color tergetColor;
 
@@ -29,7 +31,6 @@ public class PauseView : ViewBase
     private int tergetFontSize = 100;
     private int initFointSize = 60;
 
-    private int beforeIndex;
 
     [SerializeField]
     private Ease changeEase = Ease.Linear;

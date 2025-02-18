@@ -10,15 +10,16 @@ public class InputHandler
 
     public Action onMove;
     public Action onMenuAction;
-    public Action onSubmit;
-    public Action onQuiter;
+    public Action onMenuSubmit;
+    public Action onQuitSubmit;
     public Action onOptionClose;
     public Action onQuitClose;
     //public Action onCancel;
 
     public Action<float> onSliderSelect;
     public Action<float> onChangeSliderValue;
-    public Action<float> onChoice;
+    public Action<float> onMenuChoice;
+    public Action<float> onQuitChoice;
 
 
     private bool isMenuOpen = false;
@@ -32,13 +33,16 @@ public class InputHandler
         _playerAction = new PlayerAction();
         _playerAction.Player.Enable();
         _playerAction.Player.Menu.canceled += OnMenu; //‚±‚±‚Å“o˜^
+
         _playerAction.Menu.Navigate.performed += OnUISelectY;
         _playerAction.Menu.Submit.canceled += OnSubmit;
-        _playerAction.Option.OptionClose.canceled += OnOptionClose;
-        _playerAction.Quit.Submit.canceled += OnQuitCancel;
 
+        _playerAction.Quit.Submit.canceled += OnQuitSubmit;
+        _playerAction.Quit.Navigate.performed += OnUISelectX;
+
+        _playerAction.Option.OptionClose.canceled += OnOptionClose;
         _playerAction.Option.SliderSelected.performed += OnSliderSelect;
-        _playerAction.Option.SliderValueChange.performed += OnChangeSliderValue;
+        _playerAction.Option.SliderValueChange.performed += OnChangeSliderValueX;
         //_playerAction.UI.Navigate.Disable();
     }
 
@@ -55,7 +59,7 @@ public class InputHandler
         Vector2 input = context.ReadValue<Vector2>();
         if (input.y == 0) { return; }
         float directionY = Mathf.Sign(input.y);
-        onChoice(directionY);
+        onMenuChoice(directionY);
     }
 
     public void OnUISelectX(InputAction.CallbackContext context)
@@ -63,14 +67,20 @@ public class InputHandler
         Vector2 input = context.ReadValue<Vector2>();
         if (input.x == 0) { return; }
         float directionX = Mathf.Sign(input.x);
-        onChoice(directionX);
+        onQuitChoice(directionX);
     }
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
         SetMenuCloseInput();
-        onSubmit();
+        onMenuSubmit();
     }
+
+    public void OnQuitSubmit(InputAction.CallbackContext context)
+    {
+        onQuitSubmit();
+    }
+
     public void OnOptionClose(InputAction.CallbackContext context)
     {
         onOptionClose();
@@ -78,7 +88,7 @@ public class InputHandler
 
     public void OnQuitCancel(InputAction.CallbackContext context)
     {
-        SetQuitCloseInput ();
+        SetQuitCloseInput();
         onQuitClose();
     }
 
@@ -91,11 +101,18 @@ public class InputHandler
 
     }
 
-    public void OnChangeSliderValue(InputAction.CallbackContext context)
+    public void OnChangeSliderValueX(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
         if (input.x == 0) { return; }
         float directionX = Mathf.Sign(input.x);
+        onChangeSliderValue(directionX);
+    }
+    public void OnChangeSliderValueY(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
+        if (input.y == 0) { return; }
+        float directionX = Mathf.Sign(input.y);
         onChangeSliderValue(directionX);
     }
 
@@ -136,11 +153,11 @@ public class InputHandler
     {
         if (isEnable == true)
         {
-            _playerAction.Player.Enable();
+            _playerAction.Quit.Enable();
         }
         else
         {
-            _playerAction.Player.Disable();
+            _playerAction.Quit.Disable();
         }
     }
 
@@ -162,12 +179,14 @@ public class InputHandler
     {
         SetMenuInputEnable(false);
         SetQuitInputEnable(true);
+        SetPlayerInputEnable(false);
     }
 
     public void SetQuitCloseInput()
     {
         SetMenuInputEnable(true);
         SetQuitInputEnable(false);
+        SetPlayerInputEnable(false);
     }
 
     //InputSystem‘¤‚É“o˜^‚·‚é‚â‚Â
@@ -175,6 +194,11 @@ public class InputHandler
     {
         onMenuAction(); //MenuHandler‘¤‹@”\
         SetMenuInputEnable(true);
+    }
+
+    public void OnGameQuit(InputAction.CallbackContext context)
+    {
+        onQuitSubmit();
     }
 
 

@@ -11,6 +11,7 @@ public class SettingParam : ParamBase
     public Action<float> onSetCameraSensitivity;
     public float minCameraSensitiveAffinity;
     public float maxCameraSensitiveAffinity;
+    public float initCameraSensitiveAffinity;
 
     public Action<float> onChangeSEVolue;
     public float minSEVolue;

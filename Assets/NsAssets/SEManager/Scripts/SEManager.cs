@@ -55,7 +55,7 @@ public class SEManager : ServiceMonoBehaviour<SEManager>, ISEManager
         //生成処理的に同時にやると抜けることがあるため先にオブジェクトの生成処理
         for (int i = 0; i < seAudios.Length; i++)
         {
-            seAudios[i] = Instantiate(audioObjectPrefab)?.GetComponent<ISEAudio>();
+            seAudios[i] = Instantiate(audioObjectPrefab,transform)?.GetComponent<ISEAudio>();
 
             //オーディオの初期設定
             seAudios[i].InitializeAudio(minHearingDistance, maxHearingDistance, SEAudioMixerGroup, rolloffMode);
