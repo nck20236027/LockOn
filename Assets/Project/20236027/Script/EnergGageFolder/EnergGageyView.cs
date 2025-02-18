@@ -33,6 +33,7 @@ public class EnergyGageView : ViewBase
         _damageImage.gameObject.SetActive(true);
         _greenGauge.fillAmount -= energyGageParam.damageEnergyPoint/100f;//_nowE
         await UniTask.WaitForSeconds(1f);
+
         LMotion.Create(_damageImage.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//Ç±Ç±ÇÃÇ†ÇΩÇ¢ÇÕââèoÇ≈Ç©Ç¶ÇÈ
         //UniTask.WaitForSeconds(1)
 
