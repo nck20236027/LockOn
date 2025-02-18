@@ -245,10 +245,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 7c27f36387df5ac4593ac3a2ab8e4f63, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   canvas: {fileID: 5866106140721277464}
   _greenGauge: {fileID: 4565671788828639838}
   _redBoostGauge: {fileID: 7984056659882770692}
-  _redDamageGauge: {fileID: 2905902356368584936}
+  _damageImage: {fileID: 2905902356368584936}
 --- !u!1 &8113702955500149520
 GameObject:
   m_ObjectHideFlags: 0

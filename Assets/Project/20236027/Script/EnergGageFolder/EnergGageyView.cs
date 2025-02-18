@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
@@ -10,36 +11,47 @@ public class EnergyGageView : ViewBase
     [Header("緑、赤（ブースト中）、赤（ダメージ）のゲージ")]
     [SerializeField] private Image _greenGauge;
     [SerializeField] private Image _redBoostGauge;
-    [SerializeField] private Image _redDamageGauge;
-    private float _nowE;
+    [SerializeField] private Image _damageImage;    //アニメーションの場所で行う
 
 
     protected override ParamBase GetUseParamBase() => new EnergyGageParam();
-    public override void OnAnimation<T>(T param)
-    {
-        //ここはアニメーションじゃなくてinputボタン系の　paramでやる
-        //だから押したとき離した時に呼ぶUIManagerの処理がいる追加する相談
-
-
-    }
     public override void OnInit<T>(T param)
     {
         base.OnInit(param);
         EnergyGageParam energyGageParam = param as EnergyGageParam;
-        //_maxE = energyGageParam.maxEnergyGauge;
-        _nowE = energyGageParam.nowEnergyGauge;
-        _greenGauge.fillAmount = _nowE /energyGageParam.maxEnergyGauge;
-        //_greenGauge.fillAmount = _nowE / 200f;
+        //_greenGauge.fillAmount = _nowE /energyGageParam.maxEnergyGauge;
+        //_greenGauge.fillAmount += _nowE/_maxE ;
 
         //_nowE /= 200f;
+    }
+    public async override void OnAnimation<T>(T param)
+    {
+        EnergyGageParam energyGageParam = param as EnergyGageParam;
+        base.OnAnimation<T>(param);
+        //_nowE = energyGageParam.damageEnergyPoint / _maxE;
+        _damageImage.fillAmount = _greenGauge.fillAmount;//ここで緑と同じ位置にその次表示
+        _damageImage.gameObject.SetActive(true);
+        _greenGauge.fillAmount -= energyGageParam.damageEnergyPoint/100f;//_nowE
+        await UniTask.WaitForSeconds(1f);
+        LMotion.Create(_damageImage.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
+        //UniTask.WaitForSeconds(1)
+
+        .WithEase(Ease.OutExpo)
+         .WithOnComplete(() => _damageImage.gameObject.SetActive(false)) // Withはどの順番でも大丈夫
+        .BindToFillAmount(_damageImage);
+
+
+
 
     }
     public override void OnReload<T>(T param)
     {
         EnergyGageParam energyGageParam = param as EnergyGageParam;
         base.OnReload(param);
-        _nowE = energyGageParam.nowEnergyGauge;
-                _greenGauge.fillAmount = _nowE / energyGageParam.maxEnergyGauge;
+        //_nowE = energyGageParam.nowEnergyGauge;
+        _greenGauge.fillAmount -= energyGageParam.energyTimeLost/ 100f / energyGageParam.maxEnergyGauge;
+        //_greenGauge.fillAmount = _nowE / energyGageParam.maxEnergyGauge;
+        // -= にしないとやばい
         switch (energyGageParam.buttonState)
         {
             case ButtonState._isInputDown:
@@ -84,15 +96,5 @@ public class EnergyGageView : ViewBase
         //}
     }
 
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //_nowE = energyGageParam.nowEnergyGauge;
-        
-    }
 }

@@ -674,6 +674,7 @@ MonoBehaviour:
   isInputUp: 0
   maxEnergyGauge: 200
   nowEnergyGauge: 0
+  damagePoint: 20
 --- !u!1 &1250686485
 GameObject:
   m_ObjectHideFlags: 0
