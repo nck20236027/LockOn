@@ -1,9 +1,18 @@
 
 public class EnergyGageParam : ParamBase
 {
-    public bool isInputDown;
-    public bool isInputUp;
+
+    public ButtonState buttonState;
     public float maxEnergyGauge;
     public float nowEnergyGauge;
 
+
 }
+public enum ButtonState
+{
+    _isInputDown,
+    _isInputNow,
+    _isInputUp,
+    Non,
+}
+

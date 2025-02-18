@@ -15,9 +15,8 @@ public class EnergyGageModel : MonoBehaviour
         //param.maxEnergyGauge = 200f;
         param.maxEnergyGauge = maxEnergyGauge;
         param.nowEnergyGauge = nowEnergyGauge;
-        param.isInputDown = isInputDown;
-        param.isInputUp = isInputUp;
         param.nowEnergyGauge = param.maxEnergyGauge;
+        param.buttonState = ButtonState.Non;
 
         UIMediator.Instance.Init(param);
     }
@@ -28,25 +27,21 @@ public class EnergyGageModel : MonoBehaviour
         param.nowEnergyGauge -= 0.01f;
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            param.buttonState = ButtonState._isInputDown;
 
-
-            param.isInputDown = true;
-            UIMediator.Instance.Reload(param);
-            param.isInputDown = false;
             //Ç±Ç±Ç…âüÇ≥ÇÍÇΩêMçÜÇ™ó~ÇµÇ¢
         }
-        if (Input.GetKey(KeyCode.Space))
+        else if (Input.GetKey(KeyCode.Space))
         {
-
+            param.buttonState = ButtonState._isInputNow;
             param.nowEnergyGauge -= 0.05f;
-            UIMediator.Instance.Reload(param);
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
-            param.isInputUp = true;
-            UIMediator.Instance.Reload(param);
-            param.isInputUp = false;
+            param.buttonState = ButtonState._isInputUp;
         }
 
+        UIMediator.Instance.Reload(param);
+        param.buttonState = ButtonState.Non;
     }
 }

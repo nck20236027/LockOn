@@ -3,17 +3,15 @@ using LitMotion.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class EnergyGageView : ViewBase
 {
     [Header("緑、赤（ブースト中）、赤（ダメージ）のゲージ")]
     [SerializeField] private Image _greenGauge;
     [SerializeField] private Image _redBoostGauge;
     [SerializeField] private Image _redDamageGauge;
-    private GameObject red;
-    private float _maxE;
     private float _nowE;
-    private bool _isInputDown = false;
-    private bool _isInputUp = false;
 
 
     protected override ParamBase GetUseParamBase() => new EnergyGageParam();
@@ -28,8 +26,9 @@ public class EnergyGageView : ViewBase
     {
         base.OnInit(param);
         EnergyGageParam energyGageParam = param as EnergyGageParam;
-        _maxE = energyGageParam.maxEnergyGauge;
+        //_maxE = energyGageParam.maxEnergyGauge;
         _nowE = energyGageParam.nowEnergyGauge;
+        _greenGauge.fillAmount = _nowE /energyGageParam.maxEnergyGauge;
         //_greenGauge.fillAmount = _nowE / 200f;
 
         //_nowE /= 200f;
@@ -40,33 +39,49 @@ public class EnergyGageView : ViewBase
         EnergyGageParam energyGageParam = param as EnergyGageParam;
         base.OnReload(param);
         _nowE = energyGageParam.nowEnergyGauge;
-        _isInputDown = energyGageParam.isInputDown;
-        _isInputUp = energyGageParam.isInputUp;
-        if (_isInputDown)
+                _greenGauge.fillAmount = _nowE / energyGageParam.maxEnergyGauge;
+        switch (energyGageParam.buttonState)
         {
-            //_redBoostGauge.
-            _redBoostGauge.fillAmount = _greenGauge.fillAmount;
-            _redBoostGauge.gameObject.SetActive(true);
-            //LMotion.Create()
-            _isInputDown=false;
-        }
-        else if ( _isInputUp==true)
-        {//ブーストが終わった時にリットモーションが動くそのあとに非表示
-
-            LMotion.Create(_redBoostGauge.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
+            case ButtonState._isInputDown:
+                _redBoostGauge.fillAmount = _greenGauge.fillAmount;
+                _redBoostGauge.gameObject.SetActive(true);
+                break;
+            case ButtonState._isInputNow:
+                //ブースト分引く処理
+                break;
+            case ButtonState._isInputUp:
+                LMotion.Create(_redBoostGauge.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
              .WithEase(Ease.OutExpo)
               .WithOnComplete(() =>
               {
                   _redBoostGauge.gameObject.SetActive(false);
-                  _isInputUp=false;
+                  //_isInputUp = false;
               }) // Withはどの順番でも大丈夫
              .BindToFillAmount(_redBoostGauge);
-            //_redBoostGauge.gameObject.SetActive(false);
+                break;
+            default:
 
-
+                break;
         }
+        //if (_isInputDown)
+        //{
+        //    _redBoostGauge.fillAmount = _greenGauge.fillAmount;
+        //    _redBoostGauge.gameObject.SetActive(true);
+        //    _isInputDown=false;
+        //}
+        //else if ( _isInputUp==true)
+        //{//ブーストが終わった時にリットモーションが動くそのあとに非表示
 
+        //    LMotion.Create(_redBoostGauge.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
+        //     .WithEase(Ease.OutExpo)
+        //      .WithOnComplete(() =>
+        //      {
+        //          _redBoostGauge.gameObject.SetActive(false);
+        //          _isInputUp=false;
+        //      }) // Withはどの順番でも大丈夫
+        //     .BindToFillAmount(_redBoostGauge);
 
+        //}
     }
 
     void Start()
@@ -78,6 +93,6 @@ public class EnergyGageView : ViewBase
     void Update()
     {
         //_nowE = energyGageParam.nowEnergyGauge;
-        _greenGauge.fillAmount = _nowE / 200f;
+        
     }
 }
