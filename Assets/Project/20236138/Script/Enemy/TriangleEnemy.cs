@@ -47,7 +47,7 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     // Update is called once per frame
     void FixedUpdate()
     {
-        if ((GetPos.position - Gettarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 1) || _isTracking)
+        if ((GetPos.position - Gettarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2) || _isTracking)
         {
             _isTracking = true;  
             _nowTimeDestruntion += Time.fixedDeltaTime;

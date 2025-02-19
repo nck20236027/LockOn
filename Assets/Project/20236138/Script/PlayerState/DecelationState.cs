@@ -31,6 +31,7 @@ public class DecelerationState : ModeStateBase
         {
             stateMachine.ChangeState(ModeStateType.Move);
         }
+        UIMediator.Instance.Reload(_player._energyGageParam);
     }
 
     public override void OnFixedUpdate()

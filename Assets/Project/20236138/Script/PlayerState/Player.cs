@@ -83,6 +83,10 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     void Update()
     {
         _stateMachine.OnUpdate();
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            Damage(8);
+        }
     }
     private void FixedUpdate()
     {
@@ -132,6 +136,11 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     public void Damage(int damage)
     {
         FuelQuantity -= damage;
+        _energyGageParam.isDamage = true;
+        _energyGageParam.damageEnergyPoint = damage;
+        UIMediator.Instance.Animation(_energyGageParam);
+        _energyGageParam.isDamage= false;
+
     }
 }
 
