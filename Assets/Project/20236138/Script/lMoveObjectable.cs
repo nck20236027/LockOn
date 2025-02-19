@@ -7,7 +7,7 @@ public interface IMoveObjectable
     public Transform GetPos { get; }
 
     public Rigidbody GetRigidbody { get; }
-    public
     //ロックオンのターゲット
-    ILockTargetable Gettarget { get; }
+    public
+    Vector3 Gettarget { get; }
 }

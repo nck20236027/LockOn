@@ -8,8 +8,8 @@ public class RocetMove
 {
     public static void MoveTarget(IMoveObjectable _object,MoveStatus _state,float _time)
     {
-        Vector3 toTarget = _object.Gettarget != null ?
-            _object.Gettarget.GetTokenPosition - _object.GetPos.position : _object.GetPos.up;
+        Vector3 toTarget = _object.Gettarget != Vector3.zero ?
+            _object.Gettarget - _object.GetPos.position : _object.GetPos.up;
         Vector3 vn = _object.GetRigidbody.velocity.normalized;
         float dot = Vector3.Dot(toTarget, vn);
         Vector3 centripetalAccel = toTarget - (vn * dot);
