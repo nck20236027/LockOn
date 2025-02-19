@@ -86,11 +86,11 @@ public class InputHandler
         onOptionClose();
     }
 
-    public void OnQuitCancel(InputAction.CallbackContext context)
-    {
-        SetQuitCloseInput();
-        onQuitClose();
-    }
+    //public void OnQuitCancel(InputAction.CallbackContext context)
+    //{
+    //    SetQuitCloseInput();
+    //    onQuitClose();
+    //}
 
     public void OnSliderSelect(InputAction.CallbackContext context)
     {

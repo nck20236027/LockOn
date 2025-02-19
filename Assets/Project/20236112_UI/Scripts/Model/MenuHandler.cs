@@ -18,9 +18,9 @@ public class MenuHandler : MonoBehaviour
     private SettingParam settingParam = new();
 
 
-    private PauseController pauseController = new();
-    private QuitController quitController = new();
-    private SettingController settingController = new();
+    //private PauseController pauseController = new();
+    //private QuitController quitController = new();
+    //private SettingController settingController = new();
 
     private GameQuiter gameQuiter = new GameQuiter();
 
@@ -186,7 +186,7 @@ public class MenuHandler : MonoBehaviour
 
     public void QuitChoice(float direction)
     {
-        Debug.Log(_quitCurrentIndex);
+        //Debug.Log(_quitCurrentIndex);
         _quitCurrentIndex -= (int)direction;
         if (_quitCurrentIndex > 1)
         {
@@ -209,24 +209,14 @@ public class MenuHandler : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-
-
-        // ()‰¼‘zŠÖ” ŠÈ’P‚ÉŒ¾‚¤‚Æ()‚¾‚¯‚ÅŠÖ”‚ğì‚Á‚Ä‚­‚ê‚é
-        //mHandler.onAction(() => {Debug.Log("Hallo World")})   //‰º‚Ìˆ—‚ªƒ‰ƒ€ƒ_®‚¾‚Æ‚±‚ê‚ÅÏ‚Ş
-
-        //mHandler.onAction = DisplayMessage;
-    }
-
-    //private void DisplayMessage()
+}
+    ////private void DisplayMessage()
     //{
     //    Debug.Log("Hello World");
     //}
 
 
 
-}
 
 //public class Player
 //{
