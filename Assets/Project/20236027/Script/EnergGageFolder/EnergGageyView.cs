@@ -31,7 +31,7 @@ public class EnergyGageView : ViewBase
         //_nowE = energyGageParam.damageEnergyPoint / _maxE;
         _damageImage.fillAmount = _greenGauge.fillAmount;//ここで緑と同じ位置にその次表示
         _damageImage.gameObject.SetActive(true);
-        _greenGauge.fillAmount -= energyGageParam.damageEnergyPoint/100f;//_nowE
+        _greenGauge.fillAmount -= energyGageParam.damageEnergyPoint/energyGageParam.maxEnergyGauge;//_nowE
         await UniTask.WaitForSeconds(1f);
 
         LMotion.Create(_damageImage.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
@@ -45,12 +45,12 @@ public class EnergyGageView : ViewBase
 
 
     }
-    public override void OnReload<T>(T param)
+    public async override void OnReload<T>(T param)
     {
         EnergyGageParam energyGageParam = param as EnergyGageParam;
         base.OnReload(param);
         //_nowE = energyGageParam.nowEnergyGauge;
-        _greenGauge.fillAmount -= energyGageParam.energyTimeLost/ 100f / energyGageParam.maxEnergyGauge;
+        _greenGauge.fillAmount -= energyGageParam.energyTimeLost/ energyGageParam.maxEnergyGauge / energyGageParam.maxEnergyGauge;
         //_greenGauge.fillAmount = _nowE / energyGageParam.maxEnergyGauge;
         // -= にしないとやばい
         switch (energyGageParam.buttonState)
@@ -63,6 +63,7 @@ public class EnergyGageView : ViewBase
                 //ブースト分引く処理
                 break;
             case ButtonState._isInputUp:
+                await UniTask.WaitForSeconds(0.5f);
                 LMotion.Create(_redBoostGauge.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
              .WithEase(Ease.OutExpo)
               .WithOnComplete(() =>
