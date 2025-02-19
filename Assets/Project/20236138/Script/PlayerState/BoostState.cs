@@ -19,7 +19,7 @@ public class BoostState : ModeStateBase
         _player.cameraController.Interface.CameraChange();
         _player.GetRigidbody.velocity = Vector3.zero;
         Vector3 diffDir = _player.Gettarget != null ?
-        (_player.Gettarget.GetTokenPosition - _player.transform.position).normalized :
+        (_player.Gettarget - _player.transform.position).normalized :
         Quaternion.LookRotation(_player.transform.up, Vector3.forward) * Vector3.forward; // ターゲットの方向
         _player.transform.rotation = Quaternion.FromToRotation(Vector3.up, diffDir);
     }

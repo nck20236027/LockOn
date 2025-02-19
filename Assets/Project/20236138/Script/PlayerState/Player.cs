@@ -32,7 +32,6 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     public PlayerMoveStatus decelerationState;
 
 
-
     [HideInInspector]
     public bool isBoostButton = false;
     [HideInInspector]
@@ -43,7 +42,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
 
     public Rigidbody GetRigidbody => _rb;
 
-    public ILockTargetable Gettarget =>_target;
+    public Vector3 Gettarget =>_target != null ? _target.GetTokenPosition : Vector3.zero;
 
     private void Awake()
     {
