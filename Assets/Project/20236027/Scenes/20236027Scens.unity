@@ -533,7 +533,7 @@ Transform:
   m_GameObject: {fileID: 586031293}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000023841858, y: 1.0686617, z: -0.00000023841858}
+  m_LocalPosition: {x: -3.55, y: 1.0686617, z: 3.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -563,6 +563,7 @@ GameObject:
   - component: {fileID: 1176017324}
   - component: {fileID: 1176017323}
   - component: {fileID: 1176017327}
+  - component: {fileID: 1176017328}
   m_Layer: 0
   m_Name: MockPlayer
   m_TagString: Untagged
@@ -675,6 +676,21 @@ MonoBehaviour:
   maxEnergyGauge: 200
   nowEnergyGauge: 0
   damagePoint: 20
+--- !u!114 &1176017328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176017322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfdce61774c947b4681824151df35a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPos:
+  - {fileID: 586031298}
+  - {fileID: 237227181}
 --- !u!1 &1250686485
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,6 +970,8 @@ MonoBehaviour:
   viewPrefabs:
   - {fileID: 1681593776587746047, guid: 4fb45dfd5a5e3344fb1f0380feed2ce0, type: 3}
   - {fileID: 1988107763378824971, guid: 5adc9f08b9dfdc244ad5874acd20e6b4, type: 3}
+  - {fileID: 1988107763378824971, guid: 5adc9f08b9dfdc244ad5874acd20e6b4, type: 3}
+  - {fileID: 5097111415745260521, guid: 05212db090e0cd549a2d06499a20538a, type: 3}
 --- !u!4 &1567300252
 Transform:
   m_ObjectHideFlags: 0
@@ -1057,6 +1075,6 @@ SceneRoots:
   - {fileID: 1176017326}
   - {fileID: 1383645896}
   - {fileID: 1250686487}
-  - {fileID: 586031298}
   - {fileID: 237227181}
   - {fileID: 1909739689}
+  - {fileID: 586031298}
