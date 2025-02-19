@@ -22,6 +22,10 @@ public class BoostState : ModeStateBase
         (_player.Gettarget - _player.transform.position).normalized :
         Quaternion.LookRotation(_player.transform.up, Vector3.forward) * Vector3.forward; // ターゲットの方向
         _player.transform.rotation = Quaternion.FromToRotation(Vector3.up, diffDir);
+        _player._energyGageParam.buttonState = ButtonState._isInputDown;
+        _player._energyGageParam.energyTimeLost = _state.FuelConsumptio * Time.deltaTime;
+        UIMediator.Instance.Reload(_player._energyGageParam);
+        _player._energyGageParam.buttonState = ButtonState._isInputNow;
     }
 
     public override void OnUpdate()
@@ -32,6 +36,7 @@ public class BoostState : ModeStateBase
         {
             stateMachine.ChangeState(ModeStateType.Move);
         }
+        UIMediator.Instance.Reload(_player._energyGageParam);
     }
 
     public override void OnFixedUpdate()
@@ -46,6 +51,7 @@ public class BoostState : ModeStateBase
         base.OnExit();
         _player.cameraController.Interface.CameraChange();
         _stateChangedTime = 0;
+        _player._energyGageParam.buttonState = ButtonState._isInputUp;
     }
 
     private void MoveTarget()

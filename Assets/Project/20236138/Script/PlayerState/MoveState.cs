@@ -25,8 +25,11 @@ public class MoveState : ModeStateBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        _player.FuelQuantity += (_player.GetTarget != null ?
+        float timeFuelQuatity = (_player.GetTarget != null ?
             _player.GetTarget.ChangeConsuptio(-_state.FuelConsumptio): _state.FuelConsumptio) * Time.deltaTime ;
+        _player.FuelQuantity += timeFuelQuatity ;
+       _player._energyGageParam.energyTimeLost = timeFuelQuatity ;
+        
         if(_player.isBoostButton)
         {
             stateMachine.ChangeState(ModeStateType.Boost);
@@ -35,6 +38,8 @@ public class MoveState : ModeStateBase
         {
             stateMachine.ChangeState(ModeStateType.Deceleration);
         }
+
+        UIMediator.Instance.Reload(_player._energyGageParam);
 
     }
 
