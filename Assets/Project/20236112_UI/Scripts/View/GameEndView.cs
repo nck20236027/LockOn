@@ -2,7 +2,7 @@ using LitMotion;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TitleView : ViewBase
+public class GameEndView : ViewBase
 {
     [Header("対象のテキストを入れる")]
     [SerializeField]
@@ -28,7 +28,7 @@ public class TitleView : ViewBase
     [Header("遷移方法")]
     [SerializeField]
     private Ease changeEase = Ease.Linear;
-    
+
     private Text firstSelectText;           //最初に選択されるText
     private int _initFointSize;             //生成時のフォントサイズ
 
@@ -36,31 +36,30 @@ public class TitleView : ViewBase
     private int _currentIndex;
     private int _beforeIndex;
 
-
-    protected override ParamBase GetUseParamBase() => new TitleParam();
-
+    protected override ParamBase GetUseParamBase() => new ParamBase();
 
     public override void OnInit<T>(T param)
     {
-        canvas.gameObject.SetActive(true);
-        TitleParam titleParam = param as TitleParam;
+        canvas.gameObject.SetActive(false);
+        GameEndParam gameEndParam = param as GameEndParam;
 
         Text firstSelectButton = _texts[_currentIndex];
 
         Tweens.FontSizeTween(firstSelectText, _initFointSize, _tergetFontSize, expandTime, changeEase, gameObject);
         Tweens.TextColorTween(firstSelectText, _tergetColor, _tergetColor, expandTime, changeEase, gameObject);
 
-        _beforeIndex = titleParam.currentIndex;
+        _beforeIndex = gameEndParam.currentIndex;
+
     }
 
     public override void OnReload<T>(T param)
     {
-        var titleParam = param as TitleParam;
+        var gameEndParam = param as GameEndParam;
 
-        Text tweenText = _texts[titleParam.currentIndex];
+        Text tweenText = _texts[gameEndParam.currentIndex];
         Text beforeText = _texts[_beforeIndex];
 
-        RectTransform rectTransform = _textRectTransforms[titleParam.currentIndex];
+        RectTransform rectTransform = _textRectTransforms[gameEndParam.currentIndex];
 
         Tweens.TextColorTween(beforeText, _tergetColor, _unselectColor, expandTime, changeEase, gameObject);
         Tweens.FontSizeTween(beforeText, _tergetFontSize, _initFointSize, reduceTime, changeEase, gameObject);
@@ -68,7 +67,7 @@ public class TitleView : ViewBase
         Tweens.TextColorTween(tweenText, _tergetColor, _selectColor, expandTime, changeEase, gameObject);
         Tweens.FontSizeTween(tweenText, _initFointSize, _tergetFontSize, expandTime, changeEase, gameObject);
 
-        _beforeIndex = titleParam.currentIndex;
+        _beforeIndex = gameEndParam.currentIndex;
 
     }
 
