@@ -20,6 +20,7 @@ public class DecelerationState : ModeStateBase
     {
         base.OnEnter();
         Debug.Log(this.ToString());
+        _player._energyGageParam.energyTimeLost = _state.FuelConsumptio * Time.deltaTime;
     }
 
     public override void OnUpdate()

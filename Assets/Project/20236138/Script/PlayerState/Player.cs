@@ -20,8 +20,9 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     [SerializeField, Header("最大の燃料量")]
     float _maxFuelQuantity;
     [Header("現在の燃料量")]
-    public float fuelQuantity;
-    public float FuelQuantity { get { return fuelQuantity; } set { fuelQuantity = Mathf.Max(value, _maxFuelQuantity); } }
+    public float _fuelQuantity;
+    public float FuelQuantity { get { return _energyGageParam.nowEnergyGauge; }
+        set { _energyGageParam.nowEnergyGauge = Mathf.Max(value, _maxFuelQuantity); } }
     [Header("ブーストが開始したとき~切り替えれない時間")]
     public float BoostStateUnChangeTime;
     [ Header("通常のステータス")]
@@ -44,6 +45,8 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
 
     public Vector3 Gettarget =>_target != null ? _target.GetTokenPosition : Vector3.zero;
 
+    public EnergyGageParam _energyGageParam;
+
     private void Awake()
     {
         _stateMachine = new StateMachine(this);
@@ -51,6 +54,13 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     // Start is called before the first frame update
     void Start()
     {
+        _energyGageParam = new EnergyGageParam();
+        _energyGageParam.buttonState = ButtonState.Non;
+        _energyGageParam.maxEnergyGauge = _maxFuelQuantity;
+        _energyGageParam.nowEnergyGauge = _fuelQuantity;
+        _energyGageParam.energyTimeLost = 0;
+        _energyGageParam.damageEnergyPoint = 0;
+
         _playerInput = new();
         _playerInput.Enable();
         _playerInput.Player.Boost.started += BoostAction;
@@ -59,6 +69,9 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _playerInput.Player.Deceleration.canceled += DecelerationAction;
         _rb = GetComponent<Rigidbody>();
         _stateMachine.Initialize(ModeStateType.Move);
+
+
+        UIMediator.Instance.Init(_energyGageParam);
     }
 
     void OnDestroy()
