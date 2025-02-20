@@ -29,26 +29,22 @@ public class TitleView : ViewBase
     [SerializeField]
     private Ease changeEase = Ease.Linear;
     
-    private Text firstSelectText;           //最初に選択されるText
-    private int _initFointSize;             //生成時のフォントサイズ
-
-    private int _tergetFontSize;            //変更後のフォントサイズ
-    private int _currentIndex;
+    private int _initFointSize = 60;             //生成時のフォントサイズ
+    private int _tergetFontSize = 80;            //変更後のフォントサイズ
+    //private int _currentIndex;
     private int _beforeIndex;
 
-
     protected override ParamBase GetUseParamBase() => new TitleParam();
-
 
     public override void OnInit<T>(T param)
     {
         canvas.gameObject.SetActive(true);
         TitleParam titleParam = param as TitleParam;
 
-        Text firstSelectButton = _texts[_currentIndex];
+        Text firstSelectButton = _texts[titleParam.currentIndex];
 
-        Tweens.FontSizeTween(firstSelectText, _initFointSize, _tergetFontSize, expandTime, changeEase, gameObject);
-        Tweens.TextColorTween(firstSelectText, _tergetColor, _tergetColor, expandTime, changeEase, gameObject);
+        Tweens.FontSizeTween(firstSelectButton, _initFointSize, _tergetFontSize, expandTime, changeEase, gameObject);
+        Tweens.TextColorTween(firstSelectButton, _tergetColor, _tergetColor, expandTime, changeEase, gameObject);
 
         _beforeIndex = titleParam.currentIndex;
     }
@@ -75,11 +71,16 @@ public class TitleView : ViewBase
     public override void OnShow<T>(T param)
     {
         canvas.gameObject.SetActive(true);
-
     }
 
     public override void OnHide<T>(T param)
     {
         canvas.gameObject.SetActive(false);
+    }
+
+    public override void OnFinal<T>(T param)
+    {
+        //Viewの削除指令を受けたら自身を削除する
+        Destroy(gameObject);
     }
 }

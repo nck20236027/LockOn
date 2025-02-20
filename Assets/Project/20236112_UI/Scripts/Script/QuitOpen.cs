@@ -8,23 +8,20 @@ public class QuitOpen : IMenuAction
     PauseParam pauseParam;
     QuitParam quitParam;
 
-    public Action<bool> onQuitInputEnable;
-    public Action<bool> onMenuInputEnable;
+    public Action onQuitInputEnable;
 
     public MenuActionType MenuActionType => MenuActionType.Quit;
 
-    public QuitOpen(PauseParam pauseParam, QuitParam quitParam, Action<bool> onQuitInputEnable, Action<bool> onMenuInputEnable)
+    public QuitOpen(PauseParam pauseParam, QuitParam quitParam, Action onQuitInputEnable)
     {
         this.pauseParam = pauseParam;
         this.quitParam = quitParam;
         this.onQuitInputEnable = onQuitInputEnable;
-        this.onMenuInputEnable = onMenuInputEnable;
     }
     public void OnMenuAction()
     {
         UIMediator.Instance.Show(quitParam);
-        onQuitInputEnable?.Invoke(true);
-        onMenuInputEnable?.Invoke(false);
+        onQuitInputEnable?.Invoke();
         UIMediator.Instance.Hide(pauseParam);
     }
 

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class TitleInputHandler
 {
-    private PlayerAction _inputActions;
+    private PlayerAction _playerActions;
 
     public Action _onStartSubmit;
     public Action _onEndSubmit;
@@ -14,14 +14,19 @@ public class TitleInputHandler
 
     public void Init()
     {
-        _inputActions = new();
-        _inputActions.Title.Submit.canceled += OnStartSubmit;
-        _inputActions.Title.Navigate.performed += OnTitleSelectY;
+        _playerActions = new PlayerAction();
+        _playerActions.Title.Enable();
+        _playerActions.Title.Submit.canceled += OnStartSubmit;
+        _playerActions.Title.Navigate.performed += OnTitleSelectY;
 
-        _inputActions.GameEnd.Submit.canceled += OnEndSubmit;
-        _inputActions.GameEnd.Navigate.performed += OnGameEndSelectX;
+        _playerActions.GameEnd.Submit.canceled += OnEndSubmit;
+        _playerActions.GameEnd.Navigate.performed += OnGameEndSelectX;
     }
 
+    public void Final()
+    {
+        _playerActions.Dispose();
+    }
 
     public void OnStartSubmit(InputAction.CallbackContext context)      //スタート時の決定
     {
@@ -53,22 +58,22 @@ public class TitleInputHandler
     {
         if (isEneble)
         {
-            _inputActions.Player.Enable();
+            _playerActions.Player.Enable();
         }
         else
         {
-            _inputActions.Player.Disable();
+            _playerActions.Player.Disable();
         }
     }
     public void OnGameEndInputEneble(bool isEneble)     //ActionMapのGameEndの切り替え
     {
         if (isEneble)
         {
-            _inputActions.GameEnd.Enable();
+            _playerActions.GameEnd.Enable();
         }
         else
         {
-            _inputActions.GameEnd.Disable();
+            _playerActions.GameEnd.Disable();
         }
     }
 
@@ -76,11 +81,11 @@ public class TitleInputHandler
     {
         if (isEneble)
         {
-            _inputActions.Title.Enable();
+            _playerActions.Title.Enable();
         }
         else
         {
-            _inputActions.Title.Disable();
+            _playerActions.Title.Disable();
         }
     }
 
@@ -88,11 +93,20 @@ public class TitleInputHandler
     {
         OnPlayerInputEneble(true);
         OnGameEndInputEneble(false);
+        OnTitleInputEneble(false);
     }
 
     public void SetGameEnd()        //ゲーム終了
     {
         OnPlayerInputEneble(false);
         OnGameEndInputEneble(true);
+        OnTitleInputEneble(false);
+    }
+
+    public void SetTitle()
+    {
+        OnPlayerInputEneble(false);
+        OnGameEndInputEneble(false);
+        OnTitleInputEneble(true);
     }
 }

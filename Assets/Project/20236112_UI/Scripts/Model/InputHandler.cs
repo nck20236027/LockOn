@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -22,16 +21,17 @@ public class InputHandler
     public Action<float> onQuitChoice;
 
 
-    private bool isMenuOpen = false;
+    //private bool isMenuOpen = false;
 
-    public Button[] buttons;
+    //public Button[] buttons;
 
 
 
     public void Init()
     {
         _playerAction = new PlayerAction();
-        _playerAction.Player.Enable();
+        SetPlayerInput();
+
         _playerAction.Player.Menu.canceled += OnMenu; //Ç±Ç±Ç≈ìoò^
 
         _playerAction.Menu.Navigate.performed += OnUISelectY;
@@ -44,6 +44,11 @@ public class InputHandler
         _playerAction.Option.SliderSelected.performed += OnSliderSelect;
         _playerAction.Option.SliderValueChange.performed += OnChangeSliderValueX;
         //_playerAction.UI.Navigate.Disable();
+    }
+
+    public void Final()
+    {
+        _playerAction.Dispose();
     }
 
     //public void Dispose(InputAction.CallbackContext context)
@@ -72,7 +77,7 @@ public class InputHandler
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
-        SetMenuCloseInput();
+        SetMenuInput();
         onMenuSubmit();
     }
 
@@ -161,39 +166,44 @@ public class InputHandler
         }
     }
 
-    public void SetOptionOpenInput()
+    public void SetPlayerInput()            //ÉvÉåÉCÉÑÅ[ÇæÇØ
     {
-        SetOptionInputEnable(true);
-        SetMenuInputEnable(false);
-        SetPlayerInputEnable(false);
-    }
-
-    public void SetMenuCloseInput()
-    {
-        SetOptionInputEnable(false);
-        SetMenuInputEnable(false);
         SetPlayerInputEnable(true);
-    }
-
-    public void SetQuitOpenInput()
-    {
         SetMenuInputEnable(false);
-        SetQuitInputEnable(true);
-        SetPlayerInputEnable(false);
+        SetOptionInputEnable(false);
+        SetQuitInputEnable(false);
     }
 
-    public void SetQuitCloseInput()
+    public void SetMenuInput()             //ÉÅÉjÉÖÅ[ÇæÇØ
     {
-        SetMenuInputEnable(true);
-        SetQuitInputEnable(false);
         SetPlayerInputEnable(false);
+        SetMenuInputEnable(true);
+        SetOptionInputEnable(false);
+        SetQuitInputEnable(false);
     }
+
+    public void SetOptionInput()
+    {
+        SetPlayerInputEnable(false);
+        SetMenuInputEnable(false);
+        SetOptionInputEnable(true);
+        SetQuitInputEnable(false);
+    }
+
+    public void SetQuitInput()
+    {
+        SetPlayerInputEnable(false);
+        SetMenuInputEnable(false);
+        SetOptionInputEnable(false);
+        SetQuitInputEnable(true);
+    }
+
 
     //InputSystemë§Ç…ìoò^Ç∑ÇÈÇ‚Ç¬
     public void OnMenu(InputAction.CallbackContext context)
     {
         onMenuAction(); //MenuHandlerë§ã@î\
-        SetMenuInputEnable(true);
+        SetMenuInput();
     }
 
     public void OnGameQuit(InputAction.CallbackContext context)

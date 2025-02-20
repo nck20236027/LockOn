@@ -102,6 +102,12 @@ public class SettingView : ViewBase
         canvas.gameObject.SetActive(false);
     }
 
+    public override void OnFinal<T>(T param)
+    {
+        //View‚Ìíœw—ß‚ğó‚¯‚½‚ç©g‚ğíœ‚·‚é
+        Destroy(gameObject);
+    }
+
 }
 
 public enum OptionChoiseType
