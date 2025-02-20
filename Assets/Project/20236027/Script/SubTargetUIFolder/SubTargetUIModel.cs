@@ -14,6 +14,7 @@ public class SubTargetUIModel : MonoBehaviour,ISubTargetUI
     {
         param.subTargetUI = this;
         UIMediator.Instance.Init(param);
+
         //ƒŒƒ“ƒ_ƒ‰[‚Ìisvisible
         
     }

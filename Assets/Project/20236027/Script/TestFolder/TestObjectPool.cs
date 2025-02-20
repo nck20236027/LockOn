@@ -2,38 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 
 public class TestObjectPool : MonoBehaviour
 {
-    private List<GameObject> poolObject = new List<GameObject>();
-    // 既にプールに入っている既存のアイテムを返そうとすると例外が発生します
+    private List<Image> poolObject = new List<Image>();
 
-    [SerializeField] GameObject objects;
+    [SerializeField] Image objects;
 
     void Start()
     {
 
     }
 
-    public void SetupPool(GameObject poolObj)
+    public void SetupPool(Image poolObj)
     {
        poolObject.Add(poolObj);//追加
-
+       poolObj.gameObject. SetActive(false);
     }
-    public GameObject GetPool()
+    public Image GetPool()
     {
         if(poolObject.Count == 0)
         {
-            SetupPool(CreatPool());
+            SetupPool(CreatePool());
         }
-        GameObject ObjectPool = poolObject[0];
-        ObjectPool.SetActive(true);
+        Image ObjectPool = poolObject[0];
+        ObjectPool .gameObject.SetActive(true);
         poolObject.Remove(ObjectPool);
         return ObjectPool;
     }
-    private GameObject CreatPool()
+    private Image CreatePool()
     {
-        GameObject gameObject = Instantiate(objects);
+        Image gameObject = Instantiate(objects);
         gameObject.transform.parent = transform;
         return gameObject;
     }
