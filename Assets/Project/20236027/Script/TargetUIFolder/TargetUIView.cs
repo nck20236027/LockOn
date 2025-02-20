@@ -90,7 +90,7 @@ public class TargetUIView : ViewBase
         //‚±‚±‚É‚Á‚Ä‚«‚½Vector‚ğg‚Á‚Ätarget‚ÌêŠ‚ÉUI‚ğ’u‚­
         if (targetPos.GetTarget== null)
         {
-            //targetUIImage.gameObject.SetActive(false);
+            targetUIImage.gameObject.SetActive(false);
             return;
         }
         targetUIImage.transform.position = Camera.main.WorldToScreenPoint(targetPos.GetTarget.GetTokenPosition);
