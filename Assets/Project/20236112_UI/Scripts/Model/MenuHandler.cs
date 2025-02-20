@@ -87,6 +87,8 @@ public class MenuHandler : MonoBehaviour
         UIMediator.Instance.Init(pauseParam);
         UIMediator.Instance.Init(quitParam);
 
+
+
         //
         settingParam.onSetCameraSensitivity = OnChangeCameraSensitivity;
         settingParam.onChangeSEVolue = OnChangeSEVolume;
