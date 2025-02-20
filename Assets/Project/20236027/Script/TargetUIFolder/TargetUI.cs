@@ -6,8 +6,8 @@ public class TargetUI : MonoBehaviour, IhasTargetPos
 {
 
     [SerializeField]
-    Transform target;
-    public Vector3 GetPos => target.position;
+    TargetToken target;
+    public ILockTargetable GetTarget => target;
 
     private TargetUIParam param = new TargetUIParam();
     void Start()
