@@ -21,7 +21,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
 
     PlayerAction inputActions ;
 
-    public Vector3 GetPos => target != null ?  target.GetTokenPosition : Vector3.zero;
+    public ILockTargetable GetTarget => target != null ?  target : null;
     public Vector3 GetPlayerPos => _player.transform.position;
 
     private void Awake()

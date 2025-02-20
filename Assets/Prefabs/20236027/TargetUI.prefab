@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7c27f36387df5ac4593ac3a2ab8e4f63, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11e5ab06858788e4283a67ae91eca8b5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -128,22 +128,22 @@ MonoBehaviour:
   targetUIImage: {fileID: 5909894584083225353}
   _eulerStartPos: {x: 0, y: 0, z: 0}
   _eulerEndPos: {x: 0, y: 0, z: 360}
-  _eulerMoveUITimer: 3
-  _eulerLoopCount: -1
+  _eulerMoveUITimer: 1
+  _eulerLoopCount: 1
   _eulerLoopType: 0
-  _eulerEaseType: 0
-  _colorStart: {r: 0, g: 1, b: 0, a: 0.23529412}
-  _colorEnd: {r: 0, g: 1, b: 0, a: 0.81960785}
+  _eulerEaseType: 17
+  _colorStart: {r: 0, g: 1, b: 0, a: 0}
+  _colorEnd: {r: 0, g: 1, b: 0, a: 1}
   _colorMoveUITimer: 1
-  _colorLoopCount: -1
+  _colorLoopCount: 1
   _colorLoopType: 3
   _colorEaseType: 0
-  _ScaleStart: {x: 1.5, y: 1.5, z: 1.5}
+  _ScaleStart: {x: 4, y: 4, z: 4}
   _scaleEnd: {x: 0.5, y: 0.5, z: 0.5}
   _scaleMoveUITimer: 1
-  _scaleLoopCount: -1
-  _scaleLoopType: 3
-  _scaleEaseType: 0
+  _scaleLoopCount: 1
+  _scaleLoopType: 0
+  _scaleEaseType: 17
 --- !u!1 &8798488893093089847
 GameObject:
   m_ObjectHideFlags: 0
