@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public interface IQuitAction
 {
     public QuitActionType QuitActionType { get; }
@@ -11,5 +7,5 @@ public interface IQuitAction
 public enum QuitActionType
 {
     BackMenu,
-    Title,
+    Quit,
 }

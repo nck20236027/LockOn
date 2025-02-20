@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameQuiter : IQuitAction
 {
-    public QuitActionType QuitActionType => QuitActionType.Title;
+    public QuitActionType QuitActionType => QuitActionType.Quit;
 
     //public GameQuiter()
     //{

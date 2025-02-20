@@ -8,8 +8,8 @@ public class OptionOpen : IMenuAction
     SettingParam settingParam;
     PauseParam pauseParam;
 
-    public Action<bool> onOptionInputEnable;
-    public Action<bool> onMenuInputEnable;
+    //public Action<bool> onOptionInputEnable;
+    //public Action<bool> onMenuInputEnable;
     public Action onSetOptionOpenInput;
 
     public MenuActionType MenuActionType => MenuActionType.OpenOption;

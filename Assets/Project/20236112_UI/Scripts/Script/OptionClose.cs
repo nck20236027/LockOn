@@ -8,15 +8,13 @@ public class OptionClose
     SettingParam settingParam;
     PauseParam pauseParam;
 
-    public Action<bool> onOptionInputDisable;
-    public Action<bool> onMenuInputEnable;
+    public Action onSetOptionCloseInput;
 
-    public OptionClose(PauseParam pauseParam,SettingParam settingParam ,Action<bool> onOptionInputDisable, Action<bool> onMenuInputEnable)
+    public OptionClose(PauseParam pauseParam,SettingParam settingParam , Action onSetOptionCloseInput)
     {
         this.pauseParam = pauseParam;
         this.settingParam = settingParam;
-        this.onOptionInputDisable = onOptionInputDisable;
-        this.onMenuInputEnable = onMenuInputEnable;
+        this.onSetOptionCloseInput = onSetOptionCloseInput;
     }
 
 
@@ -24,7 +22,6 @@ public class OptionClose
     {
         UIMediator.Instance.Hide(settingParam);
         UIMediator.Instance.Show(pauseParam);
-        onOptionInputDisable?.Invoke(false);
-        onMenuInputEnable?.Invoke(true);
+        onSetOptionCloseInput?.Invoke();
     }
 }

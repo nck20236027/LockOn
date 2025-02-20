@@ -82,7 +82,7 @@ public class UIMediator : MonoBehaviour
             viewBaseInstances.Remove(target);
 
             //View‚ÌI—¹ˆ—‚ğŒÄ‚Ô
-            Destroy(target);
+            target.OnFinal(param);
         }
     }
 

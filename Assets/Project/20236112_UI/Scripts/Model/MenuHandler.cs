@@ -41,16 +41,16 @@ public class MenuHandler : MonoBehaviour
 
     private void Awake()
     {
-        menuActions.Add(new MenuClose(pauseParam, inputHandler.SetMenuCloseInput));
-        menuActions.Add(new OptionOpen(settingParam, pauseParam, inputHandler.SetOptionOpenInput));
-        menuActions.Add(new QuitOpen(pauseParam, quitParam, inputHandler.SetQuitInputEnable, inputHandler.SetMenuInputEnable));
+        menuActions.Add(new MenuClose(pauseParam, inputHandler.SetMenuInput));
+        menuActions.Add(new OptionOpen(settingParam, pauseParam, inputHandler.SetOptionInput));
+        menuActions.Add(new QuitOpen(pauseParam, quitParam, inputHandler.SetQuitInput));
 
-        quitActions.Add(new QuitClose(pauseParam, quitParam, inputHandler.SetQuitInputEnable, inputHandler.SetMenuInputEnable));
+        quitActions.Add(new QuitClose(pauseParam, quitParam, inputHandler.SetMenuInput));
         quitActions.Add(new GameQuiter());
 
-        menuClose = new MenuClose(pauseParam, inputHandler.SetMenuCloseInput);
-        optionClose = new OptionClose(pauseParam, settingParam, inputHandler.SetOptionInputEnable, inputHandler.SetMenuInputEnable);
-        quitClose = new QuitClose(pauseParam, quitParam, inputHandler.SetQuitInputEnable, inputHandler.SetMenuInputEnable);
+        menuClose = new MenuClose(pauseParam, inputHandler.SetPlayerInput);
+        optionClose = new OptionClose(pauseParam, settingParam, inputHandler.SetMenuInput);
+        quitClose = new QuitClose(pauseParam, quitParam, inputHandler.SetQuitInput);
 
         //pauseParam.resameButton = pauseController.Resame;
         //pauseParam.quitButton = quitController.OpenQuit;
@@ -116,7 +116,7 @@ public class MenuHandler : MonoBehaviour
     {
         //Menu‚ðŠJ‚¢‚½‚è•Â‚¶‚½‚è‚·‚é
         UIMediator.Instance.Show(pauseParam);
-        inputHandler.SetMenuCloseInput();
+        inputHandler.SetPlayerInput();
         //    UIMediator.Instance.Show(settingParam);
         //    UIMediator.Instance.Show(quitParam);
     }
@@ -209,6 +209,13 @@ public class MenuHandler : MonoBehaviour
     }
 
 
+    private void OnDestroy()
+    {
+        UIMediator.Instance.Final(pauseParam);
+        UIMediator.Instance.Final(settingParam);
+        UIMediator.Instance.Final(quitParam);
+        inputHandler.Final();
+    }
 }
     ////private void DisplayMessage()
     //{

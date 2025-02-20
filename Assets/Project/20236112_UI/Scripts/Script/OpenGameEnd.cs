@@ -1,28 +1,24 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class OpenGameEnd : ITitleAction
 {
-    private TitleParam titleParam;
+    private TitleParam _titleParam;
+    private GameEndParam _gameEndParam;
 
-    public Action<bool> onGameEndInputEneble;
-    public Action<bool> onTitleInputEneble;
+    public Action onSetGameEnd;
 
     public TitleActionType TitleActionType => TitleActionType.GameEnd;
 
-    public OpenGameEnd(TitleParam titleParam, Action<bool> onGameEndInputEneble, Action<bool> onTitleInputEneble)
+    public OpenGameEnd(TitleParam titleParam, Action onSetGameEnd)
     {
-        this.titleParam = titleParam;
-        this.onGameEndInputEneble = onGameEndInputEneble;
-        this.onTitleInputEneble= onTitleInputEneble;
+        this._titleParam = titleParam;
+        this.onSetGameEnd = onSetGameEnd;
     }
 
     public void OnTitleAction()
     {
-
-
+        UIMediator.Instance.Show(_gameEndParam);
+        onSetGameEnd?.Invoke();
+        UIMediator.Instance.Hide(_titleParam);
     }
 }
