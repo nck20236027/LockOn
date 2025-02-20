@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ade6264e06ab6944b4283bfb78e9b19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cornerCount: 1
+  _cornerCount: 20
   _bulletTimeSpan: 0.1
   _roundBulletCount: 1
   _maxBulletDistance: 2
@@ -183,8 +183,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: 0.22021103
+        value: 0.08091736
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -228,10 +228,10 @@ LineRenderer:
     numCapVertices: 0
     alignment: 0
     textureMode: 0
-    textureScale: {x: 1, y: 1}
+    textureScale: {x: 0.1, y: 0.1}
     shadowBias: 0.5
     generateLightingData: 0
   m_MaskInteraction: 0
   m_UseWorldSpace: 0
-  m_Loop: 0
+  m_Loop: 1
   m_ApplyActiveColorSpace: 1

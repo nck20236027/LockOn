@@ -16,7 +16,7 @@ public class BoostState : ModeStateBase
     {
         base.OnEnter();
         Debug.Log(this.ToString());
-        _player.cameraController.Interface.CameraChange();
+        _player._cameraController.Interface.CameraChange();
         _player.GetRigidbody.velocity = Vector3.zero;
         Vector3 diffDir = _player.Gettarget != null ?
         (_player.Gettarget - _player.transform.position).normalized :
@@ -49,7 +49,7 @@ public class BoostState : ModeStateBase
     public override void OnExit()
     {
         base.OnExit();
-        _player.cameraController.Interface.CameraChange();
+        _player._cameraController.Interface.CameraChange();
         _stateChangedTime = 0;
         _player._energyGageParam.buttonState = ButtonState._isInputUp;
     }

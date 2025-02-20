@@ -62,6 +62,7 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     float _basisMouseSpeed;
     [SerializeField]
     CinemachineFreeLook _freelook;
+    [SerializeField]
     private int _controlInt = 90;
 
     Vector2 _moveVector = Vector2.zero;
