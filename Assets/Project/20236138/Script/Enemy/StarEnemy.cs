@@ -25,6 +25,8 @@ public class StarEnemy : EnemyBase
     private int _bulletSpeed = 10;
     [SerializeField, Header("êUÇËÇﬁÇ≠ë¨Ç≥")]
     float _lookatSpeed;
+    [SerializeField, Header("íeÇ™è¡Ç¶ÇÈÇ‹Ç≈ÇÃïbêî")]
+    float _bulletDestroyTime = 3;
     [SerializeField]
     GameObject _enemyBullet;
 
@@ -73,6 +75,7 @@ public class StarEnemy : EnemyBase
                         EnemyBullet bullet = Instantiate(_enemyBullet, transform.position + _pos, _rotation).GetComponent<EnemyBullet>();
                         bullet.moveSpeed = _bulletSpeed;
                         bullet.BulletPowor = _bulletPowor;
+                        Destroy(bullet.gameObject);
                     }
                     await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletDistance));
                 }

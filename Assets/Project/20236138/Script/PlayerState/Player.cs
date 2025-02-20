@@ -10,7 +10,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     //コンポーネント
     [HideInInspector]
     private Rigidbody _rb;
-    public GenericInterfaceWrapper<ICameraContollorable,CameraController> cameraController;
+    public GenericInterfaceWrapper<ICameraContollorable,CameraController> _cameraController;
 
     //ターゲットのオブジェクト
     private ILockTargetable _target;
@@ -140,6 +140,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _energyGageParam.damageEnergyPoint = damage;
         UIMediator.Instance.Animation(_energyGageParam);
         _energyGageParam.isDamage= false;
+        _cameraController.Interface.CameraSheikh();
 
     }
 }

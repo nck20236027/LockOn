@@ -50,6 +50,10 @@ PrefabInstance:
       propertyPath: cameraController.attachedObject
       value: 
       objectReference: {fileID: 1782451843881220746}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: _cameraController.attachedObject
+      value: 
+      objectReference: {fileID: 1782451843881220746}
     - target: {fileID: 9114524071968419582, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
