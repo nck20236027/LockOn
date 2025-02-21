@@ -1,10 +1,15 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class StarEnemy : EnemyBase
 {
+    [SerializeField,Header("レーザーの色")]
+    private Color _lineColor;
+    private LineRenderer _lineRenderer;
     [SerializeField, Header("探知範囲")]
     private float _sreachDistance = 10;
     [SerializeField, Header("出す弾の本数")]
@@ -29,9 +34,10 @@ public class StarEnemy : EnemyBase
     float _bulletDestroyTime = 3;
     [SerializeField]
     GameObject _enemyBullet;
+    float _attackTime = 0;
 
     private Vector3 GetTarget => TargetManager.Instance.GetPlayerPos;
-    public override bool GetIsView => renderer.isVisible;
+    public override bool GetIsView => _renderer.isVisible;
 
     public override void Damage(int damage)
     {
@@ -39,50 +45,52 @@ public class StarEnemy : EnemyBase
     }
 
     private CancellationToken token;
-    private Renderer renderer;
+    private Renderer _renderer;
 
     private void Awake()
     {
+        _lineRenderer = GetComponent<LineRenderer>();
         token = this.GetCancellationTokenOnDestroy();
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        Attack();
+        base.Start();
+        _lineRenderer.SetPosition(1, Vector3.forward * _sreachDistance);
+        _lineRenderer.material.color = _lineColor;
+        var _ = Attack();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        _attackTime += Time.deltaTime;
+        if ((transform.position - GetTarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2))
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(GetTarget - transform.position,Vector3.up),_lookatSpeed);
+            var _ =  Attack();
+            
+        }
     }
 
-    private async UniTask Attack()
+    private async Task Attack()
     {
-        while (!token.IsCancellationRequested)
+        if (_attackTime < _enemyBulletSpan) return;
+        _attackTime = 0;
+        for (int j = 0; j < _enemyBulletCount; j++)
         {
-            if ((transform.position - GetTarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2))
+            for (int i = -_enemyBulletLineCount; i < _enemyBulletLineCount; i++)
             {
-
-                for (int j = 0; j < _enemyBulletCount; j++)
-                {
-                    for (int i = -_enemyBulletLineCount; i < _enemyBulletLineCount; i++)
-                    {
-                        Quaternion _rotation = transform.rotation * Quaternion.Euler(0, _enemyBulletRotation * i, 0);
-                        Vector3 _pos = _rotation * Vector3.forward * _enemyBulletInstatiateDistance;
-                        EnemyBullet bullet = Instantiate(_enemyBullet, transform.position + _pos, _rotation).GetComponent<EnemyBullet>();
-                        bullet.moveSpeed = _bulletSpeed;
-                        bullet.BulletPowor = _bulletPowor;
-                        Destroy(bullet.gameObject);
-                    }
-                    await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletDistance));
-                }
-                await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletSpan));
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(GetTarget, transform.position),_lookatSpeed);
+                Quaternion _rotation = transform.rotation * Quaternion.Euler(0, _enemyBulletRotation * i, 0);
+                Vector3 _pos = _rotation * Vector3.forward * _enemyBulletInstatiateDistance;
+                EnemyBullet bullet = Instantiate(_enemyBullet, transform.position + _pos, _rotation).GetComponent<EnemyBullet>();
+                bullet.moveSpeed = _bulletSpeed;
+                bullet.BulletPowor = _bulletPowor;
+                Destroy(bullet.gameObject, _bulletDestroyTime);
             }
-            await UniTask.Delay(0);
+            await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletDistance));
         }
     }
 }

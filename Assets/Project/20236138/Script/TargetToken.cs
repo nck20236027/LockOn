@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TargetToken : MonoBehaviour,ILockTargetable
 {
-    private Renderer renderer;
-    public bool GetIsView { get { return renderer.isVisible; } }
+    private Renderer _renderer;
+    public bool GetIsView { get { return _renderer.isVisible; } }
 
     public Vector3 GetTokenPosition => transform.position;
 
@@ -14,7 +14,7 @@ public class TargetToken : MonoBehaviour,ILockTargetable
     // Start is called before the first frame update
     void Start()
     {
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
         TargetManager.Instance.AddLockTarget(this);
     }
 
