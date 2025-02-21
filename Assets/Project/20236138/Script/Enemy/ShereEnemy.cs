@@ -44,9 +44,9 @@ public class ShereEnemy : EnemyBase
 
         }
     }
-    public override bool GetIsView => renderer.isVisible;
+    public override bool GetIsView => _renderer.isVisible;
 
-    Renderer renderer;
+    Renderer _renderer;
     public override void Damage(int damage)
     {
         Destroy(this.gameObject);
@@ -56,13 +56,13 @@ public class ShereEnemy : EnemyBase
     {
         _lineRenderer = GetComponent<LineRenderer>();
         cancellationToken = gameObject.GetCancellationTokenOnDestroy();
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
     }
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         base.Start();
-        Attack();
+        var _ = Attack();
         _lineRenderer.positionCount = _cornerCount;
         float _rotationCircle = 360 / _cornerCount;
         for (int i = 0; i < _cornerCount; i++)
@@ -79,7 +79,7 @@ public class ShereEnemy : EnemyBase
         
     }
 
-    protected void OnDestroy()
+    protected override void OnDestroy()
     {
         base.OnDestroy();
         

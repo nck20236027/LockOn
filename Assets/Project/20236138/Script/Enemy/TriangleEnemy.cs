@@ -12,7 +12,7 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
 
     [SerializeField]
     private MoveStatus _moveStatus;
-    public override bool GetIsView => renderer.isVisible;
+    public override bool GetIsView => _renderer.isVisible;
 
     public Transform GetPos => transform;
 
@@ -26,7 +26,7 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     }
 
     //コンポーネント
-    Renderer renderer;
+    Renderer _renderer;
     Rigidbody rb;
 
     [SerializeField]
@@ -35,13 +35,13 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     private bool _isTracking = false;
     private void Awake()
     {
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
     }
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
+        base.Start();
     }
 
     // Update is called once per frame
@@ -59,7 +59,7 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
         }
     }
 
-    protected void OnDestroy()
+    protected override void OnDestroy()
     {
         base.OnDestroy();
 

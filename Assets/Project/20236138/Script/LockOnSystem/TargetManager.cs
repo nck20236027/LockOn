@@ -5,9 +5,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TargetManager : MonoBehaviour,IhasTargetPos
+public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
 {
-    private TargetUIParam param;
+    private SubTargetUIParam _subTragetParam;
+    private TargetUIParam _targetParam;
     public static TargetManager Instance;
     [SerializeField]
     List<ILockTargetable> targets = new();
@@ -24,14 +25,20 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
     public ILockTargetable GetTarget => target != null ?  target : null;
     public Vector3 GetPlayerPos => _player.transform.position;
 
+    public List<Vector3> ISubTargetUIList => 
+        targets.Where(x => IsTargetTerms(x)).Select(x => x.GetTokenPosition).ToList();
+
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else Destroy(gameObject);
 
-        param = new();
-        param.targetPos = this;
+        _targetParam = new();
+        _targetParam.targetPos = this;
+
+        _subTragetParam = new SubTargetUIParam();
+        _subTragetParam.subTargetUI = this;
     }
     // Start is called before the first frame update
     void Start()
@@ -42,8 +49,10 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
         inputActions.Player.LLock.started += (x) => ChangeTarget(-1);
         inputActions.Player.RLock.started += (x) => ChangeTarget(1);
 
-        UIMediator.Instance.Init(param);
-        UIMediator.Instance.Animation(param);
+        UIMediator.Instance.Init(_targetParam);
+        UIMediator.Instance.Animation(_targetParam);
+
+        UIMediator.Instance.Init(_subTragetParam);
     }
 
     private void OnDestroy()
@@ -54,7 +63,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
     // Update is called once per frame
     void Update()
     {
-        
+        UIMediator.Instance.Reload(_subTragetParam);
     }
 
     //ターゲットに登録するメソッド
@@ -90,6 +99,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos
             target = cameraInTargets.First();
         }
         _player.ChangeTarget(target);
+        UIMediator.Instance.Animation(_targetParam);
     }
     //ターゲットをロックする条件
     private bool IsTargetTerms(ILockTargetable token) => token.GetIsView
