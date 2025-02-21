@@ -61,8 +61,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _energyGageParam.energyTimeLost = 0;
         _energyGageParam.damageEnergyPoint = 0;
 
-        _playerInput = new();
-        _playerInput.Enable();
+        _playerInput = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
         _playerInput.Player.Boost.started += BoostAction;
         _playerInput.Player.Boost.canceled += BoostAction;
         _playerInput.Player.Deceleration.started += DecelerationAction;
@@ -72,11 +71,6 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
 
 
         UIMediator.Instance.Init(_energyGageParam);
-    }
-
-    void OnDestroy()
-    {
-        _playerInput.Disable();
     }
 
     // Update is called once per frame

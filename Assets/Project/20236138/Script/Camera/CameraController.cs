@@ -14,32 +14,6 @@ public enum CameraType
 
 public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClass
 {
-#if a
-    [SerializeField]
-    InputAction action;
-    [SerializeField, Header("êUìÆÇÃç≈ëÂÇÃã≠Ç≥")]
-    private float shaikhPowor;
-    [SerializeField, Header("êUìÆÇÃóhÇÍÇÃä‘äu")]
-    private float shaikhInterval;
-
-     public CinemachineInputProvider inputProvider;
-
-
-    private void Start()
-    {
-
-        for(int i = 0; action.bindings.Count > i; i++)
-        {
-            Debug.Log(action.bindings[i].processors);
-        }
-            
-        ;
-        _impulseSource.m_ImpulseDefinition.m_AmplitudeGain = shaikhPowor;
-        _impulseSource.m_ImpulseDefinition.m_FrequencyGain = shaikhInterval;
-
-    }
-#endif
-
     [SerializeField] 
     private CinemachineVirtualCamera _virtualCamera;
     [SerializeField]
@@ -51,8 +25,6 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     private float _minIntensity;
     public float MinIntensity { get => _minIntensity; set => _minIntensity = value; }
 
-    [SerializeField]
-    InputAction _stickAction = new InputAction();
 
     [SerializeField, Header("ÉXÉeÉBÉbÉNÇ≈ÇÃÉJÉÅÉâà⁄ìÆÇÃÇÕÇ‚Ç≥")]
     float _basisStickSpeed;
@@ -69,11 +41,8 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     void Start()
     {
         ServiceLocator<CameraController>.Register(this);
-        _stickAction = new InputAction(
-            "Move",
-            InputActionType.PassThrough,
-            expectedControlType:"Vector2");
-
+        PlayerAction actions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
+        InputAction _stickAction = actions.FindAction("Move");
         _stickAction.AddBinding("<Gamepad>/RightStick").
             WithProcessor($"scalevector2(x={_basisStickSpeed},y={_basisStickSpeed})").WithName("Mouse");
         _stickAction.AddBinding("<Mouse>/Delta").
@@ -91,7 +60,6 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
                 Vector2 vec = x.ReadValue<Vector2>();
                 _moveVector = vec;
             };
-        _stickAction.Enable();
     }
 
     private void Update()
