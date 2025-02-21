@@ -12,5 +12,6 @@ public class GameQuiter : IQuitAction
     public void OnQuitAction()
     {
         ServiceLocator<SceneLoader>.GetInstance().LoadScene("TitleScene", 1f, 1f);
+        Time.timeScale = 1.0f;
     }
 }
