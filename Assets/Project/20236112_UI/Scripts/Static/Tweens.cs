@@ -14,6 +14,7 @@ public static class Tweens
     {
         return LMotion.Create(initColor, targetColor, duration)
             .WithEase(ease)
+            .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
             .WithOnComplete(() => tweenText.color = targetColor)
             .Bind(tweenColor => tweenText.color = tweenColor)
             .AddTo(gameObject);
@@ -23,6 +24,7 @@ public static class Tweens
     {
         return LMotion.Create(initScale, targetScale, duration)
             .WithEase(ease)
+            .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
             .WithOnComplete(() => tweenTransform.localScale = targetScale)
             .Bind(tweenScale => tweenTransform.localScale = tweenScale)
             .AddTo(gameObject);
@@ -32,6 +34,7 @@ public static class Tweens
     {
         return LMotion.Create(initSize, targetSize, duration)
             .WithEase(ease)
+            .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
             .WithOnComplete(() => tweenText.fontSize = targetSize)
             .Bind(tweenSize => tweenText.fontSize = tweenSize)
             .AddTo(gameObject);
@@ -41,6 +44,7 @@ public static class Tweens
     {
         return LMotion.Create(initImageColor, targetImageColor, duration)
             .WithEase(ease)
+            .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
             .WithOnComplete(() => tweenImage.color = targetImageColor)
             .Bind(tweenColor => tweenImage.color = tweenColor)
             .AddTo(gameObject);

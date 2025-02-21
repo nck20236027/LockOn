@@ -79,6 +79,7 @@ public class InputHandler
     public void OnSubmit(InputAction.CallbackContext context)
     {
         //SetMenuInput();
+        Debug.Log($"1111111");
         onMenuSubmit();
     }
 
@@ -174,6 +175,7 @@ public class InputHandler
         SetOptionInputEnable(false);
         SetQuitInputEnable(false);
         Debug.Log($"SetPlayerInput");
+        Time.timeScale = 1.0f;
     }
 
     public void SetMenuInput()             //ƒƒjƒ…[‚¾‚¯
@@ -183,6 +185,7 @@ public class InputHandler
         SetOptionInputEnable(false);
         SetQuitInputEnable(false);
         Debug.Log($"SetMenuInput");
+        Time.timeScale = 0f;
     }
 
     public void SetOptionInput()

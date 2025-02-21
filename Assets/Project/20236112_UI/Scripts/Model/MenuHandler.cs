@@ -142,7 +142,7 @@ public class MenuHandler : MonoBehaviour
         Debug.Log(direction);
         settingParam.currentIndex = _optionCurrentIndex;
         settingParam.changeAmount = changeAmoutValues[_currentIndex] * direction;
-        Debug.Log($"model,{settingParam.changeAmount}");
+        //Debug.Log($"model,{settingParam.changeAmount}");
         UIMediator.Instance.Reload(settingParam);
     }
 
