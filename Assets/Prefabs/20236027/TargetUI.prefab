@@ -138,8 +138,8 @@ MonoBehaviour:
   _colorLoopCount: 1
   _colorLoopType: 3
   _colorEaseType: 0
-  _ScaleStart: {x: 4, y: 4, z: 4}
-  _scaleEnd: {x: 0.5, y: 0.5, z: 0.5}
+  _ScaleStart: {x: 5, y: 5, z: 5}
+  _scaleEnd: {x: 2, y: 2, z: 2}
   _scaleMoveUITimer: 1
   _scaleLoopCount: 1
   _scaleLoopType: 0
