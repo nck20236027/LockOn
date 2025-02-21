@@ -14,7 +14,7 @@ public class TitleInputHandler
 
     public void Init()
     {
-        _playerActions = new PlayerAction();
+        _playerActions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
         _playerActions.Title.Enable();
         _playerActions.Title.Submit.canceled += OnStartSubmit;
         _playerActions.Title.Navigate.performed += OnTitleSelectY;

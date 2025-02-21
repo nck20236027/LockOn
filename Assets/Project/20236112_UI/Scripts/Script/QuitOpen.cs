@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class QuitOpen : IMenuAction
+
 {
     PauseParam pauseParam;
     QuitParam quitParam;

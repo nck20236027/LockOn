@@ -29,7 +29,8 @@ public class InputHandler
 
     public void Init()
     {
-        _playerAction = new PlayerAction();
+        _playerAction = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
+
         SetPlayerInput();
 
         _playerAction.Player.Menu.canceled += OnMenu; //Ç±Ç±Ç≈ìoò^
@@ -77,7 +78,7 @@ public class InputHandler
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
-        SetMenuInput();
+        //SetMenuInput();
         onMenuSubmit();
     }
 
@@ -172,6 +173,7 @@ public class InputHandler
         SetMenuInputEnable(false);
         SetOptionInputEnable(false);
         SetQuitInputEnable(false);
+        Debug.Log($"SetPlayerInput");
     }
 
     public void SetMenuInput()             //ÉÅÉjÉÖÅ[ÇæÇØ
@@ -180,6 +182,7 @@ public class InputHandler
         SetMenuInputEnable(true);
         SetOptionInputEnable(false);
         SetQuitInputEnable(false);
+        Debug.Log($"SetMenuInput");
     }
 
     public void SetOptionInput()
@@ -188,6 +191,7 @@ public class InputHandler
         SetMenuInputEnable(false);
         SetOptionInputEnable(true);
         SetQuitInputEnable(false);
+        Debug.Log($"SetOptionInput");
     }
 
     public void SetQuitInput()
@@ -196,6 +200,7 @@ public class InputHandler
         SetMenuInputEnable(false);
         SetOptionInputEnable(false);
         SetQuitInputEnable(true);
+        Debug.Log($"SetQuitInput");
     }
 
 

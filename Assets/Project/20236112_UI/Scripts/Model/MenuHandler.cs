@@ -41,14 +41,15 @@ public class MenuHandler : MonoBehaviour
 
     private void Awake()
     {
-        menuActions.Add(new MenuClose(pauseParam, inputHandler.SetMenuInput));
+
+        menuActions.Add(new MenuClose(pauseParam, inputHandler.SetPlayerInput));
         menuActions.Add(new OptionOpen(settingParam, pauseParam, inputHandler.SetOptionInput));
         menuActions.Add(new QuitOpen(pauseParam, quitParam, inputHandler.SetQuitInput));
 
         quitActions.Add(new QuitClose(pauseParam, quitParam, inputHandler.SetMenuInput));
         quitActions.Add(new GameQuiter());
 
-        menuClose = new MenuClose(pauseParam, inputHandler.SetPlayerInput);
+        //menuClose = new MenuClose(pauseParam, inputHandler.SetPlayerInput);
         optionClose = new OptionClose(pauseParam, settingParam, inputHandler.SetMenuInput);
         quitClose = new QuitClose(pauseParam, quitParam, inputHandler.SetQuitInput);
 

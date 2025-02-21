@@ -66,7 +66,7 @@ public class QuitView : ViewBase
     {
 
         var quitParam = param as QuitParam;
-        Debug.Log(quitParam.currentIndex);
+        //Debug.Log(quitParam.currentIndex);
         Text tweenText = texts[quitParam.currentIndex];
         Text beforeText = texts[beforeIndex];
 
