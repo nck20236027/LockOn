@@ -267,6 +267,14 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1650724920}
+    - target: {fileID: 5262617982579914908, guid: b3a45c43d8b4d7f41b38fe44840e0f8b, type: 3}
+      propertyPath: viewPrefabs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5262617982579914908, guid: b3a45c43d8b4d7f41b38fe44840e0f8b, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[5]'
+      value: 
+      objectReference: {fileID: 4380592010185510148, guid: e3744a2d18c30e44bb27ca2f2f61715a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

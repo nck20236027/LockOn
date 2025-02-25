@@ -20,6 +20,17 @@ public static class Tweens
             .AddTo(gameObject);
     }
 
+    public static MotionHandle TextTransformTween(RectTransform tweenTransform, Vector3 initPosition, Vector3 tergetPosition, float duration, LitMotion.Ease ease, GameObject gameObject)
+    {
+        return LMotion.Create(initPosition, tergetPosition, duration)
+            .WithEase(ease)
+            .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
+            .WithOnComplete(() => tweenTransform.localPosition = tergetPosition)
+            .Bind(tweenPositon => tweenTransform.localPosition = tweenPositon)
+            .AddTo(gameObject);
+    }
+
+
     public static MotionHandle ImageScaleTween(RectTransform tweenTransform, Vector3 initScale, Vector3 targetScale, float duration, LitMotion.Ease ease, GameObject gameObject)
     {
         return LMotion.Create(initScale, targetScale, duration)
