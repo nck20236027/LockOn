@@ -17,10 +17,10 @@ public class RocketMove
                 0.3478548f,
     };
     
-    public Vector3 GetOrbit()
-    {
+    //public Vector3 GetOrbit()
+    //{
 
-    }
+    //}
 
                 private float GetBezierLength(float3 start, float3 startTangent, float3 end, float3 endTangent)
     {
