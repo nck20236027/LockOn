@@ -5,12 +5,6 @@ using UnityEngine.UI;
 
 public class QuitView : ViewBase
 {
-    //[SerializeField]
-    //private Button acceptButton;
-
-    //[SerializeField]
-    //private Button quitCancelButton;
-
     [SerializeField]
     private Text[] texts;
     private int beforeIndex;
