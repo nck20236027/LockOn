@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class StateMachine : IStateMachine
+public class EnemyStateMachine : IMadeStateMachine
 {
-    private Dictionary<ModeStateType, ModeStateBase> stateDic = new Dictionary<ModeStateType, ModeStateBase>();
+    private Dictionary<int, EnemyModeStateBase> stateDic = new ();
 
-    private ModeStateBase currentState;
-    public ModeStateBase CurrentState => currentState;
+    private EnemyModeStateBase currentState;
+    public EnemyModeStateBase CurrentState => currentState;
 
-    public StateMachine(Player player)
+    public EnemyStateMachine(CoreEnemy enemy)
     {
         
 
-        stateDic.Add(ModeStateType.Deceleration, ModeStateFactory.Create(ModeStateType.Deceleration,this,player));
-        stateDic.Add(ModeStateType.Move, ModeStateFactory.Create(ModeStateType.Move, this, player));
-        stateDic.Add(ModeStateType.Boost, ModeStateFactory.Create(ModeStateType.Boost, this, player));
-        stateDic.Add(ModeStateType.BeforBoost, ModeStateFactory.Create(ModeStateType.BeforBoost, this, player));
+        
     }
 
-    public void ChangeState(ModeStateType changeStateType)
+    public void ChangeState(int changeStateType)
     {
         currentState.OnExit();
 
@@ -29,7 +26,7 @@ public class StateMachine : IStateMachine
         currentState.OnEnter();
     }
 
-    public void Initialize(ModeStateType initStateType)
+    public void Initialize(int initStateType)
     {
         currentState = stateDic[initStateType];
 
@@ -56,28 +53,22 @@ public class StateMachine : IStateMachine
     }
 }
 
-public enum ModeStateType
+public enum CoreEnemyState
 {
-    BeforBoost,
-    Boost,
-    Move,
-    Deceleration,
-
+    Idle = 0,
+    Act1 = 1,
+    Act2 = 2,
+    Act3 = 3
 }
 
-public static class ModeStateFactory
+public static class MadeModeStateFactory
 {
-    public static ModeStateBase Create(ModeStateType stateType, StateMachine modeStateContext,Player player)
+    public static ModeStateBase Create(int stateType, EnemyStateMachine modeStateContext)
     {
         switch (stateType)
         {
 
-            case ModeStateType.Move: return new MoveState(modeStateContext , player);
 
-            case ModeStateType.Deceleration: return new DecelerationState(modeStateContext,player);
-            
-
-            case ModeStateType.Boost: return new BoostState(modeStateContext, player);
         }
 
         return null;

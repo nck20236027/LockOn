@@ -82,5 +82,10 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     {
         _virtualCamera.enabled = !_virtualCamera.enabled;
     }
-    
+
+
+    private void OnDestroy()
+    {
+        ServiceLocator<CameraController>.RemoveInstance(this);
+    }
 }

@@ -10,7 +10,7 @@ public class MoveStatus
     public AnimationCurve Curve => _curve;
     [SerializeField, Header("オブジェクトの最大の速さ")]
     protected float _maxSpeed;
-    public float MaxSpeed => _maxSpeed;
+    public float MaxSpeed { get; set; }
     [SerializeField, Header("方向転換のしやすさ")]
     protected float _bendability;
     public float Bendability => _bendability;

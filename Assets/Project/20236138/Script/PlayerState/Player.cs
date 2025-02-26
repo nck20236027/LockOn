@@ -137,6 +137,15 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _cameraController.Interface.CameraSheikh();
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        IDamagable damagable  = other.GetComponent<IDamagable>();
+        if(damagable != null)
+        {
+            damagable.Damage(1);
+        }
+    }
 }
 
 

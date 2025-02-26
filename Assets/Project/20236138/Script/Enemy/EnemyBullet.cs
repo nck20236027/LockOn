@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    public float moveSpeed  = 0;
-    public int BulletPowor = 0;
+
+    public EnemyBulletStatus status;
+    private float _nowTime = 0;
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position += transform.forward * moveSpeed * Time.fixedDeltaTime;
+        _nowTime += Time.fixedDeltaTime;
+        if (_nowTime >= status._bulletPowor)
+        {
+            Clear();
+        }
+        transform.position += transform.forward * status._moveSpeed * Time.fixedDeltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,7 +23,13 @@ public class EnemyBullet : MonoBehaviour
         IDamagable damagable = other.GetComponent<IDamagable>();
         if (damagable != null)
         {
-            damagable.Damage(BulletPowor);
+            damagable.Damage(status._bulletPowor);
         }
+    }
+
+    private void Clear()
+    {
+        _nowTime = 0;
+        gameObject.SetActive(false);
     }
 }

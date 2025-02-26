@@ -76,6 +76,11 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
     public void RemoveLockTarget(ILockTargetable target)
     {
         targets.Remove(target);
+        if(this.target == target)
+        {
+            this.target = null;
+            _player.ChangeTarget(null);
+        }
     }
 
     //ロックするターゲットを変更
