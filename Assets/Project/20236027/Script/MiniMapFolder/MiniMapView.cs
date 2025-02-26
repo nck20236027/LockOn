@@ -7,7 +7,7 @@ public class MiniMapView : ViewBase
 {
     [Header("ミニマップのゲームオブジェクト")]
     [SerializeField] private Transform miniMapTransform;
-
+    [SerializeField] private float miniMapScale;
     //[Header("詳細")]
     //[SerializeField] private float _miniMapScale;
     //private float _cameraRotation;
@@ -32,7 +32,7 @@ public class MiniMapView : ViewBase
         MiniMapParam miniMapParam = param as MiniMapParam;
         pos = miniMapTransform.transform.position;//ここは座標指定
         pos.x = miniMapParam.rocketTransformX;
-        pos.y = 500f;//適当
+        pos.y = miniMapScale;//適当
         pos.z = miniMapParam.rocketTransformZ;
         miniMapTransform.transform.position = pos;
 
