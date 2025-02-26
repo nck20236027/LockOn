@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class RocketMove 
+public class NowRocketMove 
 {
     private const int BEZIER_SAMPLES = 10000;
     private List<float> GaussLegendrePoints = new List<float>() {  
