@@ -24,16 +24,13 @@ public class StarEnemy : EnemyBase
     float _enemyBulletSpan = 5;
     [SerializeField,Header("’e‚ªo‚Ä‚­‚é‹——£")]
     int _enemyBulletInstatiateDistance = 10;
-    [SerializeField, Header("UŒ‚—Í")]
-    private int _bulletPowor = 1;
-    [SerializeField, Header("’e‚ÌƒXƒs[ƒh")]
-    private int _bulletSpeed = 10;
+    [SerializeField]
+    private EnemyBulletStatus status;
     [SerializeField, Header("U‚è‚Þ‚­‘¬‚³")]
     float _lookatSpeed;
     [SerializeField, Header("’e‚ªÁ‚¦‚é‚Ü‚Å‚Ì•b”")]
     float _bulletDestroyTime = 3;
-    [SerializeField]
-    GameObject _enemyBullet;
+    EnemyBulletPool _pool;
     float _attackTime = 0;
 
     private Vector3 GetTarget => TargetManager.Instance.GetPlayerPos;
@@ -61,6 +58,7 @@ public class StarEnemy : EnemyBase
         _lineRenderer.SetPosition(1, Vector3.forward * _sreachDistance);
         _lineRenderer.material.color = _lineColor;
         var _ = Attack();
+        _pool = ServiceLocator<EnemyBulletPool>.GetInstance();
     }
 
     // Update is called once per frame
@@ -75,7 +73,7 @@ public class StarEnemy : EnemyBase
         }
     }
 
-    private async Task Attack()
+    private async UniTask Attack()
     {
         if (_attackTime < _enemyBulletSpan) return;
         _attackTime = 0;
@@ -85,10 +83,7 @@ public class StarEnemy : EnemyBase
             {
                 Quaternion _rotation = transform.rotation * Quaternion.Euler(0, _enemyBulletRotation * i, 0);
                 Vector3 _pos = _rotation * Vector3.forward * _enemyBulletInstatiateDistance;
-                EnemyBullet bullet = Instantiate(_enemyBullet, transform.position + _pos, _rotation).GetComponent<EnemyBullet>();
-                bullet.moveSpeed = _bulletSpeed;
-                bullet.BulletPowor = _bulletPowor;
-                Destroy(bullet.gameObject, _bulletDestroyTime);
+                _pool.GetBullet(transform.position + _pos, _rotation,status);
             }
             await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletDistance));
         }

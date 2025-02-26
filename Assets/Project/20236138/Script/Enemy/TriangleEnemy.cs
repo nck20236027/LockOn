@@ -8,7 +8,11 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     private float _sreachDistance = 10;
     [SerializeField, Header("Ž©”š‚·‚é‚Ü‚Å‚ÌŽžŠÔ")]
     private float _timeDestruction = 4f;
+    [SerializeField,Header("’ÇÕŽž‚Ì‘¬“x")]
+    private float _chaseSpeed = 10;
     private float _nowTimeDestruntion = 0;
+    [SerializeField, Header("Ž©”šŽž‚ÌUŒ‚—Í")]
+    private float _selfDistructionDamage = 10;
 
     [SerializeField]
     private MoveStatus _moveStatus;
@@ -18,7 +22,7 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
 
     public Rigidbody GetRigidbody => rb;
 
-    public Vector3 Gettarget => TargetManager.Instance.GetPlayerPos;
+    public Vector3 Gettarget => _isTracking ? TargetManager.Instance.GetPlayerPos : Vector3.zero;
 
     public override void Damage(int damage)
     {
@@ -29,10 +33,15 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     Renderer _renderer;
     Rigidbody rb;
 
-    [SerializeField]
-    MoveState moveState;
-
     private bool _isTracking = false;
+    public void SetStatus(float _selfDestructionTime , float _timeDestruction,float _chaseSpeed,MoveStatus status,bool _isTracking)
+    {
+        this._selfDistructionDamage = _selfDestructionTime;
+        this._timeDestruction = _timeDestruction;
+        this._chaseSpeed = _chaseSpeed;
+        this._moveStatus = status;
+        this._isTracking = _isTracking;
+    }
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
@@ -47,11 +56,12 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     // Update is called once per frame
     void FixedUpdate()
     {
+            RocetMove.MoveTarget(this, _moveStatus, _nowTimeDestruntion);
         if ((GetPos.position - Gettarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2) || _isTracking)
         {
-            _isTracking = true;  
+            _isTracking = true;
+            _moveStatus.MaxSpeed = _chaseSpeed;
             _nowTimeDestruntion += Time.fixedDeltaTime;
-            RocetMove.MoveTarget(this, _moveStatus, _nowTimeDestruntion);
             if (_nowTimeDestruntion > _timeDestruction)
             {
                 Destroy(gameObject);

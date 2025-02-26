@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class ShereEnemy : EnemyBase
 {
-    [SerializeField]
+    [SerializeField,Header("UŒ‚”ÍˆÍ‚Ì•\Ž¦‚É‰½‚©Š‚ÌŠp‚ðì‚é‚©")]
     private int _cornerCount = 1;
     CancellationToken cancellationToken;
     [SerializeField, Header("’e‚ª‰½•b‚¨‚«‚Éo‚Ä‚­‚é‚©")]
@@ -18,13 +18,10 @@ public class ShereEnemy : EnemyBase
     private int _maxBulletDistance = 1;
     [SerializeField, Header("UŒ‚”ÍˆÍ")]
     private float _distanceAttack = 2;
-    [SerializeField,Header("’e‚Ì‘¬‚³")]
-    private float _bulletSpeed = 2;
-    [SerializeField, Header("UŒ‚—Í")]
-    private int _bulletPowor = 1;
-    private float DestroyTime => (_distanceAttack - _maxBulletDistance) / _bulletSpeed; 
     [SerializeField]
-    GameObject _bullet;
+    private EnemyBulletStatus _status;
+    private float DestroyTime => (_distanceAttack - _maxBulletDistance) / _status._moveSpeed; 
+    private EnemyBulletPool _pool;
 
     private LineRenderer _lineRenderer;
     private async UniTask Attack()
@@ -36,10 +33,8 @@ public class ShereEnemy : EnemyBase
             _bulletCount %= 360;
             Quaternion _rotation = transform.rotation * Quaternion.Euler(0,_bulletCount,0) ;
             Vector3 _vector = _rotation * Vector3.forward;
-            EnemyBullet bullet = Instantiate(_bullet, transform.position + _vector * _maxBulletDistance, _rotation).GetComponent<EnemyBullet>();
-            bullet.moveSpeed = _bulletSpeed;
-            bullet.BulletPowor = _bulletPowor;
-            Destroy(bullet.gameObject, DestroyTime);
+            _status._DestroyTime = DestroyTime;
+            _pool.GetBullet(transform.position + _vector * _maxBulletDistance, _rotation,_status);
             await UniTask.Delay(TimeSpan.FromSeconds(_bulletTimeSpan),cancellationToken:cancellationToken);
 
         }
@@ -49,7 +44,7 @@ public class ShereEnemy : EnemyBase
     Renderer _renderer;
     public override void Damage(int damage)
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     private void Awake()
@@ -62,6 +57,7 @@ public class ShereEnemy : EnemyBase
     protected override void Start()
     {
         base.Start();
+        _pool = ServiceLocator<EnemyBulletPool>.GetInstance();
         var _ = Attack();
         _lineRenderer.positionCount = _cornerCount;
         float _rotationCircle = 360 / _cornerCount;
@@ -71,6 +67,7 @@ public class ShereEnemy : EnemyBase
             Vector3 _pos = _rotation * Vector3.forward * _distanceAttack;
             _lineRenderer.SetPosition(i,_pos);
         }
+
     }
 
     // Update is called once per frame
@@ -82,6 +79,5 @@ public class ShereEnemy : EnemyBase
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        
     }
 }
