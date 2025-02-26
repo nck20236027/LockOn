@@ -13,7 +13,7 @@ public class SubTargetUIModel : MonoBehaviour,ISubTargetUI
     void Start()
     {
         param.subTargetUI = this;
-        UIMediator.Instance.Init(param);
+        ServiceLocator<UIMediator>.GetInstance().Init(param);
 
         //ÉåÉìÉ_ÉâÅ[ÇÃisvisible
         
@@ -22,6 +22,6 @@ public class SubTargetUIModel : MonoBehaviour,ISubTargetUI
     // Update is called once per frame
     void Update()
     {
-        UIMediator.Instance.Reload(param);
+        ServiceLocator<UIMediator>.GetInstance().Reload(param);
     }
 }

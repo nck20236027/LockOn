@@ -24,7 +24,7 @@ public class EnergyGageModel : MonoBehaviour
         param.energyTimeLost = energyTimeLost;
         param.buttonState = ButtonState.Non;
 
-        UIMediator.Instance.Init(param);
+        ServiceLocator<UIMediator>.GetInstance().Init(param);
         Debug.Log($"{1f/200f}");
     }
 
@@ -34,7 +34,7 @@ public class EnergyGageModel : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             param.damageEnergyPoint = damagePoint;
-            UIMediator.Instance.Animation(param);
+            ServiceLocator<UIMediator>.GetInstance().Animation(param);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -53,7 +53,7 @@ public class EnergyGageModel : MonoBehaviour
             param.energyTimeLost = 1f;
         }
 
-        UIMediator.Instance.Reload(param);
+        ServiceLocator<UIMediator>.GetInstance().Reload(param);
         param.buttonState = ButtonState.Non;
     }
 }

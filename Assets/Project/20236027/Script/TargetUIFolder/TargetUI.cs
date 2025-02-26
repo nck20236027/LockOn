@@ -9,25 +9,25 @@ public class TargetUI : MonoBehaviour, IhasTargetPos
     TargetToken target;
     public ILockTargetable GetTarget => target;
 
-    private TargetUIParam param = new TargetUIParam();
+    private TargetUIParam targetParam = new TargetUIParam();
     void Start()
     {
-        param.targetPos = this;
-        UIMediator.Instance.Init(param);
-        UIMediator.Instance.Animation(param);
+        targetParam.targetPos = this;
+        ServiceLocator<UIMediator>.GetInstance().Init(targetParam);
+        ServiceLocator<UIMediator>.GetInstance().Animation(targetParam);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            UIMediator.Instance.Hide(param);
+            ServiceLocator<UIMediator>.GetInstance().Hide(targetParam);
         }
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            UIMediator.Instance.Show(param);
+            ServiceLocator<UIMediator>.GetInstance().Show(targetParam);
         }
     }
 }

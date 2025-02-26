@@ -25,7 +25,7 @@ public class MiniMapModel : MonoBehaviour
     void Start()
     {
         //param.cameraTransformPos = this;
-        UIMediator.Instance.Init(miniMapParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(miniMapParam);
     }
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class MiniMapModel : MonoBehaviour
         miniMapParam.rocketTransformZ = _rocketTransformPosition.transform.position.z;
 
         miniMapParam.cameraRotationY = _cameraTransformRotation.transform.eulerAngles.y;
-        UIMediator.Instance.Reload(miniMapParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(miniMapParam);
 
 
        // pos = miniMapPos.transform.position;    //
