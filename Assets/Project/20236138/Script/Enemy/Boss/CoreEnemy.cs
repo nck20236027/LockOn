@@ -1,5 +1,8 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using UnityEditor.iOS.Xcode;
 using UnityEngine;
 
 
@@ -25,6 +28,14 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     [SerializeField, Header("UŒ‚”ÍˆÍ‚Ì”¼Œa")]
     private float _act1AttackDistanse = 20;
     public float Act1AttackDistanse => _act1AttackDistanse;
+    [SerializeField,Header("’e‚ª¶¬‚³‚ê‚é‹——£")]
+    private float _distanceAttack = 2;
+    public float DistanceAttack => _distanceAttack;
+    [SerializeField, Header("’e‚ªˆêŽü‰½•b‚ÅI‚í‚è‚©")]
+    private float _bulletAround = 3;
+    public float BulletAround => _bulletAround;
+    public float Act1DestroyTime =>
+        (_distanceAttack - _act1AttackDistanse) / _act1BulletStatus._moveSpeed;
     [SerializeField]
     EnemyBulletStatus _act1BulletStatus;
     public EnemyBulletStatus Act1BulletStatus => _act1BulletStatus;
@@ -86,8 +97,11 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     //UŒ‚’†‚©‚Ç‚¤‚©
     private bool _isAttack = false;
 
-    EnemyStateMachine _stateMachin;
-
+    private EnemyStateMachine _stateMachin;
+    private CancellationToken _token;
+    public CancellationToken Token => _token;
+    private EnemyBulletPool _bulletPool;
+    public EnemyBulletPool BulletPool => _bulletPool;
     public override bool GetIsView => _renderer.isVisible;
 
     public override void Damage(int damage)
@@ -99,7 +113,6 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     }
 
 
-    private EnemyBulletPool _bulletPool;
     private void Awake()
     {
         _nowCoreHp = _MaxCoreHp;
@@ -111,12 +124,18 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     protected override void Start()
     {
         base.Start();
+        _token = this.GetCancellationTokenOnDestroy();
         _bulletPool = ServiceLocator<EnemyBulletPool>.GetInstance();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        _stateMachin.OnUpdate();
+    }
+
+    private void FixedUpdate()
+    {
+        _stateMachin.OnFixedUpdate();
     }
 }

@@ -11,7 +11,7 @@ public class EnemyBullet : MonoBehaviour
     void FixedUpdate()
     {
         _nowTime += Time.fixedDeltaTime;
-        if (_nowTime >= status._bulletPowor)
+        if (_nowTime >= status._DestroyTime)
         {
             Clear();
         }
