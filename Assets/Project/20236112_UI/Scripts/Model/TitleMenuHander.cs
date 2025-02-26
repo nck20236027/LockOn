@@ -17,6 +17,8 @@ public class TitleMenuHander : MonoBehaviour
 
     private void Awake()
     {
+
+
         _titleActions.Add(new GameStart(_titleParam, _titleInputHandler.SetGameStart));
         _titleActions.Add(new OpenGameEnd(_titleParam, _titleInputHandler.SetGameEnd));
 
@@ -25,13 +27,14 @@ public class TitleMenuHander : MonoBehaviour
 
         _closeEnder = new CloseEnder(_titleParam, _gameEndParam, _titleInputHandler.SetTitle);
 
+
         _titleInputHandler._onStartSubmit = OnTitleSubmit;
         _titleInputHandler._onEndSubmit = OnGameEndSubmit;
 
         _titleInputHandler._onTitleChoice = TitleChoice;
         _titleInputHandler._onGameEndChoice = GameEndChoice;
-
         _titleInputHandler.Init();
+
     }
 
     private void Start()

@@ -29,6 +29,8 @@ public class InputHandler
 
     public void Init()
     {
+
+
         _playerAction = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
 
         SetPlayerInput();

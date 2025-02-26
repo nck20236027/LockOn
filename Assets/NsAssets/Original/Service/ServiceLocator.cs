@@ -53,6 +53,8 @@ public static class ServiceLocator<T> where T : class,IServiceClass
         //削除指令が登録されたインスタンスと同一なら
         if (removeInstance == instance)
         {
+            Debug.Log($"Remove:{removeInstance}");
+
             //削除
             instanceDic.Remove(typeof(T));
         }

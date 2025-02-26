@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -32,7 +33,7 @@ public class SceneLoader : ServiceMonoBehaviour<SceneLoader>
         isTransitioning = true;
 
         fadeImage.raycastTarget = true;
-
+        //ServiceLocator<PlayerActionManager>.GetInstance().Disable();
         //フェードアウト（画面を黒くする）
         yield return FadeImage(1f,fadeOutTime);
 
@@ -45,7 +46,7 @@ public class SceneLoader : ServiceMonoBehaviour<SceneLoader>
 
         //フェードイン（画面を元に戻す）
         yield return FadeImage(0f,fadeInTime);
-
+        //ServiceLocator<PlayerActionManager>.GetInstance().Enable();
         isTransitioning = false; //シーン遷移が終わったらフラグを戻す
     }
 

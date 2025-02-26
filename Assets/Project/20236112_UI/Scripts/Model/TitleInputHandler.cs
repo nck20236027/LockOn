@@ -91,9 +91,9 @@ public class TitleInputHandler
 
     public void SetGameStart()      //ゲーム開始
     {
-        OnPlayerInputEneble(true);
-        OnGameEndInputEneble(false);
-        OnTitleInputEneble(false);
+        _playerActions.Player.Enable();
+        _playerActions.GameEnd.Disable();
+        _playerActions.Player.Enable();
     }
 
     public void SetGameEnd()        //ゲーム終了
