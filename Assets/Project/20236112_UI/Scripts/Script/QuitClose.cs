@@ -22,8 +22,8 @@ public class QuitClose : IQuitAction
 
     public void OnQuitAction()
     {
-        UIMediator.Instance.Hide(quitParam);
-        UIMediator.Instance.Show(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Hide(quitParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(pauseParam);
         onSetQuitCloseInput?.Invoke();
     }
 }

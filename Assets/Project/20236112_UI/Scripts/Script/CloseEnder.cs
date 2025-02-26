@@ -18,8 +18,8 @@ public class CloseEnder : IQuitAction
 
     public void OnQuitAction()
     {
-        UIMediator.Instance.Hide(_gameEndParam);
+        ServiceLocator<UIMediator>.GetInstance().Hide(_gameEndParam);
         onSetTitle?.Invoke();
-        UIMediator.Instance.Show(_titleParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(_titleParam);
     }
 }

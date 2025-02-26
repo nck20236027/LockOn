@@ -17,8 +17,8 @@ public class OpenGameEnd : ITitleAction
 
     public void OnTitleAction()
     {
-        UIMediator.Instance.Show(_gameEndParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(_gameEndParam);
         onSetGameEnd?.Invoke();
-        UIMediator.Instance.Hide(_titleParam);
+        ServiceLocator<UIMediator>.GetInstance().Hide(_titleParam);
     }
 }

@@ -20,8 +20,8 @@ public class OptionClose
 
     public void CloseOptionAction()
     {
-        UIMediator.Instance.Hide(settingParam);
-        UIMediator.Instance.Show(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Hide(settingParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(pauseParam);
         onSetOptionCloseInput?.Invoke();
     }
 }

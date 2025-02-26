@@ -17,7 +17,7 @@ public class MenuClose : IMenuAction
 
     public void OnMenuAction()
     {
-        UIMediator.Instance.Hide(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Hide(pauseParam);
         onSetMenuCloseInput?.Invoke();
     }
 }

@@ -36,8 +36,8 @@ public class TitleMenuHander : MonoBehaviour
 
     private void Start()
     {
-        UIMediator.Instance.Init(_titleParam);
-        UIMediator.Instance.Init(_gameEndParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(_titleParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(_gameEndParam);
     }
 
     public void OnTitleSubmit()
@@ -64,7 +64,7 @@ public class TitleMenuHander : MonoBehaviour
             return;
         }
         _titleParam.currentIndex = _titleCurrentIndex;
-        UIMediator.Instance.Reload(_titleParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(_titleParam);
     }
 
     public void GameEndChoice(float direction)        //ÉQÅ[ÉÄèIóπéûÇÃëIë
@@ -81,13 +81,13 @@ public class TitleMenuHander : MonoBehaviour
             return;
         }
         _gameEndParam.currentIndex = _gameEndCurrentIndex;
-        UIMediator.Instance.Reload(_gameEndParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(_gameEndParam);
     }
 
     private void OnDestroy()
     {
-        UIMediator.Instance.Final(_titleParam);
-        UIMediator.Instance.Final(_gameEndParam);
+        ServiceLocator<UIMediator>.GetInstance().Final(_titleParam);
+        ServiceLocator<UIMediator>.GetInstance().Final(_gameEndParam);
         _titleInputHandler.Final();
     }
 }

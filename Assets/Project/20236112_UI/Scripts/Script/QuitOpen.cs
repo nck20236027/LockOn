@@ -21,9 +21,9 @@ public class QuitOpen : IMenuAction
     }
     public void OnMenuAction()
     {
-        UIMediator.Instance.Show(quitParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(quitParam);
         onQuitInputEnable?.Invoke();
-        UIMediator.Instance.Hide(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Hide(pauseParam);
     }
 
 }

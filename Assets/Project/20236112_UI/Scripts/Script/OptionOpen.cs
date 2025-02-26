@@ -23,9 +23,9 @@ public class OptionOpen : IMenuAction
 
     public void OnMenuAction()
     {
-        UIMediator.Instance.Show(settingParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(settingParam);
         onSetOptionOpenInput?.Invoke();
-        UIMediator.Instance.Hide(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Hide(pauseParam);
     }
 
 }

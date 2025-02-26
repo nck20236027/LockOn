@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class UIMediator : MonoBehaviour
+public class UIMediator : ServiceMonoBehaviour<UIMediator>
 { 
-    private static UIMediator instance;
-    public static UIMediator Instance => instance;
+    private UIMediator instance;
 
     [SerializeField]
     private Canvas canvas;
@@ -18,27 +17,16 @@ public class UIMediator : MonoBehaviour
 
     private List<ViewBase> viewBaseInstances = new List<ViewBase>();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
 
-        instance = instance == null ? this : instance;
+        instance = ServiceLocator<UIMediator>.GetInstance();
 
         //“o˜^‚³‚ê‚Ä‚¢‚éMediator‚ÌƒLƒƒƒ“ƒoƒX‚ªNull‚È‚ç©g‚ÌƒLƒƒƒ“ƒoƒX‚ğ“o˜^
         if (instance.Canvas == null)
         {
             instance.Canvas = canvas;
-        }
-
-        //“o˜^‚ğŠm”F‚µ‚½‚ç
-        if (instance == this)
-        {
-            //‘—‚é
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            //Á‚·
-            Destroy(gameObject);
         }
 
     }

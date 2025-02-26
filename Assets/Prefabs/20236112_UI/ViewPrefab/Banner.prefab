@@ -396,7 +396,8 @@ MonoBehaviour:
   _endRectTransform: {x: -1300, y: -40, z: 0}
   _fadeInColor: {r: 1, g: 1, b: 1, a: 0}
   _fadeOutColor: {r: 1, g: 1, b: 1, a: 1}
-  _direction: 1
-  _transitionTime: 1
-  _waitTime: 3
+  _fadeInTime: 1
+  _fadeOutTime: 0.3
+  _transitionTime: 0.5
+  _waitTime: 1.3
   _ease: 0

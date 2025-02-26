@@ -21,25 +21,26 @@ public class MessegeBannerView : ViewBase
     [SerializeField]
     private Vector3 _endRectTransform;
 
-    [SerializeField, Header("フェードイン")]
+    [SerializeField, Header("フェードインカラー")]
     private Color _fadeInColor;
-    [SerializeField, Header("フェードアウト")]
+    [SerializeField, Header("フェードアウトアウトカラー")]
     private Color _fadeOutColor;
 
-    [SerializeField, Header("フェードに掛かる時間")]
-    private float _direction = 0.1f;
+    [SerializeField, Header("フェードインに掛かる時間")]
+    private float _fadeInTime = 0.1f;
+    [SerializeField, Header("フェードアウトに掛かる時間")]
+    private float _fadeOutTime = 0.1f;
     [SerializeField, Header("テキストの遷移時間")]
     private float _transitionTime = 1f;
-    [SerializeField, Header("テキストの待機時間")]
-    private float _waitTime = 3f;
+    [SerializeField, Header("待機時間")]
+    private float _waitTime;
 
     [SerializeField]
     private LitMotion.Ease _ease;
 
     protected override ParamBase GetUseParamBase() => new BannerParam();
 
-
-    public async override void OnInit<T>(T param)
+    public async override void OnShow<T>(T param)
     {
         canvas.gameObject.SetActive(true);
         var bannerParam = param as BannerParam;
@@ -48,34 +49,23 @@ public class MessegeBannerView : ViewBase
         _mainText.text = bannerParam.mainText;
 
         //フェードイン
-        Tweens.ImageColorTween(_bannerImage, _fadeInColor, _fadeOutColor, _direction, _ease, gameObject);
-        Tweens.TextColorTween(_titleText, _fadeInColor, _fadeOutColor, _direction, _ease, gameObject);
-        Tweens.TextColorTween(_mainText, _fadeInColor, _fadeOutColor, _direction, _ease, gameObject);
-        await UniTask.WaitForSeconds(2);
+        Tweens.ImageColorTween(_bannerImage, _fadeInColor, _fadeOutColor, _fadeInTime, _ease, gameObject);
+        Tweens.TextColorTween(_titleText, _fadeInColor, _fadeOutColor, _fadeInTime, _ease, gameObject);
+        Tweens.TextColorTween(_mainText, _fadeInColor, _fadeOutColor, _fadeInTime, _ease, gameObject);
+        await UniTask.WaitForSeconds(_waitTime);
 
         //テキスト遷移
-        Tweens.TextTransformTween(_bannerRectTransform, _startRectTransform, _middleRectTransform, _direction, _ease, gameObject);
-        await UniTask.WaitForSeconds(2);
+        Tweens.TextTransformTween(_bannerRectTransform, _startRectTransform, _middleRectTransform, _transitionTime, _ease, gameObject);
+        await UniTask.WaitForSeconds(_waitTime);
 
-        Tweens.TextTransformTween(_bannerRectTransform, _middleRectTransform, _endRectTransform, _direction, _ease, gameObject);
-        await UniTask.WaitForSeconds(2);
+        Tweens.TextTransformTween(_bannerRectTransform, _middleRectTransform, _endRectTransform, _transitionTime, _ease, gameObject);
+        await UniTask.WaitForSeconds(_waitTime);
 
 
         //フェードアウト
-        Tweens.ImageColorTween(_bannerImage, _fadeOutColor, _fadeInColor, _direction, _ease, gameObject);
-        Tweens.TextColorTween(_titleText, _fadeOutColor, _fadeInColor, _direction, _ease, gameObject);
-        Tweens.TextColorTween(_mainText, _fadeOutColor, _fadeInColor, _direction, _ease, gameObject);
-
-    }
-
-    public override void OnReload<T>(T param)
-    {
-
-    }
-
-    public override void OnShow<T>(T param)
-    {
-        canvas.gameObject.SetActive(true);
+        Tweens.ImageColorTween(_bannerImage, _fadeOutColor, _fadeInColor, _fadeOutTime, _ease, gameObject);
+        Tweens.TextColorTween(_titleText, _fadeOutColor, _fadeInColor, _fadeOutTime, _ease, gameObject);
+        Tweens.TextColorTween(_mainText, _fadeOutColor, _fadeInColor, _fadeOutTime, _ease, gameObject);
     }
 
     public override void OnHide<T>(T param)

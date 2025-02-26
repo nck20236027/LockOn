@@ -85,8 +85,8 @@ public class MenuHandler : MonoBehaviour
     {
         //menuParam.resameButton = null;    InitÇÊÇËå„Ç…èàóùÇ∑ÇÈÇ∆NullÇÃÇ‹Ç‹ê∂ê¨Ç∑ÇÈÇ±Ç∆Ç…Ç»ÇÈ
 
-        UIMediator.Instance.Init(pauseParam);
-        UIMediator.Instance.Init(quitParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(quitParam);
 
 
 
@@ -100,7 +100,7 @@ public class MenuHandler : MonoBehaviour
         settingParam.maxCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance().MaxIntensity;
 
         settingParam.initCameraSensitiveAffinity = ServiceLocator<CameraController>.GetInstance().BasisIntensity;
-        UIMediator.Instance.Init(settingParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(settingParam);
 
         //MenuParam.settingButton = pauseModel.SettingMenu;
         //MenuParam.resameButton = pauseModel.Resame;
@@ -118,7 +118,7 @@ public class MenuHandler : MonoBehaviour
     public void ControlMenu()
     {
         //MenuÇäJÇ¢ÇΩÇËï¬Ç∂ÇΩÇËÇ∑ÇÈ
-        UIMediator.Instance.Show(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(pauseParam);
         inputHandler.SetPlayerInput();
         //    UIMediator.Instance.Show(settingParam);
         //    UIMediator.Instance.Show(quitParam);
@@ -143,7 +143,7 @@ public class MenuHandler : MonoBehaviour
         settingParam.currentIndex = _optionCurrentIndex;
         settingParam.changeAmount = changeAmoutValues[_currentIndex] * direction;
         //Debug.Log($"model,{settingParam.changeAmount}");
-        UIMediator.Instance.Reload(settingParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(settingParam);
     }
 
     public void OnChangeSEVolume(float value)
@@ -166,7 +166,7 @@ public class MenuHandler : MonoBehaviour
             return;
         }
         settingParam.currentIndex = _optionCurrentIndex;
-        UIMediator.Instance.Animation(settingParam);
+        ServiceLocator<UIMediator>.GetInstance().Animation(settingParam);
     }
 
     public void MenuChoice(float direction)
@@ -184,7 +184,7 @@ public class MenuHandler : MonoBehaviour
         }
 
         pauseParam.currentIndex = _currentIndex;
-        UIMediator.Instance.Reload(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(pauseParam);
     }
 
     public void QuitChoice(float direction)
@@ -202,7 +202,7 @@ public class MenuHandler : MonoBehaviour
             return;
         }
         quitParam.currentIndex = _quitCurrentIndex;
-        UIMediator.Instance.Reload(quitParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(quitParam);
     }
 
 
@@ -214,9 +214,9 @@ public class MenuHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        UIMediator.Instance.Final(pauseParam);
-        UIMediator.Instance.Final(settingParam);
-        UIMediator.Instance.Final(quitParam);
+        ServiceLocator<UIMediator>.GetInstance().Final(pauseParam);
+        ServiceLocator<UIMediator>.GetInstance().Final(settingParam);
+        ServiceLocator<UIMediator>.GetInstance().Final(quitParam);
         inputHandler.Final();
     }
 }
