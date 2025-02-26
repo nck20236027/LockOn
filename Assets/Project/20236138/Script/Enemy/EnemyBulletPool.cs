@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyBulletPool : MonoBehaviour,IServiceClass
+public class EnemyBulletPool : ServiceMonoBehaviour<EnemyBulletPool>,IServiceClass
 {
     [SerializeField]
     private EnemyBullet _bullet;
@@ -12,10 +12,9 @@ public class EnemyBulletPool : MonoBehaviour,IServiceClass
     int _objectCount = 10; 
 
     private List<EnemyBullet> _enemyBulletList = new List<EnemyBullet>();
-    private void Awake()
+    protected override void Awake()
     {
-        ServiceLocator<EnemyBulletPool>.Register(this);
-        
+        base.Awake();
     }
     private void Start()
     {
@@ -44,9 +43,9 @@ public class EnemyBulletPool : MonoBehaviour,IServiceClass
     }
 
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-        ServiceLocator<EnemyBulletPool>.RemoveInstance(this);
+        base.OnDestroy();
     }
 
 

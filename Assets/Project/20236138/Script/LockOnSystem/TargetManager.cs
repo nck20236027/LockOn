@@ -49,10 +49,10 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
         inputActions.Player.LLock.started += (x) => ChangeTarget(-1);
         inputActions.Player.RLock.started += (x) => ChangeTarget(1);
 
-        UIMediator.Instance.Init(_targetParam);
-        UIMediator.Instance.Animation(_targetParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(_targetParam);
+        ServiceLocator<UIMediator>.GetInstance().Animation(_targetParam);
 
-        UIMediator.Instance.Init(_subTragetParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(_subTragetParam);
     }
 
     private void OnDestroy()
@@ -63,7 +63,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
     // Update is called once per frame
     void Update()
     {
-        UIMediator.Instance.Reload(_subTragetParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(_subTragetParam);
     }
 
     //ターゲットに登録するメソッド
@@ -104,7 +104,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
             target = cameraInTargets.First();
         }
         _player.ChangeTarget(target);
-        UIMediator.Instance.Animation(_targetParam);
+        ServiceLocator<UIMediator>.GetInstance().Animation(_targetParam);
     }
     //ターゲットをロックする条件
     private bool IsTargetTerms(ILockTargetable token) => token.GetIsView

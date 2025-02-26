@@ -6,7 +6,10 @@ using UnityEngine;
 public class CoreEnemy : EnemyBase,ILockTargetable
 {
     [SerializeField, Header("ƒ{ƒX‚ÌHP(“ËŒ‚‰ñ”)")]
-    private int _bossHp = 3;
+    private int _MaxCoreHp = 3;
+    public int MaxCoreHp => _MaxCoreHp;
+    private int _nowCoreHp = 0;
+    public int nowCoreHp => _nowCoreHp;
     [SerializeField, Header("Act‚Ìs“®ŠÔŠu")]
     private float _actionInterval = 1f;
     public float ActionIntarval => _actionInterval;
@@ -90,8 +93,8 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     public override void Damage(int damage)
     {
         if (_isAttack) return;
-        _bossHp -= damage;
-        if (_bossHp < 0)
+        _MaxCoreHp -= damage;
+        if (_MaxCoreHp < 0)
             Debug.Log("Boss is Dead");
     }
 
@@ -99,6 +102,7 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     private EnemyBulletPool _bulletPool;
     private void Awake()
     {
+        _nowCoreHp = _MaxCoreHp;
         _stateMachin = new EnemyStateMachine(this);
 
         _renderer = GetComponent<Renderer>();

@@ -70,7 +70,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _stateMachine.Initialize(ModeStateType.Move);
 
 
-        UIMediator.Instance.Init(_energyGageParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(_energyGageParam);
     }
 
     // Update is called once per frame
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         FuelQuantity -= damage;
         _energyGageParam.isDamage = true;
         _energyGageParam.damageEnergyPoint = damage;
-        UIMediator.Instance.Animation(_energyGageParam);
+        ServiceLocator<UIMediator>.GetInstance().Animation(_energyGageParam);
         _energyGageParam.isDamage= false;
         _cameraController.Interface.CameraSheikh();
 

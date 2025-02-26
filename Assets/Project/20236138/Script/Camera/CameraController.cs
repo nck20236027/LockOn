@@ -12,7 +12,7 @@ public enum CameraType
 
 }
 
-public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClass
+public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraContollorable,IServiceClass
 {
     [SerializeField] 
     private CinemachineVirtualCamera _virtualCamera;
@@ -38,9 +38,13 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     private int _controlInt = 90;
 
     Vector2 _moveVector = Vector2.zero;
+    protected void Awake()
+    {
+        base.Awake();
+    }
     void Start()
     {
-        ServiceLocator<CameraController>.Register(this);
+
         PlayerAction actions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
         InputAction _stickAction = actions.FindAction("Move");
         _stickAction.AddBinding("<Gamepad>/RightStick").
@@ -84,8 +88,8 @@ public class CameraController : MonoBehaviour, ICameraContollorable,IServiceClas
     }
 
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-        ServiceLocator<CameraController>.RemoveInstance(this);
+        base.OnDestroy();
     }
 }

@@ -24,7 +24,7 @@ public class BoostState : ModeStateBase
         _player.transform.rotation = Quaternion.FromToRotation(Vector3.up, diffDir);
         _player._energyGageParam.buttonState = ButtonState._isInputDown;
         _player._energyGageParam.energyTimeLost = _state.FuelConsumptio * Time.deltaTime;
-        UIMediator.Instance.Reload(_player._energyGageParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
         _player._energyGageParam.buttonState = ButtonState._isInputNow;
     }
 
@@ -36,7 +36,7 @@ public class BoostState : ModeStateBase
         {
             stateMachine.ChangeState(ModeStateType.Move);
         }
-        UIMediator.Instance.Reload(_player._energyGageParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
     }
 
     public override void OnFixedUpdate()

@@ -39,7 +39,7 @@ public class MoveState : ModeStateBase
             stateMachine.ChangeState(ModeStateType.Deceleration);
         }
 
-        UIMediator.Instance.Reload(_player._energyGageParam);
+        ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
 
     }
 
