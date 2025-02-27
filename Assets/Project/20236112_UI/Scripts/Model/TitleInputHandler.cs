@@ -14,18 +14,30 @@ public class TitleInputHandler
 
     public void Init()
     {
+        //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Dispose();
+        //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Player.Disable();
         _playerActions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
         _playerActions.Title.Enable();
-        _playerActions.Title.Submit.canceled += OnStartSubmit;
+        _playerActions.Title.Submit.performed += OnStartSubmit;
         _playerActions.Title.Navigate.performed += OnTitleSelectY;
 
-        _playerActions.GameEnd.Submit.canceled += OnEndSubmit;
+        _playerActions.GameEnd.Submit.performed += OnEndSubmit;
         _playerActions.GameEnd.Navigate.performed += OnGameEndSelectX;
     }
 
     public void Final()
     {
-        _playerActions.Dispose();
+        Debug.Log("Final");
+        Debug.Log($"{_playerActions == ServiceLocator<PlayerActionManager>.GetInstance().playerAction}");
+        _playerActions.Title.Submit.performed -= OnStartSubmit;
+        _playerActions.Title.Navigate.performed -= OnTitleSelectY;
+
+        _playerActions.GameEnd.Submit.performed -= OnEndSubmit;
+        _playerActions.GameEnd.Navigate.performed -= OnGameEndSelectX;
+        _playerActions.Title.Disable();
+        //_playerActions.Dispose();
+        //ServiceLocator<PlayerActionManager>.GetInstance().playerAction = null;
+
     }
 
     public void OnStartSubmit(InputAction.CallbackContext context)      //スタート時の決定

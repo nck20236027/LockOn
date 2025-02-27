@@ -10,13 +10,12 @@ public class MenuHandler : MonoBehaviour
 
     private IHasCameraSensitivity hasCameraSensitivity;
 
-    private InputHandler inputHandler = new();
 
     //menuParam.resameButton = null;
     private PauseParam pauseParam = new();
     private QuitParam quitParam = new();
     private SettingParam settingParam = new();
-
+    private InputHandler inputHandler = new();
 
     //private PauseController pauseController = new();
     //private QuitController quitController = new();
@@ -41,6 +40,8 @@ public class MenuHandler : MonoBehaviour
 
     private void Awake()
     {
+        //Debug.Log($"Awake");
+        //InputHandler inputHandler = new();
 
         menuActions.Add(new MenuClose(pauseParam, inputHandler.SetPlayerInput));
         menuActions.Add(new OptionOpen(settingParam, pauseParam, inputHandler.SetOptionInput));
@@ -63,17 +64,17 @@ public class MenuHandler : MonoBehaviour
         //settingParam.closeSettingButton = settingController.CloseSettingMenu;
 
         //inputHandler.onMenuAction = menuHandler.ControlMenu;  //ëΩòaìcë§Ç≈çÏÇÈéûÇ…Ç±ÇÒÇ»ïóÇ…èëÇ≠
-        inputHandler.onMenuAction = ControlMenu;
-        inputHandler.onMenuSubmit = OnMenuSubmit;
-        inputHandler.onQuitSubmit = OnQuitSubmit;
+        inputHandler.onMenuAction += ControlMenu;
+        inputHandler.onMenuSubmit += OnMenuSubmit;
+        inputHandler.onQuitSubmit += OnQuitSubmit;
 
-        inputHandler.onSliderSelect = SliderSelect;
-        inputHandler.onMenuChoice = MenuChoice;
-        inputHandler.onQuitChoice = QuitChoice;
+        inputHandler.onSliderSelect += SliderSelect;
+        inputHandler.onMenuChoice += MenuChoice;
+        inputHandler.onQuitChoice += QuitChoice;
         inputHandler.onChangeSliderValue = OnChangeSliderValue;
 
-        inputHandler.onOptionClose = optionClose.CloseOptionAction;
-        inputHandler.onQuitClose = quitClose.OnQuitAction;
+        inputHandler.onOptionClose += optionClose.CloseOptionAction;
+        inputHandler.onQuitClose += quitClose.OnQuitAction;
 
         inputHandler.Init();
         //mHandler.onAction = mHandler.OnMenu;
@@ -119,7 +120,7 @@ public class MenuHandler : MonoBehaviour
     {
         //MenuÇäJÇ¢ÇΩÇËï¬Ç∂ÇΩÇËÇ∑ÇÈ
         ServiceLocator<UIMediator>.GetInstance().Show(pauseParam);
-        inputHandler.SetPlayerInput();
+        //inputHandler.SetPlayerInput();
         //    UIMediator.Instance.Show(settingParam);
         //    UIMediator.Instance.Show(quitParam);
     }
@@ -214,16 +215,17 @@ public class MenuHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        ServiceLocator<UIMediator>.GetInstance().Final(pauseParam);
-        ServiceLocator<UIMediator>.GetInstance().Final(settingParam);
-        ServiceLocator<UIMediator>.GetInstance().Final(quitParam);
         inputHandler.Final();
+        //ServiceLocator<UIMediator>.GetInstance().Final(pauseParam);
+        //ServiceLocator<UIMediator>.GetInstance().Final(settingParam);
+        //ServiceLocator<UIMediator>.GetInstance().Final(quitParam);
+        //inputHandler.Final();
     }
 }
-    ////private void DisplayMessage()
-    //{
-    //    Debug.Log("Hello World");
-    //}
+////private void DisplayMessage()
+//{
+//    Debug.Log("Hello World");
+//}
 
 
 

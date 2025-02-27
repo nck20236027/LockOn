@@ -89,5 +89,6 @@ public class QuitView : ViewBase
     {
         //View‚Ìíœw—ß‚ğó‚¯‚½‚ç©g‚ğíœ‚·‚é
         Destroy(gameObject);
+        ServiceLocator<UIMediator>.GetInstance().Final(new QuitParam());
     }
 }

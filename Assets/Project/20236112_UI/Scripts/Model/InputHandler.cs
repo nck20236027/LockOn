@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 public class InputHandler
 {
     private PlayerAction _playerAction;
+
 
     public Action onMove;
     public Action onMenuAction;
@@ -29,21 +31,24 @@ public class InputHandler
 
     public void Init()
     {
-
+        ////    ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Title.Disable();
+        //    ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Player.Enable();
+        //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Dispose();
 
         _playerAction = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
+        _playerAction.Player.Enable();
 
         SetPlayerInput();
 
-        _playerAction.Player.Menu.canceled += OnMenu; //‚±‚±‚Å“o˜^
+        _playerAction.Player.Menu.performed += OnMenu; //‚±‚±‚Å“o˜^
 
         _playerAction.Menu.Navigate.performed += OnUISelectY;
-        _playerAction.Menu.Submit.canceled += OnSubmit;
+        _playerAction.Menu.Submit.performed += OnSubmit;
 
-        _playerAction.Quit.Submit.canceled += OnQuitSubmit;
+        _playerAction.Quit.Submit.performed += OnQuitSubmit;
         _playerAction.Quit.Navigate.performed += OnUISelectX;
 
-        _playerAction.Option.OptionClose.canceled += OnOptionClose;
+        _playerAction.Option.OptionClose.performed += OnOptionClose;
         _playerAction.Option.SliderSelected.performed += OnSliderSelect;
         _playerAction.Option.SliderValueChange.performed += OnChangeSliderValueX;
         //_playerAction.UI.Navigate.Disable();
@@ -51,7 +56,23 @@ public class InputHandler
 
     public void Final()
     {
-        _playerAction.Dispose();
+        _playerAction.Player.Menu.performed -= OnMenu; //‚±‚±‚Å“o˜^
+
+        _playerAction.Menu.Navigate.performed -= OnUISelectY;
+        _playerAction.Menu.Submit.performed -= OnSubmit;
+
+        _playerAction.Quit.Submit.performed -= OnQuitSubmit;
+        _playerAction.Quit.Navigate.performed -= OnUISelectX;
+
+        _playerAction.Option.OptionClose.performed -= OnOptionClose;
+        _playerAction.Option.SliderSelected.performed -= OnSliderSelect;
+        _playerAction.Option.SliderValueChange.performed -= OnChangeSliderValueX;
+        _playerAction.Menu.Disable();
+        _playerAction.Quit.Disable();
+        _playerAction.Option.Disable();
+        _playerAction.Player.Disable();
+        //_playerAction.Dispose();
+
     }
 
     //public void Dispose(InputAction.CallbackContext context)
@@ -81,7 +102,6 @@ public class InputHandler
     public void OnSubmit(InputAction.CallbackContext context)
     {
         //SetMenuInput();
-        Debug.Log($"1111111");
         onMenuSubmit();
     }
 
@@ -176,7 +196,6 @@ public class InputHandler
         SetMenuInputEnable(false);
         SetOptionInputEnable(false);
         SetQuitInputEnable(false);
-        Debug.Log($"SetPlayerInput");
         Time.timeScale = 1.0f;
     }
 
@@ -186,7 +205,6 @@ public class InputHandler
         SetMenuInputEnable(true);
         SetOptionInputEnable(false);
         SetQuitInputEnable(false);
-        Debug.Log($"SetMenuInput");
         Time.timeScale = 0f;
     }
 
@@ -196,7 +214,6 @@ public class InputHandler
         SetMenuInputEnable(false);
         SetOptionInputEnable(true);
         SetQuitInputEnable(false);
-        Debug.Log($"SetOptionInput");
     }
 
     public void SetQuitInput()
@@ -205,13 +222,13 @@ public class InputHandler
         SetMenuInputEnable(false);
         SetOptionInputEnable(false);
         SetQuitInputEnable(true);
-        Debug.Log($"SetQuitInput");
     }
 
 
     //InputSystem‘¤‚É“o˜^‚·‚é‚â‚Â
     public void OnMenu(InputAction.CallbackContext context)
     {
+        Debug.Log("OpenMenu");
         onMenuAction(); //MenuHandler‘¤‹@”\
         SetMenuInput();
     }

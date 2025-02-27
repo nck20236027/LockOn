@@ -63,14 +63,24 @@ public class UIMediator : ServiceMonoBehaviour<UIMediator>
 
     public void Final<T>(T param) where T : ParamBase
     {
+        Debug.Log("UIMediatorFinal");
         var target = InstanceSelector(typeof(T));
         if (target != null)
         {
             //インスタンスを削除
             viewBaseInstances.Remove(target);
 
+            foreach(var view in viewBaseInstances)
+            {
+                Debug.Log(view);
+            }
+
             //Viewの終了処理を呼ぶ
             target.OnFinal(param);
+        }
+        else
+        {
+            Debug.Log($"削除するViewが見つかりません : {typeof(T)}");
         }
     }
 

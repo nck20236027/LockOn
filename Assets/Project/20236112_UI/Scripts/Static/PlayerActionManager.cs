@@ -6,13 +6,14 @@ public class PlayerActionManager : ServiceMonoBehaviour<PlayerActionManager>
     {
 
         base.Awake();
-        ServiceLocator<PlayerActionManager>.GetInstance().playerAction = new PlayerAction();
-        ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Enable();
+        playerAction = new();
+        //ServiceLocator<PlayerActionManager>.GetInstance().playerAction = new PlayerAction();
+        //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Enable();
     }
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        playerAction?.Disable();
-        ServiceLocator<PlayerActionManager>.RemoveInstance(this);
-    }
+    //protected override void OnDestroy()
+    //{
+    //    base.OnDestroy();
+    //    ServiceLocator<PlayerActionManager>.GetInstance().playerAction?.Disable();
+    //    ServiceLocator<PlayerActionManager>.RemoveInstance(this);
+    //}
 }

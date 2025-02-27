@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class TitleMenuHander : MonoBehaviour
 {
-    private TitleInputHandler _titleInputHandler = new();
     private TitleParam _titleParam = new();
     private GameEndParam _gameEndParam = new();
-
+    TitleInputHandler _titleInputHandler = new();
     private CloseEnder _closeEnder;
 
     private List<ITitleAction> _titleActions = new List<ITitleAction>();
@@ -17,7 +16,7 @@ public class TitleMenuHander : MonoBehaviour
 
     private void Awake()
     {
-
+    //    TitleInputHandler _titleInputHandler = new();
 
         _titleActions.Add(new GameStart(_titleParam, _titleInputHandler.SetGameStart));
         _titleActions.Add(new OpenGameEnd(_titleParam, _titleInputHandler.SetGameEnd));
@@ -28,11 +27,11 @@ public class TitleMenuHander : MonoBehaviour
         _closeEnder = new CloseEnder(_titleParam, _gameEndParam, _titleInputHandler.SetTitle);
 
 
-        _titleInputHandler._onStartSubmit = OnTitleSubmit;
-        _titleInputHandler._onEndSubmit = OnGameEndSubmit;
+        _titleInputHandler._onStartSubmit += OnTitleSubmit;
+        _titleInputHandler._onEndSubmit += OnGameEndSubmit;
 
-        _titleInputHandler._onTitleChoice = TitleChoice;
-        _titleInputHandler._onGameEndChoice = GameEndChoice;
+        _titleInputHandler._onTitleChoice += TitleChoice;
+        _titleInputHandler._onGameEndChoice += GameEndChoice;
         _titleInputHandler.Init();
 
     }
@@ -89,8 +88,9 @@ public class TitleMenuHander : MonoBehaviour
 
     private void OnDestroy()
     {
-        ServiceLocator<UIMediator>.GetInstance().Final(_titleParam);
-        ServiceLocator<UIMediator>.GetInstance().Final(_gameEndParam);
         _titleInputHandler.Final();
+        //ServiceLocator<UIMediator>.GetInstance().Final(_gameEndParam);
+        Debug.Log("onDestroy");
+        //_titleInputHandler.Final();
     }
 }

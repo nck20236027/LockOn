@@ -76,5 +76,7 @@ public class MessegeBannerView : ViewBase
     public override void OnFinal<T>(T param)
     {
         Destroy(gameObject);
+        ServiceLocator<UIMediator>.GetInstance().Final(new BannerParam());
+
     }
 }

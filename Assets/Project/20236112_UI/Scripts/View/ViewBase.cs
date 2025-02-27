@@ -1,12 +1,13 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class ViewBase : MonoBehaviour
+public class ViewBase: MonoBehaviour
 {
     [SerializeField]
     protected Canvas canvas;    //¶¬Žž‚Écanvas‚Ìó‘Ô‚ðŒˆ‚ß‚ê‚é
 
-    public Type GetParamType() => GetUseParamBase().GetType();
+    public virtual Type GetParamType() => GetUseParamBase().GetType();
     protected virtual ParamBase GetUseParamBase() => new ParamBase();
     public virtual void OnShow<T>(T param) where T : ParamBase { }
     public virtual void OnHide<T>(T param) where T : ParamBase { }
@@ -22,4 +23,5 @@ public class ViewBase : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
 }
