@@ -19,7 +19,7 @@ public class PauseView : ViewBase
     [SerializeField]
     private Color tergetColor;
 
-    [SerializeField] 
+    [SerializeField]
     private RectTransform[] rectTransforms;
 
     //[SerializeField] 
@@ -77,7 +77,7 @@ public class PauseView : ViewBase
 
         Tweens.TextColorTween(beforeText, tergetColor, unselectColor, expandTime, changeEase, gameObject);
         Tweens.FontSizeTween(beforeText, tergetFontSize, initFointSize, reduceTime, changeEase, gameObject);
-     
+
         Tweens.TextColorTween(tweenText, tergetColor, selectColor, expandTime, changeEase, gameObject);
         Tweens.FontSizeTween(tweenText, initFointSize, tergetFontSize, expandTime, changeEase, gameObject);
 
@@ -101,6 +101,12 @@ public class PauseView : ViewBase
     {
         //View‚Ìíœw—ß‚ğó‚¯‚½‚ç©g‚ğíœ‚·‚é
         Destroy(gameObject);
+    }
+
+    public void OnDestroy()
+    {
         ServiceLocator<UIMediator>.GetInstance().Final(new PauseParam());
+        Debug.Log("PauseViewFinal");
+
     }
 }

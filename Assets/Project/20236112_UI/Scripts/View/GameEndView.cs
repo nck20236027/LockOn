@@ -82,6 +82,12 @@ public class GameEndView : ViewBase
     {
         //View‚Ìíœw—ß‚ğó‚¯‚½‚ç©g‚ğíœ‚·‚é
         Destroy(gameObject);
+    }
+
+    public void OnDestroy()
+    {
         ServiceLocator<UIMediator>.GetInstance().Final(new GameEndParam());
+        Debug.Log("GameEndViewFinal");
+
     }
 }

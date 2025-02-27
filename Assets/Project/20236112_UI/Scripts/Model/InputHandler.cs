@@ -8,146 +8,102 @@ public class InputHandler
 {
     private PlayerAction _playerAction;
 
-
     public Action onMove;
     public Action onMenuAction;
     public Action onMenuSubmit;
     public Action onQuitSubmit;
     public Action onOptionClose;
     public Action onQuitClose;
-    //public Action onCancel;
 
     public Action<float> onSliderSelect;
     public Action<float> onChangeSliderValue;
     public Action<float> onMenuChoice;
     public Action<float> onQuitChoice;
 
-
-    //private bool isMenuOpen = false;
-
-    //public Button[] buttons;
-
-
-
     public void Init()
     {
-        ////    ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Title.Disable();
-        //    ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Player.Enable();
-        //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Dispose();
-
         _playerAction = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
         _playerAction.Player.Enable();
 
         SetPlayerInput();
 
-        _playerAction.Player.Menu.performed += OnMenu; //Ç±Ç±Ç≈ìoò^
-
+        _playerAction.Player.Menu.performed += OnMenu;
         _playerAction.Menu.Navigate.performed += OnUISelectY;
         _playerAction.Menu.Submit.performed += OnSubmit;
-
         _playerAction.Quit.Submit.performed += OnQuitSubmit;
         _playerAction.Quit.Navigate.performed += OnUISelectX;
-
         _playerAction.Option.OptionClose.performed += OnOptionClose;
         _playerAction.Option.SliderSelected.performed += OnSliderSelect;
         _playerAction.Option.SliderValueChange.performed += OnChangeSliderValueX;
-        //_playerAction.UI.Navigate.Disable();
     }
 
     public void Final()
     {
-        _playerAction.Player.Menu.performed -= OnMenu; //Ç±Ç±Ç≈ìoò^
-
+        _playerAction.Player.Menu.performed -= OnMenu;
         _playerAction.Menu.Navigate.performed -= OnUISelectY;
         _playerAction.Menu.Submit.performed -= OnSubmit;
-
         _playerAction.Quit.Submit.performed -= OnQuitSubmit;
         _playerAction.Quit.Navigate.performed -= OnUISelectX;
-
         _playerAction.Option.OptionClose.performed -= OnOptionClose;
         _playerAction.Option.SliderSelected.performed -= OnSliderSelect;
         _playerAction.Option.SliderValueChange.performed -= OnChangeSliderValueX;
+
         _playerAction.Menu.Disable();
         _playerAction.Quit.Disable();
         _playerAction.Option.Disable();
         _playerAction.Player.Disable();
-        //_playerAction.Dispose();
-
     }
-
-    //public void Dispose(InputAction.CallbackContext context)
-    //{
-    //    _playerAction.UI.Navigate.performed -= OnUISelectY;
-
-    //}
-
-
 
     public void OnUISelectY(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
-        if (input.y == 0) { return; }
+        if (input.y == 0) return;
         float directionY = Mathf.Sign(input.y);
-        onMenuChoice(directionY);
+        onMenuChoice?.Invoke(directionY);
     }
 
     public void OnUISelectX(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
-        if (input.x == 0) { return; }
+        if (input.x == 0) return;
         float directionX = Mathf.Sign(input.x);
-        onQuitChoice(directionX);
+        onQuitChoice?.Invoke(directionX);
     }
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
-        //SetMenuInput();
-        onMenuSubmit();
+        onMenuSubmit?.Invoke();
     }
 
     public void OnQuitSubmit(InputAction.CallbackContext context)
     {
-        onQuitSubmit();
+        onQuitSubmit?.Invoke();
     }
 
     public void OnOptionClose(InputAction.CallbackContext context)
     {
-        onOptionClose();
+        onOptionClose?.Invoke();
     }
-
-    //public void OnQuitCancel(InputAction.CallbackContext context)
-    //{
-    //    SetQuitCloseInput();
-    //    onQuitClose();
-    //}
 
     public void OnSliderSelect(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
-        if (input.y == 0) { return; }
+        if (input.y == 0) return;
         float directionY = Mathf.Sign(input.y);
-        onSliderSelect(directionY);
-
+        onSliderSelect?.Invoke(directionY);
     }
 
     public void OnChangeSliderValueX(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
-        if (input.x == 0) { return; }
+        if (input.x == 0) return;
         float directionX = Mathf.Sign(input.x);
-        onChangeSliderValue(directionX);
-    }
-    public void OnChangeSliderValueY(InputAction.CallbackContext context)
-    {
-        Vector2 input = context.ReadValue<Vector2>();
-        if (input.y == 0) { return; }
-        float directionX = Mathf.Sign(input.y);
-        onChangeSliderValue(directionX);
+        onChangeSliderValue?.Invoke(directionX);
     }
 
     public void SetOptionInputEnable(bool isEnable)
     {
-        if (isEnable == true)
+        if (isEnable)
         {
             _playerAction.Option.Enable();
         }
@@ -156,9 +112,10 @@ public class InputHandler
             _playerAction.Option.Disable();
         }
     }
+
     public void SetMenuInputEnable(bool isEnable)
     {
-        if (isEnable == true)
+        if (isEnable)
         {
             _playerAction.Menu.Enable();
         }
@@ -167,9 +124,10 @@ public class InputHandler
             _playerAction.Menu.Disable();
         }
     }
+
     public void SetPlayerInputEnable(bool isEnable)
     {
-        if (isEnable == true)
+        if (isEnable)
         {
             _playerAction.Player.Enable();
         }
@@ -178,9 +136,10 @@ public class InputHandler
             _playerAction.Player.Disable();
         }
     }
+
     public void SetQuitInputEnable(bool isEnable)
     {
-        if (isEnable == true)
+        if (isEnable)
         {
             _playerAction.Quit.Enable();
         }
@@ -190,7 +149,7 @@ public class InputHandler
         }
     }
 
-    public void SetPlayerInput()            //ÉvÉåÉCÉÑÅ[ÇæÇØ
+    public void SetPlayerInput()
     {
         SetPlayerInputEnable(true);
         SetMenuInputEnable(false);
@@ -199,7 +158,7 @@ public class InputHandler
         Time.timeScale = 1.0f;
     }
 
-    public void SetMenuInput()             //ÉÅÉjÉÖÅ[ÇæÇØ
+    public void SetMenuInput()
     {
         SetPlayerInputEnable(false);
         SetMenuInputEnable(true);
@@ -224,49 +183,15 @@ public class InputHandler
         SetQuitInputEnable(true);
     }
 
-
-    //InputSystemë§Ç…ìoò^Ç∑ÇÈÇ‚Ç¬
     public void OnMenu(InputAction.CallbackContext context)
     {
         Debug.Log("OpenMenu");
-        onMenuAction(); //MenuHandlerë§ã@î\
+        onMenuAction?.Invoke();
         SetMenuInput();
     }
 
     public void OnGameQuit(InputAction.CallbackContext context)
     {
-        onQuitSubmit();
+        onQuitSubmit?.Invoke();
     }
-
-
-    //public void OnOption(InputAction.CallbackContext context)
-    //{
-    //    _playerAction.Player.Enable();
-    //    _playerAction.UI.Disable();
-    //    Debug.Log("UI");
-    //}
-
-    //private void OnEnable()
-    //{
-    //    _playerAction.Enable();
-    //}
-
-    //private void OnDisable()
-    //{
-    //    _playerAction.Disable();
-    //}
-
-
-#if nullãñóeå^
-    //private Action hogeAction;
-    //private void Hoge()
-    //{
-    //    hogeAction?.Invoke();
-
-    //    if(hogeAction != null)
-    //    {
-    //        hogeAction();
-    //    }
-    //}
-#endif
 }
