@@ -684,12 +684,20 @@ PrefabInstance:
       objectReference: {fileID: 1650724920}
     - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: viewPrefabs.Array.size
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: 'viewPrefabs.Array.data[5]'
       value: 
-      objectReference: {fileID: 4380592010185510148, guid: e3744a2d18c30e44bb27ca2f2f61715a, type: 3}
+      objectReference: {fileID: 1014539603667867151, guid: 2b8bf2e7707f2b14faa8dbbb616907de, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[6]'
+      value: 
+      objectReference: {fileID: 210193848249837662, guid: 6baf183b085de8e4ea29d883644c4e8a, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[7]'
+      value: 
+      objectReference: {fileID: 2279825921345236039, guid: 033a325fe0f88c448a71b8357662fd2f, type: 3}
     - target: {fileID: 5277543184931194016, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
