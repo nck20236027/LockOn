@@ -5,6 +5,9 @@ public class GameEnder : IQuitAction
 {
     public QuitActionType QuitActionType => QuitActionType.Quit;
 
+    public GameOverActionType GameOverActionType => GameOverActionType.Quit;
+
+
     public void OnQuitAction()
     {
         Debug.Log("end");
