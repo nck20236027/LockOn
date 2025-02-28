@@ -2,7 +2,7 @@
 using UnityEngine.InputSystem;
 using System;
 
-public class GameOverInputHandler : MonoBehaviour
+public class GameOverInputHandler
 {
 
     private PlayerAction _playerActions;
@@ -13,6 +13,7 @@ public class GameOverInputHandler : MonoBehaviour
     public void Init()
     {
         _playerActions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
+        _playerActions.GameOver.Enable();
         _playerActions.GameOver.Submit.performed += OnGameOverSubmit;
         _playerActions.GameOver.Navigate.performed += OnGameOverSelectX;
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
 
-public class GameResultInputHandler : MonoBehaviour
+public class GameResultHandler 
 {
     private PlayerAction _playerActions;
     public Action _onResultSubmit;
@@ -22,6 +22,7 @@ public class GameResultInputHandler : MonoBehaviour
     public void OnResultSubmit(InputAction.CallbackContext context)        //ゲーム終了の決定
     {
         _onResultSubmit();
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameScene", 1f, 1f);
     }
     //public void OnGameEndSelectX(UnityEngine.InputSystem.InputAction.CallbackContext context)     //ゲーム終了時の選択入力
     //{
