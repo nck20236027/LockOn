@@ -524,6 +524,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 00d9c6c1b393858459ca1dca8bc00df3, type: 2}
     - target: {fileID: 919132149155446097, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
       propertyPath: m_Name
       value: Triangle
@@ -666,6 +670,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 00d9c6c1b393858459ca1dca8bc00df3, type: 2}
     - target: {fileID: 919132149155446097, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
       propertyPath: m_Name
       value: Triangle (1)
