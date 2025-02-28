@@ -34,7 +34,7 @@ public class EnergyGageView : ViewBase
         _greenGauge.fillAmount -= energyGageParam.damageEnergyPoint/energyGageParam.maxEnergyGauge;//_nowE
         await UniTask.WaitForSeconds(1f);
 
-        LMotion.Create(_damageImage.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
+        _= LMotion.Create(_damageImage.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
         //UniTask.WaitForSeconds(1)
 
         .WithEase(Ease.OutExpo)
@@ -42,7 +42,7 @@ public class EnergyGageView : ViewBase
         .BindToFillAmount(_damageImage);
 
 
-
+        
 
     }
     public async override void OnReload<T>(T param)
@@ -64,7 +64,7 @@ public class EnergyGageView : ViewBase
                 break;
             case ButtonState._isInputUp:
                 await UniTask.WaitForSeconds(0.5f);
-                LMotion.Create(_redBoostGauge.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
+                _=LMotion.Create(_redBoostGauge.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
              .WithEase(Ease.OutExpo)
               .WithOnComplete(() =>
               {
@@ -97,6 +97,9 @@ public class EnergyGageView : ViewBase
 
         //}
     }
-
+    public void OnDestroy()
+    {
+        ServiceLocator<UIMediator>.GetInstance().Final(new EnergyGageParam()); //すべてのviewにこれを書かないとバグる
+    }
 
 }

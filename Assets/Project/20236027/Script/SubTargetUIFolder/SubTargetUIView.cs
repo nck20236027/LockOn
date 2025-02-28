@@ -80,17 +80,10 @@ public class SubTargetUIView : ViewBase
         base.OnFinal(param);
 
     }
-    
 
 
-    void Start()
+    public void OnDestroy()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        ServiceLocator<UIMediator>.GetInstance().Final(new SubTargetUIParam()); //‚·‚×‚Ä‚Ìview‚É‚±‚ê‚ğ‘‚©‚È‚¢‚ÆƒoƒO‚é
     }
 }
