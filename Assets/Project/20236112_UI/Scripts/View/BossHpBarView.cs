@@ -15,20 +15,25 @@ public class BossHpBarView : ViewBase
     [SerializeField]
     private Ease changeEase = Ease.Linear;
     protected override ParamBase GetUseParamBase() => new BossHpBarParam();
+
     public override void OnInit<T>(T param)
     {
         BossHpBarParam bossHpBarParam = param as BossHpBarParam;
-        hpBar.fillAmount = bossHpBarParam.bossHp;
+        hpBar.fillAmount = bossHpBarParam.bossMaxHp;
         hpText.text = bossHpBarParam.bossName;
     }
+
     public override void OnAnimation<T>(T param)
     {
         BossHpBarParam bossHpBarParam = param as BossHpBarParam;
-        hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, bossHpBarParam.bossHp, changeTime);
-        hpText.text = bossHpBarParam.bossName;
+
+        hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, bossHpBarParam.bossMaxHp, changeTime);
+
+        
 
         //Tweens.FillAmountTween(hpBar, hpBar.fillAmount, bossHpBarParam.bossHp, changeTime, changeEase, gameObject);
     }
+
     public override void OnShow<T>(T param)
     {
         canvas.gameObject.SetActive(true);
