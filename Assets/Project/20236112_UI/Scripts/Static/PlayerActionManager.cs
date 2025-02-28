@@ -7,6 +7,7 @@ public class PlayerActionManager : ServiceMonoBehaviour<PlayerActionManager>
 
         base.Awake();
         playerAction = new();
+        playerAction.Enable();
         //ServiceLocator<PlayerActionManager>.GetInstance().playerAction = new PlayerAction();
         //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Enable();
     }
