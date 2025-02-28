@@ -126,15 +126,16 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     public EnemyBulletPool BulletPool => _bulletPool;
     public override bool GetIsView => _renderer.isVisible;
 
+    private BossHpBarParam _CorehpBarParam = new();
     public override void Damage(int damage)
     {
         if (!_isAttack) return;
-        Debug.Log(0);
         _nowCoreHp -= damage;
+        _CorehpBarParam.bossNowHp = _nowCoreHp;
         _damageToken.Cancel();
         _damageToken = new CancellationTokenSource();
         _token = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(), _damageToken.Token);
-
+        ServiceLocator<UIMediator>.GetInstance().Reload(_CorehpBarParam);
         if (_nowCoreHp <= 0)
             _stateMachin.ChangeState((int)CoreEnemyState.Death);
     }
@@ -159,6 +160,9 @@ public class CoreEnemy : EnemyBase,ILockTargetable
         _bulletPool = ServiceLocator<EnemyBulletPool>.GetInstance();
         _stateMachin.Initialize((int)CoreEnemyState.Act3);
         _stateMachin.OnEnter();
+        _CorehpBarParam.bossMaxHp = _MaxCoreHp;
+        _CorehpBarParam.bossNowHp = _MaxCoreHp;
+        ServiceLocator<UIMediator>.GetInstance().Init(_CorehpBarParam);
     }
 
     // Update is called once per frame
