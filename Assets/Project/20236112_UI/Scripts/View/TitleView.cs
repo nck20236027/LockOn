@@ -87,5 +87,6 @@ public class TitleView : ViewBase
     public void OnDestroy()
     {
         ServiceLocator<UIMediator>.GetInstance().Final(new TitleParam());
+        Debug.Log("TitleViewFinal");
     }
 }

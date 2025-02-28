@@ -68,7 +68,7 @@ public class SettingView : ViewBase
     public override void OnAnimation<T>(T param)
     {
         var settingParam = param as SettingParam;
-       
+
         sliderImages[beforeIndex].color = Color.clear;
         sliderImages[settingParam.currentIndex].color = Color.white;
 
@@ -106,9 +106,14 @@ public class SettingView : ViewBase
     {
         //View‚Ìíœw—ß‚ğó‚¯‚½‚ç©g‚ğíœ‚·‚é
         Destroy(gameObject);
-        ServiceLocator<UIMediator>.GetInstance().Final(new SettingParam());
     }
 
+    public void OnDestroy()
+    {
+        ServiceLocator<UIMediator>.GetInstance().Final(new SettingParam());
+        Debug.Log("SettingViewFinal");
+
+    }
 }
 
 public enum OptionChoiseType
