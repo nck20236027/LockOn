@@ -5,7 +5,7 @@ using LitMotion;
 public class BossHpBarView : ViewBase
 {
     [SerializeField]
-    private Image hpBar;
+    private Image _hpBar;
     [SerializeField]
     private Image hpBarBack;
     [SerializeField]
@@ -19,7 +19,10 @@ public class BossHpBarView : ViewBase
     public override void OnInit<T>(T param)
     {
         BossHpBarParam bossHpBarParam = param as BossHpBarParam;
-        hpBar.fillAmount = bossHpBarParam.bossMaxHp;
+
+        _hpBar.fillAmount = hpBarBack.fillAmount;
+        _hpBar.fillAmount -= bossHpBarParam.bossNowHp /= bossHpBarParam.bossMaxHp;
+
         hpText.text = bossHpBarParam.bossName;
     }
 
@@ -27,9 +30,10 @@ public class BossHpBarView : ViewBase
     {
         BossHpBarParam bossHpBarParam = param as BossHpBarParam;
 
-        hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, bossHpBarParam.bossMaxHp, changeTime);
 
-        
+        _hpBar.fillAmount = Mathf.Lerp(_hpBar.fillAmount, bossHpBarParam.bossMaxHp, changeTime);
+
+
 
         //Tweens.FillAmountTween(hpBar, hpBar.fillAmount, bossHpBarParam.bossHp, changeTime, changeEase, gameObject);
     }
