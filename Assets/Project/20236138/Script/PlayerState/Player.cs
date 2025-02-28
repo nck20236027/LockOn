@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour,IMoveObjectable,IDamagable
 {
@@ -23,6 +24,9 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     public float _fuelQuantity;
     public float FuelQuantity { get { return _energyGageParam.nowEnergyGauge; }
         set { _energyGageParam.nowEnergyGauge = Mathf.Max(value, _maxFuelQuantity); } }
+    [SerializeField, Header("ダメージを受けた時の無敵時間")]
+    private float _invincibleTime = 1;
+    private float _nowIncibleTime = 0;
     [Header("ブーストが開始したとき~切り替えれない時間")]
     public float BoostStateUnChangeTime;
     [ Header("通常のステータス")]
@@ -68,7 +72,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _playerInput.Player.Deceleration.canceled += DecelerationAction;
         _rb = GetComponent<Rigidbody>();
         _stateMachine.Initialize(ModeStateType.Move);
-
+        _stateMachine.OnEnter();
 
         ServiceLocator<UIMediator>.GetInstance().Init(_energyGageParam);
     }
@@ -77,10 +81,14 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     void Update()
     {
         _stateMachine.OnUpdate();
-        if(Input.GetKeyDown(KeyCode.E))
+        _nowIncibleTime -= Time.deltaTime;
+
+
+        if(FuelQuantity < 0)
         {
-            Damage(8);
+            _stateMachine.ChangeState(ModeStateType.Death);
         }
+
     }
     private void FixedUpdate()
     {
@@ -129,6 +137,8 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
 
     public void Damage(int damage)
     {
+        if (_nowIncibleTime >= 0) return;
+        _nowIncibleTime = _invincibleTime;
         FuelQuantity -= damage;
         _energyGageParam.isDamage = true;
         _energyGageParam.damageEnergyPoint = damage;

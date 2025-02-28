@@ -6,6 +6,7 @@ public class EnemyBullet : MonoBehaviour
 {
 
     public EnemyBulletStatus status;
+    public void SetStatus(EnemyBulletStatus value) => status = value;
     private float _nowTime = 0;
     // Update is called once per frame
     void FixedUpdate()
@@ -32,4 +33,5 @@ public class EnemyBullet : MonoBehaviour
         _nowTime = 0;
         gameObject.SetActive(false);
     }
+
 }

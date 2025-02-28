@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 00d9c6c1b393858459ca1dca8bc00df3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,7 +104,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -127,9 +127,10 @@ MonoBehaviour:
   _roundBulletCount: 1
   _maxBulletDistance: 2
   _distanceAttack: 21.63
-  _bulletSpeed: 5.2
-  _bulletPowor: 1
-  _bullet: {fileID: 1841448450048833526, guid: 07cd409de4b64c34ca0caee01f42eb65, type: 3}
+  _status:
+    _moveSpeed: 4
+    _bulletPowor: 5
+    _DestroyTime: 0
 --- !u!120 &2067003576688056094
 LineRenderer:
   serializedVersion: 2
@@ -271,7 +272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1406.6392}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &561911773554414644

@@ -17,11 +17,17 @@ public class BoostState : ModeStateBase
         base.OnEnter();
         Debug.Log(this.ToString());
         _player._cameraController.Interface.CameraChange();
+
         _player.GetRigidbody.velocity = Vector3.zero;
-        Vector3 diffDir = _player.Gettarget != null ?
-        (_player.Gettarget - _player.transform.position).normalized :
-        Quaternion.LookRotation(_player.transform.up, Vector3.forward) * Vector3.forward; // ターゲットの方向
+            // ターゲットの方向
+        if (_player.Gettarget != Vector3.zero)
+        {
+        Vector3  diffDir = (_player.Gettarget - _player.transform.position).normalized;
         _player.transform.rotation = Quaternion.FromToRotation(Vector3.up, diffDir);
+
+        }
+        
+        //UIの操作
         _player._energyGageParam.buttonState = ButtonState._isInputDown;
         _player._energyGageParam.energyTimeLost = _state.FuelConsumptio * Time.deltaTime;
         ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);

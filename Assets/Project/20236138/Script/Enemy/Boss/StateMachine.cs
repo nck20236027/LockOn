@@ -18,7 +18,8 @@ public class StateMachine : IStateMachine
         stateDic.Add(ModeStateType.Deceleration, StateFactory.Create(ModeStateType.Deceleration,this,player));
         stateDic.Add(ModeStateType.Move, StateFactory.Create(ModeStateType.Move, this, player));
         stateDic.Add(ModeStateType.Boost, StateFactory.Create(ModeStateType.Boost, this, player));
-                //stateDic.Add(ModeStateType.BeforBoost, ModeStateFactory.Create(ModeStateType.BeforBoost, this, player));
+        stateDic.Add(ModeStateType.Death, StateFactory.Create(ModeStateType.Death, this, player));
+        //stateDic.Add(ModeStateType.BeforBoost, ModeStateFactory.Create(ModeStateType.BeforBoost, this, player));
     }
 
     public void ChangeState(ModeStateType changeStateType)
@@ -62,6 +63,7 @@ public enum ModeStateType
     Boost,
     Move,
     Deceleration,
+    Death,
 
 }
 
@@ -78,6 +80,8 @@ public static class StateFactory
 
 
             case ModeStateType.Boost: return new BoostState(modeStateContext, player);
+
+            case ModeStateType.Death: return new DeathState(modeStateContext, player);
         }
 
         return null;

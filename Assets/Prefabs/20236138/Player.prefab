@@ -101,10 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2466a2a4f6653544eae4b1cbf3533394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraController:
+  _cameraController:
     attachedObject: {fileID: 0}
   _maxFuelQuantity: 60.79
-  fuelQuantity: 100
+  _fuelQuantity: 0
   BoostStateUnChangeTime: 2
   normalState:
     _curve:
@@ -222,7 +222,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
