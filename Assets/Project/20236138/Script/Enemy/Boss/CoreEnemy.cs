@@ -15,6 +15,9 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     [SerializeField, Header("Actの行動間隔")]
     private float _actionInterval = 1f;
     public float ActionIntarval => _actionInterval;
+    [SerializeField, Header("アニメーションが以降する時間")]
+    private float _animationTime = 2;
+    public float AnimationTime => _animationTime;
     [SerializeField, Header("Act1の攻撃時間")]
     private float _act1AttackTime = 1f;
     public float Act1AttackTime => _act1AttackTime;
@@ -34,7 +37,7 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     private float _bulletAround = 3;
     public float BulletAround => _bulletAround;
     public float Act1DestroyTime =>
-        (_distanceAttack - _act1AttackDistanse) / _act1BulletStatus._moveSpeed;
+        (_act1AttackDistanse - _distanceAttack) / _act1BulletStatus._moveSpeed;
     [SerializeField]
     EnemyBulletStatus _act1BulletStatus;
     public EnemyBulletStatus Act1BulletStatus => _act1BulletStatus;
@@ -69,8 +72,9 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     [SerializeField, Header("レーザーの色")]
     private Color _lineColor; [SerializeField]
     public Color LineColor => _lineColor;
-    private EnemyBulletStatus status;
-    public EnemyBulletStatus Status => status;
+    [SerializeField,Header("Act2の弾のステータス")]
+    private EnemyBulletStatus _act2Bulletstatus;
+    public EnemyBulletStatus Act2BulletStatus => _act2Bulletstatus;
 
 
     [SerializeField, Header("Act3の攻撃時間")]
@@ -82,6 +86,9 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     [SerializeField, Header("Act3の隙をさらす時間")]
     private float _act3ChanseTime = 1f;
     public float Act3ChanseTime => _act3ChanseTime;
+    [SerializeField, Header("敵をどれくらいはなして生成するか")]
+    private float _act3EnemCreatDistance = 2;
+    public float Act3EnemyCreatDistance => _act3EnemCreatDistance;
     [SerializeField,Header("act3の敵のステータス")]
     private MoveStatus _moveStatus;
     public MoveStatus MoveStatus => _moveStatus;
@@ -89,52 +96,91 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     private float _enemyDestructionTime = 1;
     public float EnemyDestructionTime => _enemyDestructionTime;
     [SerializeField,Header("敵が自爆した時のダメージ")]
-    private float _selfDistructionDamage = 10;
-    public float SelfDistructionDamage => _selfDistructionDamage;
+    private int _selfDistructionDamage = 10;
+    public int SelfDistructionDamage => _selfDistructionDamage;
+    [SerializeField]
     private Renderer _renderer;
-    
+
+    LineRenderer _lineRenderer;
+    public LineRenderer LineRenderer => _lineRenderer;
+
+    [SerializeField]
+    Transform _player;
+    public Vector3 GetPlayerPos  => _player.position;
+
+    [SerializeField]
+    TriangleEnemy _enemy;
+
+    Animator _animator;
+
     //攻撃中かどうか
+    [SerializeField]
     private bool _isAttack = false;
+    public bool IsAttack { get => _isAttack; set => _isAttack = value; }
 
     private EnemyStateMachine _stateMachin;
-    private CancellationToken _token;
-    public CancellationToken Token => _token;
+    private CancellationTokenSource _damageToken;
+    private CancellationTokenSource _token;
+    public CancellationToken Token => _token.Token;
     private EnemyBulletPool _bulletPool;
     public EnemyBulletPool BulletPool => _bulletPool;
     public override bool GetIsView => _renderer.isVisible;
 
     public override void Damage(int damage)
     {
-        if (_isAttack) return;
-        _MaxCoreHp -= damage;
-        if (_MaxCoreHp < 0)
-            Debug.Log("Boss is Dead");
+        if (!_isAttack) return;
+        Debug.Log(0);
+        _nowCoreHp -= damage;
+        _damageToken.Cancel();
+        _damageToken = new CancellationTokenSource();
+        _token = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(), _damageToken.Token);
+
+        if (_nowCoreHp <= 0)
+            _stateMachin.ChangeState((int)CoreEnemyState.Death);
     }
 
 
     private void Awake()
     {
+        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.startColor = _lineColor;
+        _lineRenderer.endColor = _lineColor;
+        _animator = GetComponent<Animator>();
         _nowCoreHp = _MaxCoreHp;
         _stateMachin = new EnemyStateMachine(this);
+        _damageToken = new CancellationTokenSource();
+        _token = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),_damageToken.Token);
 
-        _renderer = GetComponent<Renderer>();
     }
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
-        _token = this.GetCancellationTokenOnDestroy();
+        //base.Start();
         _bulletPool = ServiceLocator<EnemyBulletPool>.GetInstance();
+        _stateMachin.Initialize((int)CoreEnemyState.Act3);
+        _stateMachin.OnEnter();
     }
 
     // Update is called once per frame
     void Update()
     {
         _stateMachin.OnUpdate();
+        CoreAnimation();
     }
 
     private void FixedUpdate()
     {
         _stateMachin.OnFixedUpdate();
+    }
+
+    public void CreatTriangleEnemy(Vector3 _pos,Quaternion _rotation)
+    {
+        TriangleEnemy enemy = Instantiate(_enemy, _pos, _rotation);
+        enemy.SetStatus(SelfDistructionDamage, EnemyDestructionTime, MoveStatus.MaxSpeed, MoveStatus, true);
+    }
+
+    private void CoreAnimation()
+    {
+        _animator.SetBool("isAttack", _isAttack);
     }
 }

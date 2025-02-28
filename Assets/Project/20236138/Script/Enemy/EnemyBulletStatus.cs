@@ -9,6 +9,6 @@ public struct EnemyBulletStatus
     public float _moveSpeed ;
     [Header("’e‚ÌUŒ‚—Í")]
     public int _bulletPowor ;
-    [HideInInspector]
+    [Header("’e‚ªÁ‚¦‚éŠÔ")]
     public float _DestroyTime ;
 } 

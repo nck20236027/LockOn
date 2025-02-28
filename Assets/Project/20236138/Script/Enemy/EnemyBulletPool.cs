@@ -37,7 +37,7 @@ public class EnemyBulletPool : ServiceMonoBehaviour<EnemyBulletPool>,IServiceCla
         }
         bullet.transform.position = _setPosition;
         bullet.transform.rotation = _rotation;
-        bullet.status = _status;
+        bullet.SetStatus(_status);
         bullet.gameObject.SetActive(true);
         return bullet.gameObject;
     }

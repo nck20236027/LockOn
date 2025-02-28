@@ -50,6 +50,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sreachDistance: 35.8
   _timeDestruction: 10
+  _chaseSpeed: 10
+  _selfDistructionDamage: 10
+  _selfDistructionScale: 10
   _moveStatus:
     _curve:
       serializedVersion: 2
@@ -78,6 +81,7 @@ MonoBehaviour:
     _maxSpeed: 11.2
     _bendability: 3.46
     _damping: 1.47
+  _renderer: {fileID: 1962070482593245692}
 --- !u!54 &4888720655283332994
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -120,7 +124,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -161,7 +165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1416.74}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &9164359024255719618
@@ -233,7 +237,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -286,6 +290,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 00d9c6c1b393858459ca1dca8bc00df3, type: 2}
     - target: {fileID: 919132149155446097, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
       propertyPath: m_Name
       value: Triangle
@@ -298,5 +306,10 @@ PrefabInstance:
 --- !u!4 &824581399391507091 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
+  m_PrefabInstance: {fileID: 935404107980436856}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1962070482593245692 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 32070e5ddd3efeb4d9929d6eff3690d8, type: 3}
   m_PrefabInstance: {fileID: 935404107980436856}
   m_PrefabAsset: {fileID: 0}

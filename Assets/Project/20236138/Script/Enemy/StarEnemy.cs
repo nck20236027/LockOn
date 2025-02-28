@@ -28,8 +28,6 @@ public class StarEnemy : EnemyBase
     private EnemyBulletStatus status;
     [SerializeField, Header("êUÇËÇﬁÇ≠ë¨Ç≥")]
     float _lookatSpeed;
-    [SerializeField, Header("íeÇ™è¡Ç¶ÇÈÇ‹Ç≈ÇÃïbêî")]
-    float _bulletDestroyTime = 3;
     EnemyBulletPool _pool;
     float _attackTime = 0;
 
@@ -42,19 +40,23 @@ public class StarEnemy : EnemyBase
     }
 
     private CancellationToken token;
+    [SerializeField]
     private Renderer _renderer;
 
     private void Awake()
     {
         _lineRenderer = GetComponent<LineRenderer>();
         token = this.GetCancellationTokenOnDestroy();
-        _renderer = GetComponent<Renderer>();
+        _lineRenderer.startColor = _lineColor;
+        _lineRenderer.endColor = _lineColor;
+
     }
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        _lineRenderer.SetPosition(0,transform.position);
         _lineRenderer.SetPosition(1, Vector3.forward * _sreachDistance);
         _lineRenderer.material.color = _lineColor;
         var _ = Attack();
@@ -67,9 +69,15 @@ public class StarEnemy : EnemyBase
         _attackTime += Time.deltaTime;
         if ((transform.position - GetTarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2))
         {
+            _lineRenderer.enabled = true;
+            _lineRenderer.SetPosition(1, GetTarget);
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(GetTarget - transform.position,Vector3.up),_lookatSpeed);
             var _ =  Attack();
             
+        }
+        else
+        {
+            _lineRenderer.enabled = false;
         }
     }
 
@@ -77,7 +85,7 @@ public class StarEnemy : EnemyBase
     {
         if (_attackTime < _enemyBulletSpan) return;
         _attackTime = 0;
-        for (int j = 0; j < _enemyBulletCount; j++)
+        for (int j = 0; j <= _enemyBulletCount; j++)
         {
             for (int i = -_enemyBulletLineCount; i < _enemyBulletLineCount; i++)
             {

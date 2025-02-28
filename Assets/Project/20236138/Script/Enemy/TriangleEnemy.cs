@@ -12,7 +12,9 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     private float _chaseSpeed = 10;
     private float _nowTimeDestruntion = 0;
     [SerializeField, Header("自爆時の攻撃力")]
-    private float _selfDistructionDamage = 10;
+    private int _selfDistructionDamage = 10;
+    [SerializeField,Header("爆発の範囲")]
+    private float _selfDistructionScale = 10;
 
     [SerializeField]
     private MoveStatus _moveStatus;
@@ -30,13 +32,14 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     }
 
     //コンポーネント
-    Renderer _renderer;
-    Rigidbody rb;
+    [SerializeField]
+    private Renderer _renderer;
+    private Rigidbody rb;
 
     private bool _isTracking = false;
-    public void SetStatus(float _selfDestructionTime , float _timeDestruction,float _chaseSpeed,MoveStatus status,bool _isTracking)
+    public void SetStatus(int _selfDestructionDamage , float _timeDestruction,float _chaseSpeed,MoveStatus status,bool _isTracking)
     {
-        this._selfDistructionDamage = _selfDestructionTime;
+        this._selfDistructionDamage = _selfDestructionDamage;
         this._timeDestruction = _timeDestruction;
         this._chaseSpeed = _chaseSpeed;
         this._moveStatus = status;
@@ -44,7 +47,6 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     }
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
     }
     // Start is called before the first frame update
@@ -72,6 +74,14 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     protected override void OnDestroy()
     {
         base.OnDestroy();
-
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, _selfDistructionScale, Vector3.forward,0.0001f);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            IDamagable damage = hits[i].transform.GetComponent<IDamagable>();
+            if(damage != null)
+            {
+                damage.Damage(_selfDistructionDamage);
+            }
+        }
     }
 }

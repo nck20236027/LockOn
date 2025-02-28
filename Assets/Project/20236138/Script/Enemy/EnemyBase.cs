@@ -24,7 +24,7 @@ public abstract class EnemyBase : MonoBehaviour,IDamagable,ILockTargetable
 
     protected virtual void OnDestroy()
     {
-        TargetManager.Instance.RemoveLockTarget(this);
+        TargetManager.Instance?.RemoveLockTarget(this);
     }
 
     public abstract void Damage(int damage);
