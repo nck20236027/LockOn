@@ -85,6 +85,10 @@ public class TargetUIView : ViewBase
         //    .BindToLocalScale(transform);// transform.localScaleに紐づけ
 
     }
+    public void OnDestroy()
+    {
+        ServiceLocator<UIMediator>.GetInstance().Final(new TargetUIParam()); //すべてのviewにこれを書かないとバグる
+    }
     void Update()
     {
         //ここに持ってきたVectorを使ってtargetの場所にUIを置く

@@ -52,7 +52,10 @@ public class MiniMapView : ViewBase
         base.OnHide(param);
         gameObject.SetActive(false);
     }
-
+    public void OnDestroy()
+    {
+        ServiceLocator<UIMediator>.GetInstance().Final(new MiniMapParam()); //‚·‚×‚Ä‚Ìview‚É‚±‚ê‚ğ‘‚©‚È‚¢‚ÆƒoƒO‚é
+    }
     // Update is called once per frame
     void Update()
     {

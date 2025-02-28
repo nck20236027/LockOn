@@ -8,24 +8,24 @@ public class EnergyGageModel : MonoBehaviour
     public bool isInputUp = false;
     public float maxEnergyGauge;
     public float nowEnergyGauge;
-    private EnergyGageParam param;
+    private EnergyGageParam energyGageParam;
     private float energyTimeLost = 1f;
 
     public float damagePoint;
     void Start()
     {
-        param = new EnergyGageParam();
+        energyGageParam = new EnergyGageParam();
         nowEnergyGauge = maxEnergyGauge;
         //param.maxEnergyGauge = 200f;
-        param.maxEnergyGauge = maxEnergyGauge;
-        param.nowEnergyGauge = nowEnergyGauge;
-        param.nowEnergyGauge = param.maxEnergyGauge;
-        param.damageEnergyPoint = damagePoint;
-        param.energyTimeLost = energyTimeLost;
-        param.buttonState = ButtonState.Non;
+        energyGageParam.maxEnergyGauge = maxEnergyGauge;
+        energyGageParam.nowEnergyGauge = nowEnergyGauge;
+        energyGageParam.nowEnergyGauge = energyGageParam.maxEnergyGauge;
+        energyGageParam.damageEnergyPoint = damagePoint;
+        energyGageParam.energyTimeLost = energyTimeLost;
+        energyGageParam.buttonState = ButtonState.Non;
 
-        ServiceLocator<UIMediator>.GetInstance().Init(param);
-        Debug.Log($"{1f/200f}");
+        ServiceLocator<UIMediator>.GetInstance().Init(energyGageParam);
+        //Debug.Log($"{1f/200f}");
     }
 
     // Update is called once per frame
@@ -33,27 +33,27 @@ public class EnergyGageModel : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            param.damageEnergyPoint = damagePoint;
-            ServiceLocator<UIMediator>.GetInstance().Animation(param);
+            energyGageParam.damageEnergyPoint = damagePoint;
+            ServiceLocator<UIMediator>.GetInstance().Animation(energyGageParam);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            param.buttonState = ButtonState._isInputDown;
+            energyGageParam.buttonState = ButtonState._isInputDown;
 
             //Ç±Ç±Ç…âüÇ≥ÇÍÇΩêMçÜÇ™ó~ÇµÇ¢
         }
         else if (Input.GetKey(KeyCode.Space))
         {
-            param.buttonState = ButtonState._isInputNow;
-            param.energyTimeLost = 20f;
+            energyGageParam.buttonState = ButtonState._isInputNow;
+            energyGageParam.energyTimeLost = 20f;
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
-            param.buttonState = ButtonState._isInputUp;
-            param.energyTimeLost = 1f;
+            energyGageParam.buttonState = ButtonState._isInputUp;
+            energyGageParam.energyTimeLost = 1f;
         }
 
-        ServiceLocator<UIMediator>.GetInstance().Reload(param);
-        param.buttonState = ButtonState.Non;
+        ServiceLocator<UIMediator>.GetInstance().Reload(energyGageParam);
+        energyGageParam.buttonState = ButtonState.Non;
     }
 }
