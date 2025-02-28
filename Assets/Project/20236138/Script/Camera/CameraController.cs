@@ -28,6 +28,7 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
 
     [SerializeField, Header("スティックでのカメラ移動のはやさ")]
     float _basisStickSpeed;
+    [SerializeField]
     private float _basisintensity = 1;
     public float BasisIntensity { get => _basisintensity; set => _basisintensity = value; }
     [SerializeField, Header("マウスでのカメラ移動のはやさ")]
@@ -38,7 +39,7 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
     private int _controlInt = 90;
 
     Vector2 _moveVector = Vector2.zero;
-    protected void Awake()
+    protected override void Awake()
     {
         base.Awake();
     }
@@ -46,7 +47,9 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
     {
 
         PlayerAction actions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
+        
         InputAction _stickAction = actions.FindAction("Move");
+        _stickAction.Enable();
         _stickAction.AddBinding("<Gamepad>/RightStick").
             WithProcessor($"scalevector2(x={_basisStickSpeed},y={_basisStickSpeed})").WithName("Mouse");
         _stickAction.AddBinding("<Mouse>/Delta").

@@ -44,7 +44,7 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
     void Start()
     {
 
-        inputActions = new();
+        inputActions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
         inputActions.Enable();
         inputActions.Player.LLock.started += (x) => ChangeTarget(-1);
         inputActions.Player.RLock.started += (x) => ChangeTarget(1);
