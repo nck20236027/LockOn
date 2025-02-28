@@ -217,7 +217,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 49b5232ad703d724dabd10ccecb135ab, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -280,11 +280,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 4788823347287237250}
-  hpBar: {fileID: 1022509680257040261}
+  _hpBar: {fileID: 1022509680257040261}
   hpBarBack: {fileID: 2047262617827545945}
   hpText: {fileID: 2946880333818132332}
   changeTime: 0.1
-  changeEase: 0
 --- !u!1 &7996672472942375066
 GameObject:
   m_ObjectHideFlags: 0

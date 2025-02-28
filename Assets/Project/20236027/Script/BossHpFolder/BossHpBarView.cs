@@ -12,16 +12,16 @@ public class BossHpBarView : ViewBase
     private Text hpText;
     [SerializeField]
     private float changeTime = 0.1f;
-    [SerializeField]
-    private Ease changeEase = Ease.Linear;
+    //[SerializeField]
+    //private Ease changeEase = Ease.Linear;
     protected override ParamBase GetUseParamBase() => new BossHpBarParam();
 
     public override void OnInit<T>(T param)
     {
         BossHpBarParam bossHpBarParam = param as BossHpBarParam;
 
-        _hpBar.fillAmount = hpBarBack.fillAmount;
-        _hpBar.fillAmount -= bossHpBarParam.bossNowHp /= bossHpBarParam.bossMaxHp;
+        //_hpBar.fillAmount = hpBarBack.fillAmount;
+        _hpBar.fillAmount = bossHpBarParam.bossNowHp / bossHpBarParam.bossMaxHp;
 
         hpText.text = bossHpBarParam.bossName;
     }
@@ -30,8 +30,9 @@ public class BossHpBarView : ViewBase
     {
         BossHpBarParam bossHpBarParam = param as BossHpBarParam;
 
+        
 
-        _hpBar.fillAmount = Mathf.Lerp(_hpBar.fillAmount, bossHpBarParam.bossMaxHp, changeTime);
+        //_hpBar.fillAmount = Mathf.Lerp(_hpBar.fillAmount, bossHpBarParam.bossMaxHp, changeTime);
 
 
 
