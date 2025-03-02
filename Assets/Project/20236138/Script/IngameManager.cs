@@ -19,7 +19,7 @@ public class IngameManager : MonoBehaviour
     [SerializeField]
     private Transform _playerTransform;
     [SerializeField]
-    private Transform _CameraTranseform;
+    private Transform _cameraTransform;
     private void Awake()
     {
         _bannerParam = new BannerParam();
@@ -33,6 +33,7 @@ public class IngameManager : MonoBehaviour
         _miniMapParam.rocketTransformZ = _playerTransform.transform.position.z;
         _miniMapParam.rocketTransformX = _playerTransform.transform.position.x;
         _token = this.GetCancellationTokenOnDestroy();
+        ServiceLocator<UIMediator>.GetInstance().Init(_miniMapParam);
         try
         {
 
@@ -46,6 +47,9 @@ public class IngameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _miniMapParam.cameraRotationY = _cameraTransform.transform.eulerAngles.y;
+        _miniMapParam.rocketTransformZ = _playerTransform.transform.position.z;
+        _miniMapParam.rocketTransformX = _playerTransform.transform.position.x;
         ServiceLocator<UIMediator>.GetInstance().Reload(_miniMapParam);
     }
 
@@ -54,7 +58,7 @@ public class IngameManager : MonoBehaviour
         ServiceLocator<UIMediator>.GetInstance().Init(_bannerParam);
         ServiceLocator<UIMediator>.GetInstance().Show(_bannerParam);
         Time.timeScale = 0;
-        Debug.Log(Time.timeScale);
+
         await UniTask.Delay(TimeSpan.FromSeconds(_missionDisplayTime), ignoreTimeScale: true,cancellationToken:_token);
         Time.timeScale = 1;
         await UniTask.WaitUntil(() =>  _enemy.nowCoreHp <= 0, cancellationToken: _token);

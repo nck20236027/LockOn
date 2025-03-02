@@ -158,7 +158,7 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     {
         //base.Start();
         _bulletPool = ServiceLocator<EnemyBulletPool>.GetInstance();
-        _stateMachin.Initialize((int)CoreEnemyState.Act3);
+        _stateMachin.Initialize((int)CoreEnemyState.Act2);
         _stateMachin.OnEnter();
         _CorehpBarParam.bossMaxHp = _MaxCoreHp;
         _CorehpBarParam.bossNowHp = _MaxCoreHp;
