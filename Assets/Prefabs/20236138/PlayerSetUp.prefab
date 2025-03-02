@@ -381,6 +381,22 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: heelSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 3096355ef0d5f844f92ed71e7bd23e65, type: 3}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: boostSound
+      value: 
+      objectReference: {fileID: 8300000, guid: d3e9adbdaab0e5145a3a5683384d7e54, type: 3}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: damageSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f468b3992fae31b4392d41e214eb3fda, type: 3}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: warningSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 50b3df12f1b0df440964e19874be7001, type: 3}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
       propertyPath: _fuelQuantity
       value: 34.75
       objectReference: {fileID: 0}
@@ -388,6 +404,10 @@ PrefabInstance:
       propertyPath: _maxFuelQuantity
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: changeTargetSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f30231cb3e123a04e87d6b8e439e03b9, type: 3}
     - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
       propertyPath: BoostState._maxSpeed
       value: 40

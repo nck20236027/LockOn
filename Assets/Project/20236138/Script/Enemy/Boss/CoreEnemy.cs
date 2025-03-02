@@ -168,6 +168,7 @@ public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
         _CorehpBarParam.bossMaxHp = _MaxCoreHp;
         _CorehpBarParam.bossNowHp = _MaxCoreHp;
         ServiceLocator<UIMediator>.GetInstance().Init(_CorehpBarParam);
+        corePos = gameObject.transform.position;
     }
 
     // Update is called once per frame
