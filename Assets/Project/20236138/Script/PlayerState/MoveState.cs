@@ -29,7 +29,7 @@ public class MoveState : ModeStateBase
         float timeFuelQuatity = (_player.GetTarget != null ?
             _player.GetTarget.ChangeConsuptio(-_state.FuelConsumptio): -_state.FuelConsumptio) ;
         _player.FuelQuantity += timeFuelQuatity * Time.deltaTime;
-        _player._energyGageParam.energyTimeLost = timeFuelQuatity ;
+        _player._energyGageParam.energyTimeLost = -timeFuelQuatity * Time.deltaTime;
         
         if(_player.isBoostButton)
         {

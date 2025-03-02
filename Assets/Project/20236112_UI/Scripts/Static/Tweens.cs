@@ -65,6 +65,7 @@ public static class Tweens
     {
         return LMotion.Create(initRotate, targetRotate, duration)
             .WithEase(ease)
+                        .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
             .WithLoops(loops, loopType)
             .BindToEulerAngles(tweenTransform)
             .AddTo(gameObject);
@@ -73,6 +74,7 @@ public static class Tweens
     {
         return LMotion.Create(initRotate, targetRotate, duration)
             .WithEase(ease)
+                        .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
             .WithLoops(loops, loopType)
             .BindToLocalScale(tweenTransform)
             .AddTo(gameObject);
@@ -81,6 +83,7 @@ public static class Tweens
     {
         return LMotion.Create(initImageColor, targetImageColor, duration)
             .WithEase(ease)
+                        .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
             .WithLoops(loops,loopType)
             .BindToColor(tweenImage)
             .AddTo(gameObject);

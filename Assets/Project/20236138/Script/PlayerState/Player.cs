@@ -27,7 +27,9 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     [Header("Œ»İ‚Ì”R—¿—Ê")]
     public float _fuelQuantity;
     public float FuelQuantity { get { return _energyGageParam.nowEnergyGauge; }
-        set { _energyGageParam.nowEnergyGauge = Mathf.Min(value, _maxFuelQuantity); } }
+        set { _energyGageParam.nowEnergyGauge = Mathf.Min(value, _maxFuelQuantity);
+            _fuelQuantity = _energyGageParam.nowEnergyGauge;
+        } }
     [SerializeField, Header("ƒ_ƒ[ƒW‚ğó‚¯‚½‚Ì–³“GŠÔ")]
     private float _invincibleTime = 1;
     private float _nowIncibleTime = 0;
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _energyGageParam.buttonState = ButtonState.Non;
         _energyGageParam.maxEnergyGauge = _maxFuelQuantity;
         _energyGageParam.nowEnergyGauge = _fuelQuantity;
+        _fuelQuantity = _maxFuelQuantity;
         _energyGageParam.energyTimeLost = 0;
         _energyGageParam.damageEnergyPoint = 0;
 

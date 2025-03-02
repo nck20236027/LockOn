@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b9ee6bf0887d544a61ec888eb9c19e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sreachDistance: 35.8
+  _sreachDistance: 78.1
   _timeDestruction: 10
   _chaseSpeed: 10
   _selfDistructionDamage: 10

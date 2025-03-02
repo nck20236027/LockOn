@@ -48,7 +48,7 @@ public class EnergyGageView : ViewBase
         EnergyGageParam energyGageParam = param as EnergyGageParam;
         base.OnReload(param);
         //_nowE = energyGageParam.nowEnergyGauge;
-        _greenGauge.fillAmount -= energyGageParam.energyTimeLost/ energyGageParam.maxEnergyGauge / energyGageParam.maxEnergyGauge;
+        _greenGauge.fillAmount -= energyGageParam.energyTimeLost/ energyGageParam.maxEnergyGauge ;
         //_greenGauge.fillAmount = _nowE / energyGageParam.maxEnergyGauge;
         // -= ‚É‚µ‚È‚¢‚Æ‚â‚Î‚¢
         switch (energyGageParam.buttonState)
