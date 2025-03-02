@@ -7,12 +7,17 @@ public class GameOverMovieManager : MonoBehaviour
     [SerializeField] private ParticleSystem ParticleObject;
     [SerializeField] private float startExplosion;
     [SerializeField] private float endExplosion;
+    [SerializeField] private AudioClip explosionSound;
+    [SerializeField] private AudioClip subExplosionSound;
 
     async void Start()
     {
+        ServiceLocator<SEManager>.GetInstance().PlaySound(explosionSound, true);
         await UniTask.WaitForSeconds(startExplosion);
         ParticleObject.Play();
+        ServiceLocator<SEManager>.GetInstance().PlaySound(subExplosionSound, true);
         await UniTask.WaitForSeconds(endExplosion);
+        //ServiceLocator<SEManager>.GetInstance().PlaySound(explosionSound, true);
         Destroy(cameraObject);
     }
 
