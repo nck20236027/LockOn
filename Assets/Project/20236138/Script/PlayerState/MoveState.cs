@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class MoveState : ModeStateBase
@@ -26,9 +27,9 @@ public class MoveState : ModeStateBase
     {
         base.OnUpdate();
         float timeFuelQuatity = (_player.GetTarget != null ?
-            _player.GetTarget.ChangeConsuptio(-_state.FuelConsumptio): _state.FuelConsumptio) * Time.deltaTime ;
-        _player.FuelQuantity += timeFuelQuatity ;
-       _player._energyGageParam.energyTimeLost = timeFuelQuatity ;
+            _player.GetTarget.ChangeConsuptio(-_state.FuelConsumptio): -_state.FuelConsumptio) ;
+        _player.FuelQuantity += timeFuelQuatity * Time.deltaTime;
+        _player._energyGageParam.energyTimeLost = timeFuelQuatity ;
         
         if(_player.isBoostButton)
         {
@@ -38,7 +39,10 @@ public class MoveState : ModeStateBase
         {
             stateMachine.ChangeState(ModeStateType.Deceleration);
         }
-
+        if (_player.FuelQuantity < 0)
+        {
+            stateMachine.ChangeState(ModeStateType.Death);
+        }
         ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
 
     }

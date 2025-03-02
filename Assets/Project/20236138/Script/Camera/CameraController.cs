@@ -19,6 +19,8 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
     [SerializeField]
     private CinemachineImpulseSource _impulseSource;
     [SerializeField]
+    private CinemachineVirtualCamera _stopCamera;
+    [SerializeField]
     private float _maxIntensity;
     public float MaxIntensity { get => _maxIntensity; set => _maxIntensity = value; }
     [SerializeField]
@@ -94,5 +96,13 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
     protected override void OnDestroy()
     {
         base.OnDestroy();
+    }
+
+    public void CameraStop()
+    {
+        _stopCamera.enabled = true;
+        _virtualCamera.enabled = false;
+        _freelook.enabled = false;
+        _stopCamera.transform.position = _virtualCamera.enabled ? _virtualCamera.transform.position: _freelook.transform.position;
     }
 }

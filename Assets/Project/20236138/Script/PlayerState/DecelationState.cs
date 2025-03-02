@@ -31,6 +31,10 @@ public class DecelerationState : ModeStateBase
         {
             stateMachine.ChangeState(ModeStateType.Move);
         }
+        if (_player.FuelQuantity < 0)
+        {
+            stateMachine.ChangeState(ModeStateType.Death);
+        }
         ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
     }
 

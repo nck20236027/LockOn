@@ -17,13 +17,17 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     private ILockTargetable _target;
     public ILockTargetable GetTarget => _target;
 
+    [SerializeField]
+    private float _standbyTime = 2;
+    public float StandbyTime => _standbyTime;
+
     //playerのステータス
     [SerializeField, Header("最大の燃料量")]
     float _maxFuelQuantity;
     [Header("現在の燃料量")]
     public float _fuelQuantity;
     public float FuelQuantity { get { return _energyGageParam.nowEnergyGauge; }
-        set { _energyGageParam.nowEnergyGauge = Mathf.Max(value, _maxFuelQuantity); } }
+        set { _energyGageParam.nowEnergyGauge = Mathf.Min(value, _maxFuelQuantity); } }
     [SerializeField, Header("ダメージを受けた時の無敵時間")]
     private float _invincibleTime = 1;
     private float _nowIncibleTime = 0;
@@ -84,10 +88,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _nowIncibleTime -= Time.deltaTime;
 
 
-        if(FuelQuantity < 0)
-        {
-            _stateMachine.ChangeState(ModeStateType.Death);
-        }
+
 
     }
     private void FixedUpdate()
