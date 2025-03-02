@@ -1,4 +1,6 @@
 using System;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,27 +8,40 @@ public class GameResultInputHandler
 {
     private PlayerAction _playerAction;
 
-    public Action _onGameResultSubmit;
+    public Action onGameResultSubmit;
 
     public void Init()
     {
-        _playerAction = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
-        _playerAction.Result.Enable();
+        var playerActionManager = ServiceLocator<PlayerActionManager>.GetInstance();
+        if (playerActionManager == null)
+        {
+            Debug.LogError("PlayerActionManager is not registered in ServiceLocator.");
+            return;
+        }
+
+        _playerAction = playerActionManager.playerAction;
+        if (_playerAction == null)
+        {
+            Debug.LogError("PlayerAction is not initialized in PlayerActionManager.");
+            return;
+        }
+
+        SetResultInput();
         _playerAction.Result.Submit.performed += OnResultSubmit;
     }
 
     public void Final()
     {
-        _playerAction.Result.Submit.performed -= OnResultSubmit;
+        if (_playerAction != null)
+        {
+            _playerAction.Result.Submit.performed -= OnResultSubmit;
+        }
     }
 
-
-    public void OnResultSubmit(InputAction.CallbackContext context)        //ÉQÅ[ÉÄèIóπÇÃåàíË
+    public void OnResultSubmit(InputAction.CallbackContext context)
     {
-        _onGameResultSubmit?.Invoke();
+        onGameResultSubmit?.Invoke();
     }
-
-
     public void SetPlayerInputEnable(bool isEnable)
     {
         if (isEnable)
@@ -51,7 +66,7 @@ public class GameResultInputHandler
         }
     }
 
-    public void SetGameOverInput(bool isEnable)
+    public void SetGameOverInputEnable(bool isEnable)
     {
         if (isEnable)
         {
@@ -60,6 +75,17 @@ public class GameResultInputHandler
         else
         {
             _playerAction.GameOver.Disable();
+        }
+    }
+    public void SetResultInputEnable(bool isEnable)
+    {
+        if (isEnable)
+        {
+            _playerAction.Result.Enable();
+        }
+        else
+        {
+            _playerAction.Result.Disable();
         }
     }
 
@@ -102,10 +128,29 @@ public class GameResultInputHandler
         }
     }
 
+    public void SetGameOverInput()
+    {
+        SetGameOverInputEnable(true);
+        SetPlayerInputEnable(false);
+        SetMenuInputEnable(false);
+        SetOptionInputEnable(false);
+        SetQuitInputEnable(false);
+    }
+
+    public void SetResultInput()
+    {
+        SetResultInputEnable(true);
+        SetGameOverInputEnable(false);
+        SetPlayerInputEnable(false);
+        SetMenuInputEnable(false);
+        SetOptionInputEnable(false);
+        SetQuitInputEnable(false);
+    }
+
     public void SetTitleInput()
     {
         SetTitleInputEnable(true);
-        SetGameOverInput(false);
+        SetGameOverInputEnable(false);
         SetPlayerInputEnable(false);
         SetMenuInputEnable(false);
         SetOptionInputEnable(false);
@@ -116,7 +161,7 @@ public class GameResultInputHandler
     public void SetPlayerInput()
     {
         SetPlayerInputEnable(true);
-        SetGameOverInput(false);
+        SetGameOverInputEnable(false);
         SetMenuInputEnable(false);
         SetOptionInputEnable(false);
         SetQuitInputEnable(false);
