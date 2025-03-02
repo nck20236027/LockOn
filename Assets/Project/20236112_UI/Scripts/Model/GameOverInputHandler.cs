@@ -74,7 +74,7 @@ public class GameOverInputHandler
     }
 
     /// <summary>
-    /// 
+    /// リスタート
     /// </summary>
     public void SetReStartInput()
     {
