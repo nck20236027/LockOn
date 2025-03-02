@@ -36,6 +36,9 @@ public class MenuHandler : MonoBehaviour
     [SerializeField]
     private float[] changeAmoutValues;
 
+    [SerializeField]
+    private AudioClip _submitSE;
+
     //private float ChangeAmount { get { return changeAmount * 0.1f; } }
 
     private void Awake()
@@ -130,12 +133,14 @@ public class MenuHandler : MonoBehaviour
         Debug.Log("MenuSubmit");
 
         menuActions[_currentIndex].OnMenuAction();
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_submitSE,true);
     }
 
     public void OnQuitSubmit()
     {
         Debug.Log("QuitSubmit");
         quitActions[_quitCurrentIndex].OnQuitAction();
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_submitSE, true);
     }
 
     public void OnChangeSliderValue(float direction)

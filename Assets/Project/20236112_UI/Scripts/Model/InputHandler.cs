@@ -185,7 +185,7 @@ public class InputHandler
 
     public void OnMenu(InputAction.CallbackContext context)
     {
-        Debug.Log("OpenMenu");
+        //Debug.Log("OpenMenu");
         onMenuAction?.Invoke();
         SetMenuInput();
     }
