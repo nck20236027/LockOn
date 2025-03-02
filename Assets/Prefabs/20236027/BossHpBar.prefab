@@ -141,11 +141,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 79ec18d1341f5cb4ba72adb91d7f3a66, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -217,7 +217,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 49b5232ad703d724dabd10ccecb135ab, type: 3}
+    m_Font: {fileID: 12800000, guid: 54e0a76f6cb98f94d85df84b14d73565, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -281,7 +281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 4788823347287237250}
   _hpBar: {fileID: 1022509680257040261}
-  hpBarBack: {fileID: 2047262617827545945}
   hpText: {fileID: 2946880333818132332}
   changeTime: 0.1
 --- !u!1 &7996672472942375066

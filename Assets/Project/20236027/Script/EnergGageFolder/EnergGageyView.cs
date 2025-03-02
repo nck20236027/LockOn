@@ -4,8 +4,6 @@ using LitMotion.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class EnergyGageView : ViewBase
 {
     [Header("緑、赤（ブースト中）、赤（ダメージ）のゲージ")]

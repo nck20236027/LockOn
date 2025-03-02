@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5575317793802467871}
   - component: {fileID: 2141873205071075024}
   m_Layer: 5
-  m_Name: Title
+  m_Name: Press
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 49b5232ad703d724dabd10ccecb135ab, type: 3}
+    m_Font: {fileID: 12800000, guid: 33c711ba92dc3dd4398fb335837b7aec, type: 3}
     m_FontSize: 90
     m_FontStyle: 0
     m_BestFit: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Press Any Button
 --- !u!1 &2889389384267156156
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,9 +309,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 3869467783366144906}
-  changeEase: 0
-  _expandTime: 0.1
-  _reduceTime: 0.1
 --- !u!1 &6268732350012379344
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,12 +454,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 49b5232ad703d724dabd10ccecb135ab, type: 3}
-    m_FontSize: 90
+    m_Font: {fileID: 12800000, guid: 33c711ba92dc3dd4398fb335837b7aec, type: 3}
+    m_FontSize: 200
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 9
-    m_MaxSize: 90
+    m_MinSize: 0
+    m_MaxSize: 200
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1

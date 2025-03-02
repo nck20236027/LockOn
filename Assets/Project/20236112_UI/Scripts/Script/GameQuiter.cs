@@ -4,7 +4,7 @@ public class GameQuiter : IQuitAction, IGameOverAction
 {
     public QuitActionType QuitActionType => QuitActionType.Quit;
 
-    public GameOverActionType GameOverActionType => GameOverActionType.Quit;
+    public GameOverActionType GameOverActionType => GameOverActionType.Title;
 
 
     public void OnQuitAction()

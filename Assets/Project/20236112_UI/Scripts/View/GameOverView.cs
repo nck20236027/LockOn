@@ -35,7 +35,7 @@ public class GameOverView : ViewBase
     protected override ParamBase GetUseParamBase() => new GameOverParam();
     public override void OnInit<T>(T param)
     {
-        gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
         GameOverParam gameOverParam = param as GameOverParam;
 
         Text firstSelectText = _texts[gameOverParam.currentIndex];
@@ -43,6 +43,11 @@ public class GameOverView : ViewBase
         Tweens.TextColorTween(firstSelectText, _tergetColor, _tergetColor, _expandTime, changeEase, gameObject);
 
         _beforeIndex = gameOverParam.currentIndex;
+    }
+
+    public override void OnShow<T>(T param)
+    {
+        canvas.gameObject.SetActive(true);
     }
 
     public override void OnReload<T>(T param)
@@ -62,14 +67,6 @@ public class GameOverView : ViewBase
         _beforeIndex = gameOverParam.currentIndex;
     }
 
-    public override void OnShow<T>(T param)
-    {
-        canvas.gameObject.SetActive(true);
-    }
-    public override void OnHide<T>(T param)
-    {
-        canvas.gameObject.SetActive(false);
-    }
     public override void OnFinal<T>(T param)
     {
         Destroy(gameObject);

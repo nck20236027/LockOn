@@ -7,5 +7,5 @@ public interface IGameOverAction
 public enum GameOverActionType
 {
     Restart,
-    Quit,
+    Title,
 }
