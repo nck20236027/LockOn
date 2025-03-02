@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BoostState : ModeStateBase
 {
@@ -16,6 +17,7 @@ public class BoostState : ModeStateBase
     {
         base.OnEnter();
         Debug.Log(this.ToString());
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_player.boostSound, true);
         _player._cameraController.Interface.CameraChange();
 
         _player.GetRigidbody.velocity = Vector3.zero;

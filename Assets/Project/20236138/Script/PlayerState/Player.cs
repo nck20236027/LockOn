@@ -21,6 +21,14 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     private float _standbyTime = 2;
     public float StandbyTime => _standbyTime;
 
+    [Header("SEの音")]
+    [SerializeField] private AudioClip changeTargetSound;
+    [SerializeField] private AudioClip damageSound;
+    [SerializeField] private AudioClip heelSound;
+    [SerializeField] private AudioClip warningSound;
+    public AudioClip boostSound;
+
+
     //playerのステータス
     [SerializeField, Header("最大の燃料量")]
     float _maxFuelQuantity;
@@ -30,6 +38,9 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         set { _energyGageParam.nowEnergyGauge = Mathf.Min(value, _maxFuelQuantity);
             _fuelQuantity = _energyGageParam.nowEnergyGauge;
         } }
+    [SerializeField, Range(0, 1), Header("警告が出る量")]
+    private float _warningValue;
+
     [SerializeField, Header("ダメージを受けた時の無敵時間")]
     private float _invincibleTime = 1;
     private float _nowIncibleTime = 0;
@@ -127,6 +138,9 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     public void ChangeTarget(ILockTargetable _target)
     {
         this._target = _target;
+        ServiceLocator<SEManager>.GetInstance().PlaySound(changeTargetSound, true);
+        if (_target.ChangeConsuptio(0) > 0)ServiceLocator<SEManager>.GetInstance().PlaySound(heelSound, true);
+        
     }
 
     public void BoostAction(InputAction.CallbackContext callback)
@@ -142,6 +156,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     public void Damage(int damage)
     {
         if (_nowIncibleTime >= 0) return;
+        ServiceLocator<SEManager>.GetInstance().PlaySound(damageSound,true);
         _nowIncibleTime = _invincibleTime;
         FuelQuantity -= damage;
         _energyGageParam.isDamage = true;

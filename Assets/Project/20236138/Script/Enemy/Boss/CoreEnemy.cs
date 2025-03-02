@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEngine;
 
 
-public class CoreEnemy : EnemyBase,ILockTargetable
+public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
 {
     [SerializeField, Header("ƒ{ƒX‚ÌHP(“ËŒ‚‰ñ”)")]
     private int _MaxCoreHp = 3;
@@ -113,6 +113,10 @@ public class CoreEnemy : EnemyBase,ILockTargetable
 
     Animator _animator;
 
+    [SerializeField] private Vector3 corePos;
+    public Vector3 SpeakerPos => corePos;
+    public AudioClip coreStateSound;
+
     //UŒ‚’†‚©‚Ç‚¤‚©
     [SerializeField]
     private bool _isAttack = false;
@@ -125,6 +129,7 @@ public class CoreEnemy : EnemyBase,ILockTargetable
     private EnemyBulletPool _bulletPool;
     public EnemyBulletPool BulletPool => _bulletPool;
     public override bool GetIsView => _renderer.isVisible;
+
 
     private BossHpBarParam _CorehpBarParam = new();
     public override void Damage(int damage)
