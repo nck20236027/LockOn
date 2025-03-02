@@ -20,7 +20,7 @@ public class BossHpBarView : ViewBase
 
         //_hpBar.fillAmount = hpBarBack.fillAmount;
         // _hpBar.fillAmount = bossHpBarParam.bossNowHp / bossHpBarParam.bossMaxHp;
-        Debug.Log(bossHpBarParam.bossNowHp / bossHpBarParam.bossMaxHp);
+        //Debug.Log(bossHpBarParam.bossNowHp / bossHpBarParam.bossMaxHp);
         hpText.text = bossHpBarParam.bossName;
     }
 
