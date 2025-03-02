@@ -1,6 +1,6 @@
 public class BossHpBarParam : ParamBase
 {
-    public int bossMaxHp;
-    public int bossNowHp;
+    public float bossMaxHp;
+    public float bossNowHp;
     public string bossName;
 }

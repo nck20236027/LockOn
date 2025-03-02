@@ -15,7 +15,9 @@ public class BossHpModel : MonoBehaviour
 
     private void Start()
     {
-        _hpBarParam.bossNowHp = _maxHp;
+        _nowHp = _maxHp;
+        _hpBarParam.bossMaxHp = _maxHp;
+        _hpBarParam.bossNowHp = _nowHp;
         _hpBarParam.bossName = _name;
 
         ServiceLocator<UIMediator>.GetInstance().Init(_hpBarParam);
