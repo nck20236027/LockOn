@@ -44,6 +44,7 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
     protected override void Awake()
     {
         base.Awake();
+        _basisintensity = GameData._cameraSensitivity;
     }
     void Start()
     {
@@ -96,6 +97,7 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
     protected override void OnDestroy()
     {
         base.OnDestroy();
+        GameData._cameraSensitivity = _basisintensity;
     }
 
     public void CameraStop()

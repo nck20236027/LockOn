@@ -57,7 +57,7 @@ public class CoreAct2State : EnemyModeStateBase
         {
             _enemy.transform.rotation = Quaternion.LookRotation(TargetManager.Instance.GetPlayerPos - _enemy.transform.position, Vector3.up);
             _enemy.LineRenderer.enabled = true;
-            _enemy.LineRenderer.SetPosition(1, _enemy.GetPlayerPos - _enemy.transform.position);
+            _enemy.LineRenderer.SetPosition(1,  _enemy.transform.position);
         }
         else
         {

@@ -58,13 +58,21 @@ public class ShereEnemy : EnemyBase
     {
         base.Start();
         _pool = ServiceLocator<EnemyBulletPool>.GetInstance();
+        try
+        {
         var _ = Attack();
+
+        }
+        catch
+        {
+
+        }
         _lineRenderer.positionCount = _cornerCount;
         float _rotationCircle = 360 / _cornerCount;
         for (int i = 0; i < _cornerCount; i++)
         {
             Quaternion _rotation = transform.rotation * Quaternion.Euler(0, _rotationCircle * i, 0);
-            Vector3 _pos = _rotation * Vector3.forward * _distanceAttack;
+            Vector3 _pos = transform.position + _rotation * Vector3.forward * _distanceAttack;
             _lineRenderer.SetPosition(i,_pos);
         }
 

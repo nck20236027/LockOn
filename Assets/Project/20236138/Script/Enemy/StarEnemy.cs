@@ -93,7 +93,7 @@ public class StarEnemy : EnemyBase
                 Vector3 _pos = _rotation * Vector3.forward * _enemyBulletInstatiateDistance;
                 _pool.GetBullet(transform.position + _pos, _rotation,status);
             }
-            await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletDistance));
+            await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletDistance),cancellationToken:token);
         }
     }
 }
