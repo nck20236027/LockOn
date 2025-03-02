@@ -1,9 +1,13 @@
 public class GameResultView : ViewBase
 {
-
     protected override ParamBase GetUseParamBase() => new GameResultParam();
 
     public override void OnInit<T>(T param)
+    {
+        canvas.gameObject.SetActive(true);
+    }
+
+    public override void OnShow<T>(T param)
     {
         canvas.gameObject.SetActive(true);
     }

@@ -1,34 +1,38 @@
 using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
-public class GameResultHandler 
+public class GameResultHandler : MonoBehaviour
 {
-    private PlayerAction _playerActions;
-    public Action _onResultSubmit;
-    //public Action<float> _onGameEndChoice;
+    private GameResultInputHandler _gameResultInputHandler;
 
-    public void Init()
+    private GameResultParam _gameResultParam = new();
+    private GameQuiter _gameQuiter = new();
+    private GameResultInputHandler _gameResultHandler = new();
+    [SerializeField]
+    private AudioClip _submitSE;
+
+    private void Awake()
     {
-        _playerActions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
-        _playerActions.Result.Submit.performed += OnResultSubmit;
-        //_playerActions.GameEnd.Navigate.performed += OnGameEndSelectX;
+        _gameResultInputHandler._onGameResultSubmit += OnResultSubmit;
+
+        _gameResultInputHandler.Init();
     }
-    public void Final()
+
+    public void Start()
     {
-        _playerActions.Result.Submit.performed -= OnResultSubmit;
-        //_playerActions.GameEnd.Navigate.performed -= OnGameEndSelectX;
+        ServiceLocator<UIMediator>.GetInstance().Init(_gameResultParam);
     }
-    public void OnResultSubmit(InputAction.CallbackContext context)        //ゲーム終了の決定
+
+    public void OnResultSubmit()
     {
-        _onResultSubmit();
-        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameScene", 1f, 1f);
+        
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_submitSE, true);
     }
-    //public void OnGameEndSelectX(UnityEngine.InputSystem.InputAction.CallbackContext context)     //ゲーム終了時の選択入力
-    //{
-    //    Vector2 input = context.ReadValue<Vector2>();
-    //    if (input.x == 0) { return; }
-    //    float directionX = Mathf.Sign(input.x);
-    //    _onGameEndChoice(directionX);
-    //}
+
+    public void OnDestroy()
+    {
+        _gameResultHandler.Final();
+    }
 }

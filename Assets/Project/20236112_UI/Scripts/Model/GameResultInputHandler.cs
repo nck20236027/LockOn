@@ -1,51 +1,31 @@
-ï»¿using UnityEngine;
-using UnityEngine.InputSystem;
 using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class GameOverInputHandler
+public class GameResultInputHandler
 {
-
     private PlayerAction _playerAction;
 
-    public Action _onGameOverSubmit;
-    public Action<float> _onGameOverChoice;
+    public Action _onGameResultSubmit;
 
     public void Init()
     {
         _playerAction = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
-        _playerAction.GameOver.Enable();
-        _playerAction.GameOver.Submit.performed += OnGameOverSubmit;
-        _playerAction.GameOver.Navigate.performed += OnGameOverSelectX;
+        _playerAction.Result.Enable();
+        _playerAction.Result.Submit.performed += OnResultSubmit;
     }
 
     public void Final()
     {
-        _playerAction.GameOver.Submit.performed -= OnGameOverSubmit;
-        _playerAction.GameOver.Navigate.performed -= OnGameOverSelectX;
+        _playerAction.Result.Submit.performed -= OnResultSubmit;
     }
 
-    public void OnGameOverSubmit(InputAction.CallbackContext context)        //ã‚²ãƒ¼ãƒ çµ‚äº†ã®æ±ºå®š
+
+    public void OnResultSubmit(InputAction.CallbackContext context)        //ƒQ[ƒ€I—¹‚ÌŒˆ’è
     {
-        _onGameOverSubmit?.Invoke();
+        _onGameResultSubmit?.Invoke();
     }
 
-    public void OnGameOverSelectX(InputAction.CallbackContext context)     //ã‚²ãƒ¼ãƒ çµ‚äº†æ™‚ã®é¸æŠå…¥åŠ›
-    {
-        Vector2 input = context.ReadValue<Vector2>();
-        if (input.x == 0) { return; }
-        float directionX = Mathf.Sign(input.x);
-        _onGameOverChoice?.Invoke(directionX);
-    }
-
-
-    /// <summary>
-    /// ãƒªã‚¹ã‚¿ãƒ¼ãƒˆ
-    /// </summary>
-    public void SetReStartInput()
-    {
-        SetPlayerInputEnable(true);
-        SetGameOverInput(false);
-    }
 
     public void SetPlayerInputEnable(bool isEnable)
     {
@@ -84,7 +64,7 @@ public class GameOverInputHandler
     }
 
     /// <summary>
-    /// ã‚¿ã‚¤ãƒˆãƒ«ã«ç§»å‹•
+    /// ƒ^ƒCƒgƒ‹‚ÉˆÚ“®
     /// </summary>
     public void SetOptionInputEnable(bool isEnable)
     {

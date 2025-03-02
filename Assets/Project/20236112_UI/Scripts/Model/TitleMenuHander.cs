@@ -13,6 +13,8 @@ public class TitleMenuHander : MonoBehaviour
 
     private int _titleCurrentIndex = 0;
     private int _gameEndCurrentIndex = 0;
+    [SerializeField]
+    private AudioClip _submitSE;
 
     private void Awake()
     {
@@ -45,11 +47,15 @@ public class TitleMenuHander : MonoBehaviour
     public void OnTitleSubmit()
     {
         _titleActions[_titleCurrentIndex].OnTitleAction();
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_submitSE, true);
+
     }
 
     public void OnGameEndSubmit()
     {
         _quitActions[_gameEndCurrentIndex].OnQuitAction();
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_submitSE, true);
+
     }
 
     public void TitleChoice(float direction)        //タイトルの選択

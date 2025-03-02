@@ -15,16 +15,18 @@ public class GameOverHandler : MonoBehaviour
     private GameQuiter gameQuiter = new GameQuiter();
 
     private int _currentIndex;
+    [SerializeField]
+    private AudioClip _submitSE;
 
     private void Awake()
     {
-        _gameOverAction.Add(new GameRestert(_gameOverParam, _gameOverInputHandler.SetReStartInput));
         _gameOverAction.Add(new GameQuiter());
+        _gameOverAction.Add(new GameRestert(_gameOverParam, _gameOverInputHandler.SetReStartInput));
 
         //_gameOverParam.currentIndex = 0;
 
         _gameOverInputHandler._onGameOverSubmit += OnGameEndSubmit;
-        //_gameOverInputHandler._onGameOverChoice += ;
+        _gameOverInputHandler._onGameOverChoice += GameOverChoice;
         _gameOverInputHandler.Init();
 
     }
@@ -34,35 +36,29 @@ public class GameOverHandler : MonoBehaviour
         ServiceLocator<UIMediator>.GetInstance().Init(_gameOverParam);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ServiceLocator<UIMediator>.GetInstance().Show(_gameOverParam);
-        }
-    }
-
     public void OnGameEndSubmit()
     {
         _gameOverAction[_currentIndex].OnGameOverAction();
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_submitSE, true);
+
     }
 
-    public void QuitChoice(float direction)
+    public void GameOverChoice(float direction)
     {
-        ////Debug.Log(_quitCurrentIndex);
-        //_quitCurrentIndex -= (int)direction;
-        //if (_quitCurrentIndex > 1)
-        //{
-        //    _quitCurrentIndex = 1;
-        //    return;
-        //}
-        //if (_quitCurrentIndex < 0)
-        //{
-        //    _quitCurrentIndex = 0;
-        //    return;
-        //}
-        //_gameOverParam.currentIndex = _quitCurrentIndex;
-        //ServiceLocator<UIMediator>.GetInstance().Reload();
+        //Debug.Log(_quitCurrentIndex);
+        _currentIndex -= (int)direction;
+        if (_currentIndex > 1)
+        {
+            _currentIndex = 1;
+            return;
+        }
+        if (_currentIndex < 0)
+        {
+            _currentIndex = 0;
+            return;
+        }
+        _gameOverParam.currentIndex = _currentIndex;
+        ServiceLocator<UIMediator>.GetInstance().Reload(_gameOverParam);
 
     }
 
@@ -72,5 +68,4 @@ public class GameOverHandler : MonoBehaviour
         //ServiceLocator<UIMediator>.GetInstance().Final(_gameEndParam);
         Debug.Log("onDestroy");
     }
-
 }
