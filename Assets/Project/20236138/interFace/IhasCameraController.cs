@@ -8,4 +8,6 @@ public interface ICameraContollorable
     public void CameraSheikh();
     public void CameraChange();
 
+    public void CameraStop();
+
 }

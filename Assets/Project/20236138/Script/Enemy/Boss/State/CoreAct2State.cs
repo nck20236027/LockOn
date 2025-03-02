@@ -27,9 +27,9 @@ public class CoreAct2State : EnemyModeStateBase
         CancellationTokenSource tokenSource = CancellationTokenSource.CreateLinkedTokenSource(_enemy.Token, cancellation.Token);
 
         _enemy.IsAttack = true;
-        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.AnimationTime),cancellationToken: tokenSource.Token); 
         try
         {
+        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.AnimationTime),cancellationToken: tokenSource.Token); 
 
         _ = CreatBullet(tokenSource.Token);
         await UniTask.Delay(TimeSpan.FromSeconds(_enemy.Act2AttackTime), cancellationToken: _enemy.Token);

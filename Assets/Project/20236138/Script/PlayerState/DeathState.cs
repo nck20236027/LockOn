@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class DeathState : ModeStateBase
 {
@@ -12,9 +15,16 @@ public class DeathState : ModeStateBase
 
     public override ModeStateType StateType => throw new System.NotImplementedException();
 
-    public override void OnEnter()
+    public override async void OnEnter()
     {
         base.OnEnter();
+        _player._cameraController.Interface.CameraStop();
+        _player.GetRigidbody.isKinematic = false;
+        _player.GetRigidbody.useGravity = true;
+
+        await UniTask.Delay(TimeSpan.FromSeconds(_player.StandbyTime));
+        Debug.Log("ゲームオーバーView出す");
+        
     }
 
     public override void OnExit()

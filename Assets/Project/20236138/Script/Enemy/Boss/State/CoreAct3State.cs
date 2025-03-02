@@ -23,9 +23,9 @@ public class CoreAct3State : EnemyModeStateBase
         CancellationTokenSource cancellation = new();
         CancellationTokenSource tokenSource = CancellationTokenSource.CreateLinkedTokenSource(_enemy.Token, cancellation.Token);
         _enemy.IsAttack = true;
-        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.AnimationTime), cancellationToken: tokenSource.Token);
         try
         {
+        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.AnimationTime), cancellationToken: tokenSource.Token);
          _ = CreatTriangleEnemy(tokenSource.Token);
 
         await UniTask.Delay(TimeSpan.FromSeconds(_enemy.Act3AttackTime), cancellationToken: _enemy.Token);
