@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class CoreIdleState : EnemyModeStateBase
 {
-    CoreEnemy _coreEnemy;
     public CoreIdleState(IMadeStateMachine _stateMachine,CoreEnemy enemy) : base(_stateMachine)
     {
         _enemy = enemy;
@@ -20,7 +19,7 @@ public class CoreIdleState : EnemyModeStateBase
         base.OnEnter();
         await UniTask.Delay(TimeSpan.FromSeconds(_enemy.ActionIntarval));
         stateMachine.ChangeState(UnityEngine.Random.Range(1,4));
-        ServiceLocator<SEManager>.GetInstance().PlaySoundToPan( _coreEnemy, _coreEnemy.coreStateSound,true);
+        ServiceLocator<SEManager>.GetInstance().PlaySoundToPan( _enemy, _enemy.coreStateSound,true);
     }
 
     public override void OnExit()

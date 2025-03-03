@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4515905592312110386}
   - component: {fileID: 4302062203189917662}
   - component: {fileID: 2067003576688056094}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SphereEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,14 +123,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cornerCount: 20
-  _bulletTimeSpan: 0.1
-  _roundBulletCount: 1
+  _bulletTimeSpan: 0.15
+  _roundBulletCount: 2
   _maxBulletDistance: 2
   _distanceAttack: 21.63
   _status:
     _moveSpeed: 4
     _bulletPowor: 5
     _DestroyTime: 0
+  _deathSound: {fileID: 8300000, guid: 87c6dbd41d5c68b45bcc1cb52816bc51, type: 3}
 --- !u!120 &2067003576688056094
 LineRenderer:
   serializedVersion: 2

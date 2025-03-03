@@ -136,11 +136,12 @@ public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
     {
         if (!_isAttack) return;
         _nowCoreHp -= damage;
+        _CorehpBarParam.bossName = "ÉRÉA";
         _CorehpBarParam.bossNowHp = _nowCoreHp;
         _damageToken.Cancel();
         _damageToken = new CancellationTokenSource();
         _token = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(), _damageToken.Token);
-        ServiceLocator<UIMediator>.GetInstance().Reload(_CorehpBarParam);
+        ServiceLocator<UIMediator>.GetInstance().Animation(_CorehpBarParam);
         if (_nowCoreHp <= 0)
             _stateMachin.ChangeState((int)CoreEnemyState.Death);
     }

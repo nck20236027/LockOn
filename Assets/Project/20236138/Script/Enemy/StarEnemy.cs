@@ -1,9 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.WSA;
+
 
 public class StarEnemy : EnemyBase
 {
@@ -30,12 +29,16 @@ public class StarEnemy : EnemyBase
     float _lookatSpeed;
     EnemyBulletPool _pool;
     float _attackTime = 0;
-
+    [SerializeField]
+    AudioClip _allermSound;
+    [SerializeField]
+    AudioClip _deathSound;
     private Vector3 GetTarget => TargetManager.Instance.GetPlayerPos;
     public override bool GetIsView => _renderer.isVisible;
 
     public override void Damage(int damage)
     {
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_deathSound, true);
         Destroy(gameObject);
     }
 
@@ -85,9 +88,10 @@ public class StarEnemy : EnemyBase
     {
         if (_attackTime < _enemyBulletSpan) return;
         _attackTime = 0;
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_allermSound, true);
         for (int j = 0; j <= _enemyBulletCount; j++)
         {
-            for (int i = -_enemyBulletLineCount; i < _enemyBulletLineCount; i++)
+            for (int i = -_enemyBulletLineCount; i <= _enemyBulletLineCount; i++)
             {
                 Quaternion _rotation = transform.rotation * Quaternion.Euler(0, _enemyBulletRotation * i, 0);
                 Vector3 _pos = _rotation * Vector3.forward * _enemyBulletInstatiateDistance;

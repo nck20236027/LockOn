@@ -46,9 +46,9 @@ public class SEManager : ServiceMonoBehaviour<SEManager>, ISEManager
 
     private ISoundPlayerManager soundPlayerManager;
 
-    private void Start()
+    protected override void Awake()
     {
-
+        base.Awake();
         //poolSize分だけオーディオを生成
         ISEAudio[] seAudios = new ISEAudio[audioCreateCount];
 
