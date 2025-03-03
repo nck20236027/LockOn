@@ -23,11 +23,22 @@ public class SEAudio : MonoBehaviour, ISEAudio
         audioSource.rolloffMode = audioRolloffMode;
     }
 
-    public void PlaySound(AudioClip playClip)
+    public void PlaySound(AudioClip playClip, bool isLoop = false)
     {
         audioSource.volume = 1;
         audioSource.panStereo = 0;
+        audioSource.loop = isLoop;
+        if (isLoop)
+        {
+            audioSource.clip = playClip;
+            audioSource.Play();
+
+        }
+        else
+        {
         audioSource.PlayOneShot(playClip);
+
+        }
     }
 
     public void PlaySoundToPan(float volume, float pan, AudioClip playClip)
@@ -56,5 +67,13 @@ public class SEAudio : MonoBehaviour, ISEAudio
 
         //âπÇÃå∏êäÉÇÅ[Éh
         this.audioRolloffMode = audioRolloffMode;
+    }
+
+    public void StopSound(AudioClip audio)
+    {
+        if(audio == audioSource.clip)
+        {
+            audioSource.Stop();
+        }
     }
 }

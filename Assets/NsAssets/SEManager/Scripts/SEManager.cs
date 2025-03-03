@@ -86,13 +86,20 @@ public class SEManager : ServiceMonoBehaviour<SEManager>, ISEManager
             .SetFloat(SEAudioMixerGroup.name, value);
     }
 
-    public void PlaySound(AudioClip playSound, bool isOverride = true)
+    public void PlaySound(AudioClip playSound, bool isOverride = true,bool isLoop = false)
     {
-        soundPlayerManager.OnPlaySound(playSound, isOverride);
+        soundPlayerManager.OnPlaySound(playSound, isOverride,isLoop);
     }
 
     public void PlaySoundToPan(ISpeaker speaker, AudioClip playSound, bool isOverride = true)
     {
         soundPlayerManager.OnPlaySoundToPan(speaker, playSound, isOverride);
+    }
+    public void StopSound(AudioClip playSound)
+    {
+        foreach (ISoundPlayer sound in soundPlayerPool)
+        {
+            sound.OnStopSound(playSound);
+        }
     }
 }

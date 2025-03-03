@@ -23,6 +23,8 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private AudioClip heelSound;
     [SerializeField] private AudioClip warningSound;
+    [SerializeField] private AudioClip _locketFlightSound;
+    public AudioClip LocketFlighSound => _locketFlightSound;
     public AudioClip boostSound;
 
 
@@ -37,7 +39,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
             if(!_isWarning && _energyGageParam.nowEnergyGauge / _energyGageParam .maxEnergyGauge < _warningValue)
             {
                 _isWarning = true;
-                ServiceLocator<SEManager>.GetInstance().PlaySound(warningSound, true);
+                ServiceLocator<SEManager>.GetInstance().PlaySound(warningSound, true,true);
             }
             else if (_energyGageParam.nowEnergyGauge / _energyGageParam.maxEnergyGauge > _warningValue)
             {
@@ -102,7 +104,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
         _rb = GetComponent<Rigidbody>();
         _stateMachine.Initialize(ModeStateType.Move);
         _stateMachine.OnEnter();
-
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_locketFlightSound, false,true);
         ServiceLocator<UIMediator>.GetInstance().Init(_energyGageParam);
     }
 
