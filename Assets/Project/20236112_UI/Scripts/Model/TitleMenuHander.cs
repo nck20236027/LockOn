@@ -40,6 +40,7 @@ public class TitleMenuHander : MonoBehaviour
         ServiceLocator<UIMediator>.GetInstance().Init(_gameEndParam);
     }
 
+
     public void OnTitleSubmit()
     {
         _titleActions[_titleCurrentIndex].OnTitleAction();

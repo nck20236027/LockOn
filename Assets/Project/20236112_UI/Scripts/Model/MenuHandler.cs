@@ -79,7 +79,7 @@ public class MenuHandler : MonoBehaviour
         inputHandler.onOptionClose += optionClose.CloseOptionAction;
         inputHandler.onQuitClose += quitClose.OnQuitAction;
 
-        inputHandler.Init();
+        
         //mHandler.onAction = mHandler.OnMenu;
     }
 
@@ -88,7 +88,7 @@ public class MenuHandler : MonoBehaviour
     private void Start()
     {
         //menuParam.resameButton = null;    InitÇÊÇËå„Ç…èàóùÇ∑ÇÈÇ∆NullÇÃÇ‹Ç‹ê∂ê¨Ç∑ÇÈÇ±Ç∆Ç…Ç»ÇÈ
-
+        inputHandler.Init();
         ServiceLocator<UIMediator>.GetInstance().Init(pauseParam);
         ServiceLocator<UIMediator>.GetInstance().Init(quitParam);
 

@@ -13,7 +13,7 @@ public class GameResultQuiter : IResultAction
 
     public void OnResultAction()
     {
-        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameClear",1f,1f);
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("TitleScene",1f,1f);
         _onSetGameResult?.Invoke();
     }
 }
