@@ -17,6 +17,7 @@ public class TitleInputHandler
         //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Dispose();
         //ServiceLocator<PlayerActionManager>.GetInstance().playerAction.Player.Disable();
         _playerActions = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
+
         _playerActions.Title.Enable();
         _playerActions.Title.Submit.performed += OnStartSubmit;
         _playerActions.Title.Navigate.performed += OnTitleSelectY;
