@@ -22,7 +22,7 @@ public class DeathState : ModeStateBase
         _player.GetRigidbody.isKinematic = false;
         _player.GetRigidbody.useGravity = true;
 
-        await UniTask.Delay(TimeSpan.FromSeconds(_player.StandbyTime));
+        await UniTask.Delay(TimeSpan.FromSeconds(_player.StandbyTime),cancellationToken:_player.destroyCancellationToken);
         Debug.Log("ゲームオーバーView出す");
         
     }

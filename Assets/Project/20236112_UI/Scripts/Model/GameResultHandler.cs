@@ -16,13 +16,13 @@ public class GameResultHandler : MonoBehaviour
 
     private void Awake()
     {
-        _gameResultActions.Add(new GameResultQuiter(_gameResultParam,_gameResultInputHandler.SetResultInput));
-        _gameResultInputHandler.onGameResultSubmit += OnResultSubmit;
-        _gameResultInputHandler.Init();
     }
 
     public void Start()
     {
+        _gameResultActions.Add(new GameResultQuiter(_gameResultParam,_gameResultInputHandler.SetResultInput));
+        _gameResultInputHandler.onGameResultSubmit += OnResultSubmit;
+        _gameResultInputHandler.Init();
         //ServiceLocator<UIMediator>.GetInstance().Init(_gameResultParam);
     }
 

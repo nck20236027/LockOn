@@ -29,10 +29,10 @@ public class InputHandler
 
         _playerAction.Player.Menu.performed += OnMenu;
         _playerAction.Menu.Navigate.performed += OnUISelectY;
-        _playerAction.Menu.Submit.performed += OnSubmit;
-        _playerAction.Quit.Submit.performed += OnQuitSubmit;
+        _playerAction.Menu.Submit.canceled += OnSubmit;
+        _playerAction.Quit.Submit.canceled += OnQuitSubmit;
         _playerAction.Quit.Navigate.performed += OnUISelectX;
-        _playerAction.Option.OptionClose.performed += OnOptionClose;
+        _playerAction.Option.OptionClose.canceled += OnOptionClose;
         _playerAction.Option.SliderSelected.performed += OnSliderSelect;
         _playerAction.Option.SliderValueChange.performed += OnChangeSliderValueX;
     }
@@ -41,10 +41,10 @@ public class InputHandler
     {
         _playerAction.Player.Menu.performed -= OnMenu;
         _playerAction.Menu.Navigate.performed -= OnUISelectY;
-        _playerAction.Menu.Submit.performed -= OnSubmit;
-        _playerAction.Quit.Submit.performed -= OnQuitSubmit;
+        _playerAction.Menu.Submit.canceled -= OnSubmit;
+        _playerAction.Quit.Submit.canceled -= OnQuitSubmit;
         _playerAction.Quit.Navigate.performed -= OnUISelectX;
-        _playerAction.Option.OptionClose.performed -= OnOptionClose;
+        _playerAction.Option.OptionClose.canceled -= OnOptionClose;
         _playerAction.Option.SliderSelected.performed -= OnSliderSelect;
         _playerAction.Option.SliderValueChange.performed -= OnChangeSliderValueX;
 

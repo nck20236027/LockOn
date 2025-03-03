@@ -17,9 +17,17 @@ public class CoreIdleState : EnemyModeStateBase
     public async override void OnEnter()
     {
         base.OnEnter();
-        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.ActionIntarval));
+        try
+        {
+        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.ActionIntarval), cancellationToken:_enemy.destroyCancellationToken) ;
         stateMachine.ChangeState(UnityEngine.Random.Range(1,4));
         ServiceLocator<SEManager>.GetInstance().PlaySoundToPan( _enemy, _enemy.coreStateSound,true);
+
+        }
+        catch
+        {
+
+        }
     }
 
     public override void OnExit()

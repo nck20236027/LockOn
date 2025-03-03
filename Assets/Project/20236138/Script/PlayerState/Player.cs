@@ -1,6 +1,3 @@
-using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -192,6 +189,11 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
         {
             damagable.Damage(1);
         }
+    }
+
+    private void OnDestroy()
+    {
+        ServiceLocator<IListener>.RemoveInstance(this);
     }
 }
 

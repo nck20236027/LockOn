@@ -16,7 +16,7 @@ public class TitleMenuHander : MonoBehaviour
     [SerializeField]
     private AudioClip _submitSE;
 
-    private void Awake()
+    private void Start()
     {
     //    TitleInputHandler _titleInputHandler = new();
 
@@ -36,10 +36,6 @@ public class TitleMenuHander : MonoBehaviour
         _titleInputHandler._onGameEndChoice += GameEndChoice;
         _titleInputHandler.Init();
 
-    }
-
-    private void Start()
-    {
         ServiceLocator<UIMediator>.GetInstance().Init(_titleParam);
         ServiceLocator<UIMediator>.GetInstance().Init(_gameEndParam);
     }
