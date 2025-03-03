@@ -666,20 +666,44 @@ PrefabInstance:
       objectReference: {fileID: 1650724920}
     - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: viewPrefabs.Array.size
-      value: 8
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: 'viewPrefabs.Array.data[5]'
       value: 
-      objectReference: {fileID: 1014539603667867151, guid: 2b8bf2e7707f2b14faa8dbbb616907de, type: 3}
+      objectReference: {fileID: 210193848249837662, guid: 6baf183b085de8e4ea29d883644c4e8a, type: 3}
     - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: 'viewPrefabs.Array.data[6]'
       value: 
-      objectReference: {fileID: 210193848249837662, guid: 6baf183b085de8e4ea29d883644c4e8a, type: 3}
+      objectReference: {fileID: 2279825921345236039, guid: 033a325fe0f88c448a71b8357662fd2f, type: 3}
     - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: 'viewPrefabs.Array.data[7]'
       value: 
-      objectReference: {fileID: 2279825921345236039, guid: 033a325fe0f88c448a71b8357662fd2f, type: 3}
+      objectReference: {fileID: 1014539603667867151, guid: 2b8bf2e7707f2b14faa8dbbb616907de, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[8]'
+      value: 
+      objectReference: {fileID: 7136312078672646955, guid: 526e50ab148456a4984ef79b04f0a385, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[9]'
+      value: 
+      objectReference: {fileID: 6522794904266398027, guid: 3d102cdf2e6b03a46ba5ee7acf719e76, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[10]'
+      value: 
+      objectReference: {fileID: 1988107763378824971, guid: 5adc9f08b9dfdc244ad5874acd20e6b4, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[11]'
+      value: 
+      objectReference: {fileID: 482453434566853413, guid: 19cfc77eb73db7645988c560c780ba77, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[12]'
+      value: 
+      objectReference: {fileID: 7639792435487517544, guid: 41d41a103cc38974daf11eee1d903d43, type: 3}
+    - target: {fileID: 3443099091518765964, guid: 158bc13605f96a4419c2021639053e02, type: 3}
+      propertyPath: 'viewPrefabs.Array.data[13]'
+      value: 
+      objectReference: {fileID: 1681593776587746047, guid: 4fb45dfd5a5e3344fb1f0380feed2ce0, type: 3}
     - target: {fileID: 5277543184931194016, guid: 158bc13605f96a4419c2021639053e02, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
