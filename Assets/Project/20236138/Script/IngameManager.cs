@@ -55,13 +55,13 @@ public class IngameManager : MonoBehaviour
 
     private async void InGameFlow()
     {
-        //ServiceLocator<UIMediator>.GetInstance().Init(_bannerParam);
-        //ServiceLocator<UIMediator>.GetInstance().Show(_bannerParam);
+        ServiceLocator<UIMediator>.GetInstance().Init(_bannerParam);
+        ServiceLocator<UIMediator>.GetInstance().Show(_bannerParam);
         Time.timeScale = 0;
 
         await UniTask.Delay(TimeSpan.FromSeconds(_missionDisplayTime), ignoreTimeScale: true,cancellationToken:_token);
         Time.timeScale = 1;
-        await UniTask.WaitUntil(() =>  _enemy.nowCoreHp > 0, cancellationToken: _token);
+        await UniTask.WaitUntil(() =>  _enemy.nowCoreHp <= 0, cancellationToken: _token);
         //ƒV[ƒ“ˆÚs
         ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameClear", 1f, 1f);
     }

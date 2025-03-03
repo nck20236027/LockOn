@@ -4206,7 +4206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemy: {fileID: 1031990752}
-  _missionDisplayTime: 3
+  _missionDisplayTime: 16.6
   _playerTransform: {fileID: 419463876}
   _cameraTransform: {fileID: 649574424}
 --- !u!4 &1655536891

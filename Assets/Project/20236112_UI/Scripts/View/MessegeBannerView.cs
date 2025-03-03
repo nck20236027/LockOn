@@ -42,30 +42,34 @@ public class MessegeBannerView : ViewBase
 
     public async override void OnShow<T>(T param)
     {
+        Time.timeScale = 0f;
         canvas.gameObject.SetActive(true);
         var bannerParam = param as BannerParam;
 
         _titleText.text = bannerParam.titleText;
         _mainText.text = bannerParam.mainText;
 
+        await UniTask.WaitForSeconds(_waitTime, ignoreTimeScale: true);
+
         //フェードイン
         Tweens.ImageColorTween(_bannerImage, _fadeInColor, _fadeOutColor, _fadeInTime, _ease, gameObject);
         Tweens.TextColorTween(_titleText, _fadeInColor, _fadeOutColor, _fadeInTime, _ease, gameObject);
         Tweens.TextColorTween(_mainText, _fadeInColor, _fadeOutColor, _fadeInTime, _ease, gameObject);
-        await UniTask.WaitForSeconds(_waitTime);
+        await UniTask.WaitForSeconds(_waitTime, ignoreTimeScale:true);
 
         //テキスト遷移
         Tweens.TextTransformTween(_bannerRectTransform, _startRectTransform, _middleRectTransform, _transitionTime, _ease, gameObject);
-        await UniTask.WaitForSeconds(_waitTime);
+        await UniTask.WaitForSeconds(_waitTime, ignoreTimeScale: true);
 
         Tweens.TextTransformTween(_bannerRectTransform, _middleRectTransform, _endRectTransform, _transitionTime, _ease, gameObject);
-        await UniTask.WaitForSeconds(_waitTime);
+        await UniTask.WaitForSeconds(_waitTime, ignoreTimeScale:true);
 
 
         //フェードアウト
         Tweens.ImageColorTween(_bannerImage, _fadeOutColor, _fadeInColor, _fadeOutTime, _ease, gameObject);
         Tweens.TextColorTween(_titleText, _fadeOutColor, _fadeInColor, _fadeOutTime, _ease, gameObject);
         Tweens.TextColorTween(_mainText, _fadeOutColor, _fadeInColor, _fadeOutTime, _ease, gameObject);
+        Time.timeScale = 1f;
     }
 
     public override void OnHide<T>(T param)

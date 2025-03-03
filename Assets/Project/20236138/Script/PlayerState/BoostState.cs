@@ -35,9 +35,11 @@ public class BoostState : ModeStateBase
         _player._energyGageParam.energyTimeLost = _state.FuelConsumptio * Time.deltaTime;
         ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
         _player._energyGageParam.buttonState = ButtonState._isInputNow;
+        ServiceLocator<SEManager>.GetInstance().StopSound(_player.LocketFlighSound);
 
         await UniTask.Delay(TimeSpan.FromSeconds(_player.BoostStopTime), cancellationToken: _player.destroyCancellationToken);
         ServiceLocator<SEManager>.GetInstance().PlaySound(_player.boostSound, true);
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_player.LocketFlighSound, false,true);
     }
 
     public override void OnUpdate()
