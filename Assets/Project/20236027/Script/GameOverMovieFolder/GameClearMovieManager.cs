@@ -33,7 +33,7 @@ public class GameClearMovieManager : MonoBehaviour, ISpeaker,IListener
         ParticleObject.Play();
         ServiceLocator<SEManager>.GetInstance().PlaySound(subExplosionSound, true);
         await UniTask.WaitForSeconds(endExplosion);
-        ServiceLocator<SEManager>.GetInstance().PlaySound(explosionSound, true);
+        //ServiceLocator<SEManager>.GetInstance().PlaySound(explosionSound, true);
         Destroy(cameraObject);
         await UniTask.WaitForSeconds(gameClearPlain);
         ServiceLocator<UIMediator>.GetInstance().Show(gameResultParam);
