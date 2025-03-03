@@ -15,7 +15,7 @@ public class GameRestert : IGameOverAction
 
     public void OnGameOverAction()
     {
-        ServiceLocator<SceneLoader>.GetInstance().LoadScene("20236112_UI", 1f, 1f);
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameScene", 1f, 1f);
         _onRestert?.Invoke();
     }
 }
