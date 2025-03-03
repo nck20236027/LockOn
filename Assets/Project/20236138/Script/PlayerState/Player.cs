@@ -59,7 +59,9 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
     [Header("減速のステータス")]
     public PlayerMoveStatus decelerationState;
 
-
+    [SerializeField, Header("ブーストの停止している時間")]
+    private float _boostStopTime;
+    public float BoostStopTime => _boostStopTime;
     [HideInInspector]
     public bool isBoostButton = false;
     [HideInInspector]

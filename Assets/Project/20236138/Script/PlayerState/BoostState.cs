@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 
@@ -13,11 +15,10 @@ public class BoostState : ModeStateBase
     }
 
     public override ModeStateType StateType => ModeStateType.Boost;
-    public override void OnEnter()
+    public override async void OnEnter()
     {
         base.OnEnter();
         Debug.Log(this.ToString());
-        ServiceLocator<SEManager>.GetInstance().PlaySound(_player.boostSound, true);
         _player._cameraController.Interface.CameraChange();
 
         _player.GetRigidbody.velocity = Vector3.zero;
@@ -34,6 +35,9 @@ public class BoostState : ModeStateBase
         _player._energyGageParam.energyTimeLost = _state.FuelConsumptio * Time.deltaTime;
         ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
         _player._energyGageParam.buttonState = ButtonState._isInputNow;
+
+        await UniTask.Delay(TimeSpan.FromSeconds(_player.BoostStopTime), cancellationToken: _player.destroyCancellationToken);
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_player.boostSound, true);
     }
 
     public override void OnUpdate()
