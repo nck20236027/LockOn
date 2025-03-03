@@ -6,6 +6,7 @@ public class GameQuiter : IQuitAction, IGameOverAction, IResultAction
 
     public GameOverActionType GameOverActionType => GameOverActionType.Title;
 
+    public ResultActionType ResultActionType => ResultActionType.Title;
 
     public void OnQuitAction()
     {

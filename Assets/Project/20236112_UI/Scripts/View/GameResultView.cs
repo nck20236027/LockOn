@@ -4,7 +4,7 @@ public class GameResultView : ViewBase
 
     public override void OnInit<T>(T param)
     {
-        canvas.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
     }
 
     public override void OnShow<T>(T param)

@@ -1,4 +1,9 @@
 public interface IResultAction
 {
-   public void OnResultAction();
+    public void OnResultAction();
+}
+
+public enum ResultActionType
+{
+    Title
 }

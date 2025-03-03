@@ -1,22 +1,22 @@
-using UnityEngine;
-using System;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GameResultHandler : MonoBehaviour
 {
-    private GameResultInputHandler _gameResultInputHandler;
+    private GameResultInputHandler _gameResultInputHandler = new GameResultInputHandler();
 
     private GameResultParam _gameResultParam = new();
     private GameQuiter _gameQuiter = new();
-    private GameResultInputHandler _gameResultHandler = new();
+
+    List<IResultAction> _gameResultActions = new List<IResultAction>();
+
     [SerializeField]
     private AudioClip _submitSE;
 
     private void Awake()
     {
-        _gameResultInputHandler._onGameResultSubmit += OnResultSubmit;
-
+        _gameResultActions.Add(new GameQuiter());
+        _gameResultInputHandler.onGameResultSubmit += OnResultSubmit;
         _gameResultInputHandler.Init();
     }
 
@@ -27,12 +27,12 @@ public class GameResultHandler : MonoBehaviour
 
     public void OnResultSubmit()
     {
-        
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("TitleScene", 1f, 1f);
         ServiceLocator<SEManager>.GetInstance().PlaySound(_submitSE, true);
     }
 
-    public void OnDestroy()
+    private void OnDestroy()
     {
-        _gameResultHandler.Final();
+        _gameResultInputHandler.Final();
     }
 }
