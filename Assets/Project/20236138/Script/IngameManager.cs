@@ -63,5 +63,6 @@ public class IngameManager : MonoBehaviour
         Time.timeScale = 1;
         await UniTask.WaitUntil(() =>  _enemy.nowCoreHp <= 0, cancellationToken: _token);
         //ƒV[ƒ“ˆÚs
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameClear", 1f, 1f);
     }
 }

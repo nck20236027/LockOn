@@ -1,5 +1,8 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class TriangleEnemy :EnemyBase,IMoveObjectable
@@ -15,9 +18,17 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     private int _selfDistructionDamage = 10;
     [SerializeField,Header("爆発の範囲")]
     private float _selfDistructionScale = 10;
-
+    [SerializeField,Header("自爆前に音が出るタイミング")]
+    float _selfDistructionSpeed = 10;
+    [SerializeField]
+    LayerMask _mask;
+    [SerializeField]
+    AudioClip _allermSound;
+    [SerializeField]
+    AudioClip _deathSound;
     [SerializeField]
     private MoveStatus _moveStatus;
+    private CancellationToken token;
     public override bool GetIsView => _renderer.isVisible;
 
     public Transform GetPos => transform;
@@ -28,6 +39,7 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
 
     public override void Damage(int damage)
     {
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_deathSound, true);
         Destroy(gameObject);
     }
 
@@ -53,28 +65,47 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     protected override void Start()
     {
         base.Start();
+        token = this.GetCancellationTokenOnDestroy();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    async void FixedUpdate()
     {
             RocetMove.MoveTarget(this, _moveStatus, _nowTimeDestruntion);
-        if ((GetPos.position - Gettarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2) || _isTracking)
+        if ((GetPos.position - Gettarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2))
         {
-            _isTracking = true;
-            _moveStatus.MaxSpeed = _chaseSpeed;
-            _nowTimeDestruntion += Time.fixedDeltaTime;
-            if (_nowTimeDestruntion > _timeDestruction)
+            if (!_isTracking)
             {
+                try
+                {
+            Attack();
+                await UniTask.Delay(TimeSpan.FromSeconds(_timeDestruction - _selfDistructionSpeed),cancellationToken:token);
+                ServiceLocator<SEManager>.GetInstance().PlaySound(_allermSound, true);
+                await UniTask.Delay(TimeSpan.FromSeconds(_selfDistructionSpeed), cancellationToken: token);
                 Destroy(gameObject);
+
+                }
+                catch
+                {
+
+                }
             }
+        _nowTimeDestruntion += Time.fixedDeltaTime;
         }
+    }
+
+    private void Attack()
+    {
+        _isTracking = true;
+        _moveStatus.MaxSpeed = _chaseSpeed;
+
+            
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, _selfDistructionScale, Vector3.forward,0.0001f);
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, _selfDistructionScale, Vector3.forward,0.0001f,_mask);
         for (int i = 0; i < hits.Length; i++)
         {
             IDamagable damage = hits[i].transform.GetComponent<IDamagable>();

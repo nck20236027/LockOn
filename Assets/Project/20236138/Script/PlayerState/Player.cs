@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class Player : MonoBehaviour,IMoveObjectable,IDamagable
+
+public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
 {
     public PlayerAction _playerInput ; 
     //コンポーネント
@@ -37,10 +37,19 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     public float FuelQuantity { get { return _energyGageParam.nowEnergyGauge; }
         set { _energyGageParam.nowEnergyGauge = Mathf.Min(value, _maxFuelQuantity);
             _fuelQuantity = _energyGageParam.nowEnergyGauge;
+            if(!_isWarning && _energyGageParam.nowEnergyGauge / _energyGageParam .maxEnergyGauge < _warningValue)
+            {
+                _isWarning = true;
+                ServiceLocator<SEManager>.GetInstance().PlaySound(warningSound, true);
+            }
+            else if (_energyGageParam.nowEnergyGauge / _energyGageParam.maxEnergyGauge > _warningValue)
+            {
+                _isWarning = false;
+            }
         } }
     [SerializeField, Range(0, 1), Header("警告が出る量")]
     private float _warningValue;
-
+    private bool _isWarning = false;
     [SerializeField, Header("ダメージを受けた時の無敵時間")]
     private float _invincibleTime = 1;
     private float _nowIncibleTime = 0;
@@ -66,10 +75,13 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
 
     public Vector3 Gettarget =>_target != null ? _target.GetTokenPosition : Vector3.zero;
 
+    public Vector3 ListenerPos =>transform.position;
+
     public EnergyGageParam _energyGageParam;
 
     private void Awake()
     {
+        ServiceLocator<IListener>.Register(this);
         _stateMachine = new StateMachine(this);
     }
     // Start is called before the first frame update
@@ -78,8 +90,8 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
         _energyGageParam = new EnergyGageParam();
         _energyGageParam.buttonState = ButtonState.Non;
         _energyGageParam.maxEnergyGauge = _maxFuelQuantity;
-        _energyGageParam.nowEnergyGauge = _fuelQuantity;
         _fuelQuantity = _maxFuelQuantity;
+        _energyGageParam.nowEnergyGauge = _fuelQuantity;
         _energyGageParam.energyTimeLost = 0;
         _energyGageParam.damageEnergyPoint = 0;
 
@@ -138,9 +150,15 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable
     public void ChangeTarget(ILockTargetable _target)
     {
         this._target = _target;
-        ServiceLocator<SEManager>.GetInstance().PlaySound(changeTargetSound, true);
-        if (_target.ChangeConsuptio(0) > 0)ServiceLocator<SEManager>.GetInstance().PlaySound(heelSound, true);
-        
+        bool isNullTarget = _target != null;
+        if (isNullTarget && _target.ChangeConsuptio(0) > 0)
+        {
+            ServiceLocator<SEManager>.GetInstance().PlaySound(heelSound, true);
+        }
+        else if(isNullTarget)
+        {
+            ServiceLocator<SEManager>.GetInstance().PlaySound(changeTargetSound, true);
+        }
     }
 
     public void BoostAction(InputAction.CallbackContext callback)

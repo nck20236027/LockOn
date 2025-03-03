@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/Test.unity
     guid: e452eec496675b44d96418222d9f65d9
   - enabled: 1
+    path: Assets/Project/Scene/GameScene.unity
+    guid: 00d865c0c7fd60548ba252d492a3f32e
+  - enabled: 1
     path: Assets/Project/20236112_UI/TitleScene.unity
     guid: b16c393d17eaf7b449012fd6ce13c265
+  - enabled: 1
+    path: Assets/Project/20236112_UI/GameClear.unity
+    guid: 7cfcfd395a8f31a47970c99e5d608135
   - enabled: 1
     path: Assets/Project/20236112_UI/20236112_UI.unity
     guid: 907269c0fd9b2ba4888e44a01fc23697

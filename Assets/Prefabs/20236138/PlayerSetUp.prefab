@@ -548,15 +548,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1896710050886194592, guid: c7eb70e6046082345b5b35d913717caf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 80.69581
       objectReference: {fileID: 0}
     - target: {fileID: 1896710050886194592, guid: c7eb70e6046082345b5b35d913717caf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 5.8841667
       objectReference: {fileID: 0}
     - target: {fileID: 1896710050886194592, guid: c7eb70e6046082345b5b35d913717caf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: 4.1733303
       objectReference: {fileID: 0}
     - target: {fileID: 1896710050886194592, guid: c7eb70e6046082345b5b35d913717caf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -644,7 +644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7322181101355262102, guid: c7eb70e6046082345b5b35d913717caf, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 55
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 7337732045533275097, guid: c7eb70e6046082345b5b35d913717caf, type: 3}
       propertyPath: m_Follow

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 278538339528671380}
   - component: {fileID: 854298537673230559}
   - component: {fileID: 4801177711201226952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StarEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,8 +127,8 @@ MonoBehaviour:
   _sreachDistance: 31.76
   _enemyBulletLineCount: 2
   _enemyBulletCount: 31
-  _enemyBulletRotation: 10
-  _enemyBulletDistance: 0.3
+  _enemyBulletRotation: 20
+  _enemyBulletDistance: 0.6
   _enemyBulletSpan: 5
   _enemyBulletInstatiateDistance: 3
   status:
@@ -136,6 +136,8 @@ MonoBehaviour:
     _bulletPowor: 3
     _DestroyTime: 3
   _lookatSpeed: 0.01
+  _allermSound: {fileID: 8300000, guid: a5dce13a13d91f648a5e0208b2dd664a, type: 3}
+  _deathSound: {fileID: 8300000, guid: 87c6dbd41d5c68b45bcc1cb52816bc51, type: 3}
   _renderer: {fileID: 4472257386460729931}
 --- !u!120 &4801177711201226952
 LineRenderer:

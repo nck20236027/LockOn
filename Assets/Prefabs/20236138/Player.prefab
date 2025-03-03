@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8246588766831977294}
   - component: {fileID: 8899300942029146768}
   - component: {fileID: 1898695025513095238}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,8 +103,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraController:
     attachedObject: {fileID: 0}
+  _standbyTime: 2
+  changeTargetSound: {fileID: 0}
+  damageSound: {fileID: 0}
+  heelSound: {fileID: 0}
+  warningSound: {fileID: 0}
+  boostSound: {fileID: 0}
   _maxFuelQuantity: 60.79
   _fuelQuantity: 0
+  _warningValue: 0
+  _invincibleTime: 1
   BoostStateUnChangeTime: 2
   normalState:
     _curve:

@@ -24,11 +24,15 @@ public class ShereEnemy : EnemyBase
     private EnemyBulletPool _pool;
 
     private LineRenderer _lineRenderer;
+
+    [SerializeField]
+    AudioClip _deathSound;
     private async UniTask Attack()
     {
         float _bulletCount = 0;
         while (!cancellationToken.IsCancellationRequested)
         {
+            
             _bulletCountÅ@+= 360 *(_bulletTimeSpan / _roundBulletCount) ;
             _bulletCount %= 360;
             Quaternion _rotation = transform.rotation * Quaternion.Euler(0,_bulletCount,0) ;
@@ -44,6 +48,7 @@ public class ShereEnemy : EnemyBase
     Renderer _renderer;
     public override void Damage(int damage)
     {
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_deathSound, true);
         Destroy(gameObject);
     }
 
