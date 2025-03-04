@@ -27,6 +27,8 @@ public class ShereEnemy : EnemyBase
 
     [SerializeField]
     AudioClip _deathSound;
+
+    private EnemyDeadParam _deadParam = new();
     private async UniTask Attack()
     {
         float _bulletCount = 0;
@@ -62,6 +64,8 @@ public class ShereEnemy : EnemyBase
     protected override void Start()
     {
         base.Start();
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Init(_deadParam);
         _pool = ServiceLocator<EnemyBulletPool>.GetInstance();
         try
         {
@@ -92,5 +96,7 @@ public class ShereEnemy : EnemyBase
     protected override void OnDestroy()
     {
         base.OnDestroy();
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
     }
 }

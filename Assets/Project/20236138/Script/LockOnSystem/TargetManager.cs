@@ -107,6 +107,17 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
         ServiceLocator<UIMediator>.GetInstance().Animation(_targetParam);
     }
     //ターゲットをロックする条件
-    private bool IsTargetTerms(ILockTargetable token) => token.GetIsView
-        && (token.GetTokenPosition - _player.transform.position).sqrMagnitude <= Mathf.Pow(searchScope, 2);
+    private bool IsTargetTerms(ILockTargetable token) {
+        Vector2 point = Camera.main.WorldToViewportPoint(token.GetTokenPosition);
+
+        return token.GetIsView
+        && (token.GetTokenPosition - _player.transform.position).sqrMagnitude <= Mathf.Pow(searchScope, 2)
+        
+        &&point.x > 0
+        && point.x < 1
+                && point.y > 0
+        && point.y < 1
+        ;
+    }
+
 }

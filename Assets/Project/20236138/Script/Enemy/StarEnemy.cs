@@ -33,6 +33,8 @@ public class StarEnemy : EnemyBase
     AudioClip _allermSound;
     [SerializeField]
     AudioClip _deathSound;
+
+    EnemyDeadParam _deadParam = new(); 
     private Vector3 GetTarget => TargetManager.Instance.GetPlayerPos;
     public override bool GetIsView => _renderer.isVisible;
 
@@ -64,6 +66,8 @@ public class StarEnemy : EnemyBase
         _lineRenderer.material.color = _lineColor;
         var _ = Attack();
         _pool = ServiceLocator<EnemyBulletPool>.GetInstance();
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Init(_deadParam);
     }
 
     // Update is called once per frame
@@ -99,5 +103,12 @@ public class StarEnemy : EnemyBase
             }
             await UniTask.Delay(TimeSpan.FromSeconds(_enemyBulletDistance),cancellationToken:token);
         }
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
     }
 }

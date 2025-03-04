@@ -75,7 +75,7 @@ public class CameraController : ServiceMonoBehaviour<CameraController>, ICameraC
     private void Update()
     {
         _freelook.m_XAxis.Value += _moveVector.x * _basisintensity * _controlInt;
-        _freelook.m_YAxis.Value += _moveVector.y * _basisintensity;
+        _freelook.m_YAxis.Value -= _moveVector.y * _basisintensity;
     }
     public void SetStickSpeed(float speed)
     {

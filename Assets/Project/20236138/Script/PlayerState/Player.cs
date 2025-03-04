@@ -80,6 +80,8 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
 
     public EnergyGageParam _energyGageParam;
 
+    public GameOverParam _gameOverParam;
+
     private void Awake()
     {
         ServiceLocator<IListener>.Register(this);
@@ -88,6 +90,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
     // Start is called before the first frame update
     void Start()
     {
+        _gameOverParam = new GameOverParam();
         _energyGageParam = new EnergyGageParam();
         _energyGageParam.buttonState = ButtonState.Non;
         _energyGageParam.maxEnergyGauge = _maxFuelQuantity;
