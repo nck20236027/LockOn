@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,11 +27,12 @@ public class EnergyGageView : ViewBase
     {
         EnergyGageParam energyGageParam = param as EnergyGageParam;
         base.OnAnimation<T>(param);
+        var token = this.GetCancellationTokenOnDestroy();
         //_nowE = energyGageParam.damageEnergyPoint / _maxE;
         _damageImage.fillAmount = _greenGauge.fillAmount;//ここで緑と同じ位置にその次表示
         _damageImage.gameObject.SetActive(true);
         _greenGauge.fillAmount -= energyGageParam.damageEnergyPoint/energyGageParam.maxEnergyGauge;//_nowE
-        await UniTask.WaitForSeconds(1f);
+        await UniTask.WaitForSeconds(1f, cancellationToken: token);
 
         _= LMotion.Create(_damageImage.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
         //UniTask.WaitForSeconds(1)
@@ -47,6 +49,7 @@ public class EnergyGageView : ViewBase
     {
         EnergyGageParam energyGageParam = param as EnergyGageParam;
         base.OnReload(param);
+        var token = this.GetCancellationTokenOnDestroy();
         //_nowE = energyGageParam.nowEnergyGauge;
         _greenGauge.fillAmount -= energyGageParam.energyTimeLost/ energyGageParam.maxEnergyGauge ;
         //_greenGauge.fillAmount = _nowE / energyGageParam.maxEnergyGauge;
@@ -61,7 +64,7 @@ public class EnergyGageView : ViewBase
                 //ブースト分引く処理
                 break;
             case ButtonState._isInputUp:
-                await UniTask.WaitForSeconds(0.5f);
+                await UniTask.WaitForSeconds(0.5f, cancellationToken: token);
                 _=LMotion.Create(_redBoostGauge.fillAmount, _greenGauge.fillAmount - 0.01f, 1f)//ここのあたいは演出でかえる
              .WithEase(Ease.OutExpo)
               .WithOnComplete(() =>
