@@ -1,6 +1,4 @@
 using System;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,6 +40,7 @@ public class GameResultInputHandler
     {
         onGameResultSubmit?.Invoke();
     }
+
     public void SetPlayerInputEnable(bool isEnable)
     {
         if (isEnable)
@@ -89,9 +88,6 @@ public class GameResultInputHandler
         }
     }
 
-    /// <summary>
-    /// ƒ^ƒCƒgƒ‹‚ÉˆÚ“®
-    /// </summary>
     public void SetOptionInputEnable(bool isEnable)
     {
         if (isEnable)

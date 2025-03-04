@@ -45,10 +45,6 @@ public class GameOverView : ViewBase
         _beforeIndex = gameOverParam.currentIndex;
     }
 
-    public override void OnShow<T>(T param)
-    {
-        canvas.gameObject.SetActive(true);
-    }
 
     public override void OnReload<T>(T param)
     {
@@ -65,6 +61,11 @@ public class GameOverView : ViewBase
         Tweens.TextColorTween(beforeText, _tergetColor, _unselectColor, _reduceTime, changeEase, gameObject);
 
         _beforeIndex = gameOverParam.currentIndex;
+    }
+
+    public override void OnShow<T>(T param)
+    {
+        canvas.gameObject.SetActive(true);
     }
 
     public override void OnFinal<T>(T param)

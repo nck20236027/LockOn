@@ -13,6 +13,7 @@ public class GameQuiter : IQuitAction, IGameOverAction, IResultAction
         ServiceLocator<SceneLoader>.GetInstance().LoadScene("TitleScene", 1f, 1f);
         Time.timeScale = 1.0f;
     }
+
     public void OnGameOverAction()
     {
         ServiceLocator<SceneLoader>.GetInstance().LoadScene("TitleScene", 1f, 1f);

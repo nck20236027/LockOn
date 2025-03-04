@@ -7,7 +7,6 @@ public class GameStart : ITitleAction
 
     public TitleActionType TitleActionType => TitleActionType.GameStart;
 
-
     public GameStart(TitleParam titleParam, Action onSetGameStart)
     {
         this._titleParam = titleParam;
