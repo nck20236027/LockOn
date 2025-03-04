@@ -56,7 +56,7 @@ public static class Tweens
         return LMotion.Create(initImageColor, targetImageColor, duration)
             .WithEase(ease)
             .WithScheduler(MotionScheduler.UpdateIgnoreTimeScale)
-            .WithOnComplete(() => tweenImage.color = targetImageColor)
+            //.WithOnComplete(() => tweenImage.color = targetImageColor)
             .Bind(tweenColor => tweenImage.color = tweenColor)
             .AddTo(gameObject);
     }
