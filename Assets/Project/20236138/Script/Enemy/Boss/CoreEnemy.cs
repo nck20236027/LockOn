@@ -136,7 +136,6 @@ public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
     {
         if (!_isAttack) return;
         _nowCoreHp -= damage;
-        _CorehpBarParam.bossName = "コア";
         _CorehpBarParam.bossNowHp = _nowCoreHp;
         _damageToken.Cancel();
         _damageToken = new CancellationTokenSource();
@@ -166,6 +165,7 @@ public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
         _bulletPool = ServiceLocator<EnemyBulletPool>.GetInstance();
         _stateMachin.Initialize((int)CoreEnemyState.Act2);
         _stateMachin.OnEnter();
+        _CorehpBarParam.bossName = "コア";
         _CorehpBarParam.bossMaxHp = _MaxCoreHp;
         _CorehpBarParam.bossNowHp = _MaxCoreHp;
         ServiceLocator<UIMediator>.GetInstance().Init(_CorehpBarParam);

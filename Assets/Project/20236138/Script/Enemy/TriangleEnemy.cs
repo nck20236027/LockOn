@@ -29,13 +29,15 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     [SerializeField]
     private MoveStatus _moveStatus;
     private CancellationToken token;
+
+    private EnemyDeadParam _deadParam = new();
     public override bool GetIsView => _renderer.isVisible;
 
     public Transform GetPos => transform;
 
     public Rigidbody GetRigidbody => rb;
 
-    public Vector3 Gettarget => _isTracking ? TargetManager.Instance.GetPlayerPos : Vector3.zero;
+    public Vector3 Gettarget => TargetManager.Instance.GetPlayerPos ;
 
     public override void Damage(int damage)
     {
@@ -64,8 +66,10 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
+        //base.Start();
         token = this.GetCancellationTokenOnDestroy();
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Init(_deadParam);
     }
 
     // Update is called once per frame
@@ -114,5 +118,7 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
                 damage.Damage(_selfDistructionDamage);
             }
         }
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
     }
 }
