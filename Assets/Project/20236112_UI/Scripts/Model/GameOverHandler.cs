@@ -12,28 +12,23 @@ public class GameOverHandler : MonoBehaviour
     private GameOverInputHandler _gameOverInputHandler = new();
 
     private QuitParam quitParam = new();
-    private GameQuiter gameQuiter = new GameQuiter();
+    private GameQuiter gameQuiter = new();
 
     private int _currentIndex;
     [SerializeField]
     private AudioClip _submitSE;
 
-    private void Awake()
+    private void Start()
     {
         _gameOverAction.Add(new GameQuiter());
         _gameOverAction.Add(new GameRestert(_gameOverParam, _gameOverInputHandler.SetReStartInput));
 
-        //_gameOverParam.currentIndex = 0;
-
         _gameOverInputHandler._onGameOverSubmit += OnGameEndSubmit;
         _gameOverInputHandler._onGameOverChoice += GameOverChoice;
+
         _gameOverInputHandler.Init();
 
-    }
-
-    private void Start()
-    {
-        ServiceLocator<UIMediator>.GetInstance().Init(_gameOverParam);
+        //ServiceLocator<UIMediator>.GetInstance().Init(_gameOverParam);
     }
 
     public void OnGameEndSubmit()

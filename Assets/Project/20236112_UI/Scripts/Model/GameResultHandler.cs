@@ -3,25 +3,23 @@ using UnityEngine;
 
 public class GameResultHandler : MonoBehaviour
 {
-    private GameResultInputHandler _gameResultInputHandler = new GameResultInputHandler();
+    private GameResultInputHandler _gameResultInputHandler = new();
 
     private GameResultParam _gameResultParam = new();
 
-    List<IResultAction> _gameResultActions = new List<IResultAction>();
+    List<IResultAction> _gameResultActions = new();
 
     private int _resultActionIndex = 0;
 
     [SerializeField]
     private AudioClip _submitSE;
 
-    private void Awake()
-    {
-    }
-
     public void Start()
     {
-        _gameResultActions.Add(new GameResultQuiter(_gameResultParam,_gameResultInputHandler.SetResultInput));
+        _gameResultActions.Add(new GameResultQuiter(_gameResultParam, _gameResultInputHandler.SetResultInput));
+
         _gameResultInputHandler.onGameResultSubmit += OnResultSubmit;
+        
         _gameResultInputHandler.Init();
         //ServiceLocator<UIMediator>.GetInstance().Init(_gameResultParam);
     }
@@ -35,4 +33,6 @@ public class GameResultHandler : MonoBehaviour
     {
         _gameResultInputHandler.Final();
     }
+
+
 }

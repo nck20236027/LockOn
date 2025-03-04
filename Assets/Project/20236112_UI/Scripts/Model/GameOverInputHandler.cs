@@ -4,7 +4,6 @@ using System;
 
 public class GameOverInputHandler
 {
-
     private PlayerAction _playerAction;
 
     public Action _onGameOverSubmit;
@@ -12,8 +11,10 @@ public class GameOverInputHandler
 
     public void Init()
     {
-        _playerAction = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
-        _playerAction.GameOver.Enable();
+        var playerActionManager = ServiceLocator<PlayerActionManager>.GetInstance();
+        _playerAction = playerActionManager.playerAction;
+
+        SetReStartInput();
         _playerAction.GameOver.Submit.performed += OnGameOverSubmit;
         _playerAction.GameOver.Navigate.performed += OnGameOverSelectX;
     }
@@ -26,7 +27,10 @@ public class GameOverInputHandler
 
     public void OnGameOverSubmit(InputAction.CallbackContext context)        //ゲーム終了の決定
     {
-        _onGameOverSubmit?.Invoke();
+        if (_playerAction != null)
+        {
+            _onGameOverSubmit?.Invoke();
+        }
     }
 
     public void OnGameOverSelectX(InputAction.CallbackContext context)     //ゲーム終了時の選択入力
@@ -43,8 +47,11 @@ public class GameOverInputHandler
     /// </summary>
     public void SetReStartInput()
     {
-        SetPlayerInputEnable(true);
-        SetGameOverInput(false);
+        SetPlayerInputEnable(false);
+        SetMenuInputEnable(false);
+        SetOptionInputEnable(false);
+        SetQuitInputEnable(false);
+        SetGameOverInput(true);
     }
 
     public void SetPlayerInputEnable(bool isEnable)
