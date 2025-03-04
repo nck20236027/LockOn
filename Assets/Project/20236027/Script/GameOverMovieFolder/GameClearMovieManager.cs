@@ -27,15 +27,16 @@ public class GameClearMovieManager : MonoBehaviour, ISpeaker,IListener
     }
     async void Start()
     {
+        var token = this.GetCancellationTokenOnDestroy();
         ServiceLocator<UIMediator>.GetInstance().Init(gameResultParam);
         ServiceLocator<SEManager>.GetInstance().PlaySound(explosionSound, true);
-        await UniTask.WaitForSeconds(startExplosion);
+        await UniTask.WaitForSeconds(startExplosion, cancellationToken: token);
         ParticleObject.Play();
         ServiceLocator<SEManager>.GetInstance().PlaySound(subExplosionSound, true);
-        await UniTask.WaitForSeconds(endExplosion);
+        await UniTask.WaitForSeconds(endExplosion, cancellationToken: token);
         //ServiceLocator<SEManager>.GetInstance().PlaySound(explosionSound, true);
         Destroy(cameraObject);
-        await UniTask.WaitForSeconds(gameClearPlain);
+        await UniTask.WaitForSeconds(gameClearPlain, cancellationToken: token);
         ServiceLocator<UIMediator>.GetInstance().Show(gameResultParam);
         Debug.Log($"{ServiceLocator <PlayerActionManager>.GetInstance().playerAction.asset.name}");
         sceneChangeObject.SetActive(true);

@@ -5,7 +5,7 @@ public class GameSceneReloader : IGameOverAction
     public GameOverActionType GameOverActionType => GameOverActionType.Restart;
     public void OnGameOverAction()
     {
-        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameScene", 1f, 1f);
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameScene", 1f, 0f);
         Time.timeScale = 1.0f;
     }
 }

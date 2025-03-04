@@ -11,7 +11,7 @@ public class SoundPlayerManager : ISoundPlayerManager
         this.hasSoundPlayerPool = hasSoundPlayerPool;
     }
 
-    public void OnPlaySound(AudioClip playSound, bool isOverride)
+    public void OnPlaySound(AudioClip playSound, bool isOverride,bool isLoop = false)
     {
         ISoundPlayer useSoundPlayer = DequeueUseSoundPlayer(isOverride);
 
@@ -23,7 +23,7 @@ public class SoundPlayerManager : ISoundPlayerManager
         }
 
         //âπÇñ¬ÇÁÇ∑
-        useSoundPlayer.OnPlaySound(playSound);
+        useSoundPlayer.OnPlaySound(playSound,isLoop);
 
         //ç≈å„îˆÇ…ñﬂÇ∑
         hasSoundPlayerPool.SoundPlayerPool.Enqueue(useSoundPlayer);
@@ -46,6 +46,7 @@ public class SoundPlayerManager : ISoundPlayerManager
         //ç≈å„îˆÇ…ñﬂÇ∑
         hasSoundPlayerPool.SoundPlayerPool.Enqueue(useSoundPlayer);
     }
+
 
     private ISoundPlayer DequeueUseSoundPlayer(bool isOverride)
     {

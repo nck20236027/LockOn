@@ -53,8 +53,13 @@ public class SettingView : ViewBase
         sliders[(int)OptionChoiseType.CameraSensitivity].maxValue = settingParam.maxCameraSensitiveAffinity;
         sliders[(int)OptionChoiseType.CameraSensitivity].onValueChanged.AddListener(value => settingParam.onSetCameraSensitivity(value));
 
-        sliders[(int)OptionChoiseType.SEVolume].minValue = settingParam.minSEVolue;
-        sliders[(int)OptionChoiseType.SEVolume].maxValue = settingParam.maxSEVolue;
+        //sliders[(int)OptionChoiseType.SEVolume].minValue = settingParam.minSEVolue;
+        sliders[(int)OptionChoiseType.SEVolume].minValue = ServiceLocator<SEManager>.GetInstance().MinVolumeValue;
+
+        //sliders[(int)OptionChoiseType.SEVolume].maxValue = settingParam.maxSEVolue;
+        sliders[(int)OptionChoiseType.SEVolume].maxValue = ServiceLocator<SEManager>.GetInstance().MaxVolumeValue;
+
+        //sliders[(int)OptionChoiseType.SEVolume].onValueChanged.AddListener(value => settingParam.onChangeSEVolue(value));
         sliders[(int)OptionChoiseType.SEVolume].onValueChanged.AddListener(value => settingParam.onChangeSEVolue(value));
 
         //button.onClick.AddListener(() => volumeSlider.value = 1);

@@ -16,7 +16,7 @@ public class GameStart : ITitleAction
 
     public void OnTitleAction()
     {
-        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameScene", 1f, 1f);
+        ServiceLocator<SceneLoader>.GetInstance().LoadScene("GameScene", 1f, 0f);
         _onSetGameStart?.Invoke();
     }
 }

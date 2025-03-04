@@ -234,6 +234,10 @@ PrefabInstance:
       value: 34.75
       objectReference: {fileID: 0}
     - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: _boostStopTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
       propertyPath: _maxFuelQuantity
       value: 300
       objectReference: {fileID: 0}
@@ -241,6 +245,10 @@ PrefabInstance:
       propertyPath: changeTargetSound
       value: 
       objectReference: {fileID: 8300000, guid: f30231cb3e123a04e87d6b8e439e03b9, type: 3}
+    - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
+      propertyPath: _locketFlightSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 63d0292fe5ad28b42a1933670b0d6c4a, type: 3}
     - target: {fileID: 8246588766831977294, guid: e05dd2302cfe6ce4ea1ba9198c32b8cf, type: 3}
       propertyPath: BoostState._maxSpeed
       value: 40

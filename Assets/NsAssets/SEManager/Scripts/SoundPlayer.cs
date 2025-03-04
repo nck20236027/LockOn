@@ -17,7 +17,7 @@ public class SoundPlayer : ISoundPlayer
         this.hasListener = hasListener;
     }
 
-    public void OnPlaySound(AudioClip playSound)
+    public void OnPlaySound(AudioClip playSound, bool isLoop = false)
     {
         if (CanPlaySound(playSound) == false)
         {
@@ -25,7 +25,7 @@ public class SoundPlayer : ISoundPlayer
         }
 
         soundPlayer.StopSound();
-        soundPlayer.PlaySound(playSound);
+        soundPlayer.PlaySound(playSound,isLoop);
     }
 
     public void OnPlaySoundToPan(ISpeaker speaker, AudioClip playSound)
@@ -78,5 +78,13 @@ public class SoundPlayer : ISoundPlayer
         }
 
         return true;
+    }
+
+    public void OnStopSound(AudioClip stopSound)
+    {
+        if (CanPlaySound(stopSound))
+        {
+            soundPlayer.StopSound(stopSound);
+        }
     }
 }
