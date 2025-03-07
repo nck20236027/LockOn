@@ -67,6 +67,14 @@ public class MenuHandler : MonoBehaviour
         //settingParam.closeSettingButton = settingController.CloseSettingMenu;
 
         //inputHandler.onMenuAction = menuHandler.ControlMenu;  //ëΩòaìcë§Ç≈çÏÇÈéûÇ…Ç±ÇÒÇ»ïóÇ…èëÇ≠
+        OnInputHandlerEnable();
+
+
+        //mHandler.onAction = mHandler.OnMenu;
+    }
+
+    public void OnInputHandlerEnable()
+    {
         inputHandler.onMenuAction += ControlMenu;
         inputHandler.onMenuSubmit += OnMenuSubmit;
         inputHandler.onQuitSubmit += OnQuitSubmit;
@@ -74,13 +82,25 @@ public class MenuHandler : MonoBehaviour
         inputHandler.onSliderSelect += SliderSelect;
         inputHandler.onMenuChoice += MenuChoice;
         inputHandler.onQuitChoice += QuitChoice;
-        inputHandler.onChangeSliderValue = OnChangeSliderValue;
+        inputHandler.onChangeSliderValue += OnChangeSliderValue;
 
         inputHandler.onOptionClose += optionClose.CloseOptionAction;
         inputHandler.onQuitClose += quitClose.OnQuitAction;
+    }
 
-        
-        //mHandler.onAction = mHandler.OnMenu;
+    public void OnInputHandlerDisable()
+    {
+        inputHandler.onMenuAction -= ControlMenu;
+        inputHandler.onMenuSubmit -= OnMenuSubmit;
+        inputHandler.onQuitSubmit -= OnQuitSubmit;
+
+        inputHandler.onSliderSelect -= SliderSelect;
+        inputHandler.onMenuChoice -= MenuChoice;
+        inputHandler.onQuitChoice -= QuitChoice;
+        inputHandler.onChangeSliderValue -= OnChangeSliderValue;
+
+        inputHandler.onOptionClose -= optionClose.CloseOptionAction;
+        inputHandler.onQuitClose -= quitClose.OnQuitAction;
     }
 
 
