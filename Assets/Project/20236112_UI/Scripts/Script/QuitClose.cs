@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using UnityEngine;
 
 public class QuitClose : IQuitAction
 {
@@ -25,5 +27,6 @@ public class QuitClose : IQuitAction
         ServiceLocator<UIMediator>.GetInstance().Hide(quitParam);
         ServiceLocator<UIMediator>.GetInstance().Show(pauseParam);
         onSetQuitCloseInput?.Invoke();
+        UnityEngine.Debug.Log(0);
     }
 }

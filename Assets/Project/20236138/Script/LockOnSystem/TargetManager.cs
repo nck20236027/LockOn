@@ -90,7 +90,12 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
         List<ILockTargetable> cameraInTargets = 
             targets.Where(x => IsTargetTerms(x))
             .ToList();
-        if(cameraInTargets.Count <= 0) return;
+        if(cameraInTargets.Count <= 0)
+        {
+            return;
+            //cameraInTargets = targets.Where(x => IsTargetTermsSecond(x)).ToList();
+            //    cameraInTargets.Sort((x,y)=>(int)((x.GetTokenPosition - _player.transform.position).sqrMagnitude - (x.GetTokenPosition - _player.transform.position).sqrMagnitude));
+        }
         if(target != null)
         {
         cameraInTargets.Sort((a,b) =>(int)(
@@ -117,6 +122,13 @@ public class TargetManager : MonoBehaviour,IhasTargetPos,ISubTargetUI
         && point.x < 1
                 && point.y > 0
         && point.y < 1
+        ;
+    }
+    private bool IsTargetTermsSecond(ILockTargetable token)
+    {
+        Vector2 point = Camera.main.WorldToViewportPoint(token.GetTokenPosition);
+
+        return token.GetIsView
         ;
     }
 

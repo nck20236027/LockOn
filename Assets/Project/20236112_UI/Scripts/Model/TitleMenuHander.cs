@@ -20,6 +20,9 @@ public class TitleMenuHander : MonoBehaviour
     {
     //    TitleInputHandler _titleInputHandler = new();
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         _titleActions.Add(new GameStart(_titleParam, _titleInputHandler.SetGameStart));
         _titleActions.Add(new OpenGameEnd(_titleParam, _titleInputHandler.SetGameEnd));
 

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public class GameOverHandler : MonoBehaviour
+public class GameOverHandler : BaseHandler
 {
     private List<IGameOverAction> _gameOverAction = new();
 
@@ -20,13 +20,10 @@ public class GameOverHandler : MonoBehaviour
 
     private void Start()
     {
-        _gameOverAction.Add(new GameQuiter());
         _gameOverAction.Add(new GameRestert(_gameOverParam, _gameOverInputHandler.SetReStartInput));
+        _gameOverAction.Add(new GameQuiter());
 
-        _gameOverInputHandler._onGameOverSubmit += OnGameEndSubmit;
-        _gameOverInputHandler._onGameOverChoice += GameOverChoice;
-
-        _gameOverInputHandler.Init();
+        HandlerEnable();
 
         //ServiceLocator<UIMediator>.GetInstance().Init(_gameOverParam);
     }
@@ -59,8 +56,24 @@ public class GameOverHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        _gameOverInputHandler.Final();
+        HandlerDisable();
         //ServiceLocator<UIMediator>.GetInstance().Final(_gameEndParam);
         Debug.Log("onDestroy");
+    }
+
+    public override void HandlerEnable()
+    {
+        _gameOverInputHandler._onGameOverSubmit += OnGameEndSubmit;
+        _gameOverInputHandler._onGameOverChoice += GameOverChoice;
+
+        _gameOverInputHandler.Init();
+    }
+
+    public override void HandlerDisable()
+    {
+        _gameOverInputHandler._onGameOverSubmit -= OnGameEndSubmit;
+        _gameOverInputHandler._onGameOverChoice -= GameOverChoice;
+
+        _gameOverInputHandler.Final();
     }
 }

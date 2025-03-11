@@ -42,6 +42,8 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
     public override void Damage(int damage)
     {
         ServiceLocator<SEManager>.GetInstance().PlaySound(_deathSound, true);
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
         Destroy(gameObject);
     }
 
@@ -86,7 +88,9 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
                 await UniTask.Delay(TimeSpan.FromSeconds(_timeDestruction - _selfDistructionSpeed),cancellationToken:token);
                 ServiceLocator<SEManager>.GetInstance().PlaySound(_allermSound, true);
                 await UniTask.Delay(TimeSpan.FromSeconds(_selfDistructionSpeed), cancellationToken: token);
-                Destroy(gameObject);
+                    _deadParam.enemyDeadPosition = transform.position;
+                    ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
+                    Destroy(gameObject);
 
                 }
                 catch
@@ -118,7 +122,6 @@ public class TriangleEnemy :EnemyBase,IMoveObjectable
                 damage.Damage(_selfDistructionDamage);
             }
         }
-        _deadParam.enemyDeadPosition = transform.position;
-        ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
+
     }
 }

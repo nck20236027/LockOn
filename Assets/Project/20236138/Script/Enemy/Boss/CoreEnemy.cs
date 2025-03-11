@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
 {
+    [SerializeField, Header("Coreがダメージをを受けると移動する場所")]
+    Transform[] _warpPos;
     [SerializeField, Header("ボスのHP(突撃回数)")]
     private int _MaxCoreHp = 3;
     public int MaxCoreHp => _MaxCoreHp;
@@ -135,6 +137,7 @@ public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
     public override void Damage(int damage)
     {
         if (!_isAttack) return;
+        gameObject.transform.position = _warpPos[UnityEngine.Random.Range(0, _warpPos.Length)].position;
         _nowCoreHp -= damage;
         _CorehpBarParam.bossNowHp = _nowCoreHp;
         _damageToken.Cancel();

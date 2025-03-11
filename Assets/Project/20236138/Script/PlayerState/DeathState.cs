@@ -26,6 +26,8 @@ public class DeathState : ModeStateBase
         ServiceLocator<UIMediator>.GetInstance().Init(_player._gameOverParam);
         ServiceLocator<UIMediator>.GetInstance().Show(_player._gameOverParam);
         ServiceLocator<UIMediator>.GetInstance().Reload(_player._gameOverParam);
+        ServiceLocator<HandlerContllorer>.GetInstance().HandlersDisable();
+        ServiceLocator<HandlerContllorer>.GetInstance().GameoverHandler();
     }
 
     public override void OnExit()

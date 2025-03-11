@@ -43,9 +43,9 @@ public class SubTargetUIView : ViewBase
         subTargetUI = subTargetUIParam.subTargetUI;
         Image ImageUI = _testObjectPool.GetPool();
         subTargetUIImage.Add(ImageUI);
-        Tweens.ImageLoopRotateTween(ImageUI.rectTransform, _eulerStartPos, _eulerEndPos, _eulerMoveUITimer, _eulerLoopCount, _eulerLoopType, _eulerEaseType, ImageUI.gameObject);
-        Tweens.ImageLoopColorTween(ImageUI, _colorStart, _colorEnd, _colorMoveUITimer, _colorLoopCount, _colorLoopType, _colorEaseType, ImageUI.gameObject);
-        Tweens.ImageLoopScaleTween(ImageUI.rectTransform, _ScaleStart, _scaleEnd, _scaleMoveUITimer, _scaleLoopCount, _scaleLoopType, _scaleEaseType, ImageUI.gameObject);
+        Tweens.ImageLoopRotateTween(ImageUI.rectTransform, _eulerStartPos, _eulerEndPos, _eulerMoveUITimer, _eulerLoopCount, _eulerLoopType, _eulerEaseType, ImageUI.gameObject).AddTo(gameObject);
+        Tweens.ImageLoopColorTween(ImageUI, _colorStart, _colorEnd, _colorMoveUITimer, _colorLoopCount, _colorLoopType, _colorEaseType, ImageUI.gameObject).AddTo(gameObject);
+        Tweens.ImageLoopScaleTween(ImageUI.rectTransform, _ScaleStart, _scaleEnd, _scaleMoveUITimer, _scaleLoopCount, _scaleLoopType, _scaleEaseType, ImageUI.gameObject).AddTo(gameObject);
     }
     public override void OnReload<T>(T param)
     {
@@ -58,9 +58,9 @@ public class SubTargetUIView : ViewBase
                 Image ImageUI = _testObjectPool.GetPool();
                 subTargetUIImage.Add(ImageUI);
 
-                Tweens.ImageLoopRotateTween(ImageUI.rectTransform, _eulerStartPos, _eulerEndPos, _eulerMoveUITimer, _eulerLoopCount, _eulerLoopType, _eulerEaseType, ImageUI.gameObject);
-                Tweens.ImageLoopColorTween(ImageUI, _colorStart, _colorEnd, _colorMoveUITimer, _colorLoopCount, _colorLoopType, _colorEaseType, ImageUI.gameObject);
-                Tweens.ImageLoopScaleTween(ImageUI.rectTransform, _ScaleStart, _scaleEnd, _scaleMoveUITimer, _scaleLoopCount, _scaleLoopType, _scaleEaseType, ImageUI.gameObject);
+                Tweens.ImageLoopRotateTween(ImageUI.rectTransform, _eulerStartPos, _eulerEndPos, _eulerMoveUITimer, _eulerLoopCount, _eulerLoopType, _eulerEaseType, ImageUI.gameObject).AddTo(gameObject);
+                Tweens.ImageLoopColorTween(ImageUI, _colorStart, _colorEnd, _colorMoveUITimer, _colorLoopCount, _colorLoopType, _colorEaseType, ImageUI.gameObject).AddTo(gameObject);
+                Tweens.ImageLoopScaleTween(ImageUI.rectTransform, _ScaleStart, _scaleEnd, _scaleMoveUITimer, _scaleLoopCount, _scaleLoopType, _scaleEaseType, ImageUI.gameObject).AddTo(gameObject);
 
 
             }

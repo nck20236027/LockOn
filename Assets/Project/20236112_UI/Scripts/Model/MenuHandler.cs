@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuHandler : MonoBehaviour
+public class MenuHandler : BaseHandler
 {
     private List<IMenuAction> menuActions = new List<IMenuAction>();
     private List<IQuitAction> quitActions = new List<IQuitAction>();
@@ -67,13 +67,12 @@ public class MenuHandler : MonoBehaviour
         //settingParam.closeSettingButton = settingController.CloseSettingMenu;
 
         //inputHandler.onMenuAction = menuHandler.ControlMenu;  //ëΩòaìcë§Ç≈çÏÇÈéûÇ…Ç±ÇÒÇ»ïóÇ…èëÇ≠
-        OnInputHandlerEnable();
 
 
         //mHandler.onAction = mHandler.OnMenu;
     }
 
-    public void OnInputHandlerEnable()
+    public override void HandlerEnable()
     {
         inputHandler.onMenuAction += ControlMenu;
         inputHandler.onMenuSubmit += OnMenuSubmit;
@@ -86,9 +85,10 @@ public class MenuHandler : MonoBehaviour
 
         inputHandler.onOptionClose += optionClose.CloseOptionAction;
         inputHandler.onQuitClose += quitClose.OnQuitAction;
+        inputHandler.Init();
     }
 
-    public void OnInputHandlerDisable()
+    public override void HandlerDisable()
     {
         inputHandler.onMenuAction -= ControlMenu;
         inputHandler.onMenuSubmit -= OnMenuSubmit;
@@ -101,6 +101,7 @@ public class MenuHandler : MonoBehaviour
 
         inputHandler.onOptionClose -= optionClose.CloseOptionAction;
         inputHandler.onQuitClose -= quitClose.OnQuitAction;
+        inputHandler.Final();
     }
 
 
@@ -108,7 +109,8 @@ public class MenuHandler : MonoBehaviour
     private void Start()
     {
         //menuParam.resameButton = null;    InitÇÊÇËå„Ç…èàóùÇ∑ÇÈÇ∆NullÇÃÇ‹Ç‹ê∂ê¨Ç∑ÇÈÇ±Ç∆Ç…Ç»ÇÈ
-        inputHandler.Init();
+
+        HandlerEnable();
         ServiceLocator<UIMediator>.GetInstance().Init(pauseParam);
         ServiceLocator<UIMediator>.GetInstance().Init(quitParam);
 

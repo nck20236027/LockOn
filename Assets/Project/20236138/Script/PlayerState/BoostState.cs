@@ -40,6 +40,7 @@ public class BoostState : ModeStateBase
         await UniTask.Delay(TimeSpan.FromSeconds(_player.BoostStopTime), cancellationToken: _player.destroyCancellationToken);
         ServiceLocator<SEManager>.GetInstance().PlaySound(_player.boostSound, true);
         ServiceLocator<SEManager>.GetInstance().PlaySound(_player.LocketFlighSound, false,true);
+        _player._energyGageParam.buttonState = ButtonState._isInputNow;
     }
 
     public override void OnUpdate()
@@ -70,6 +71,7 @@ public class BoostState : ModeStateBase
         _player._cameraController.Interface.CameraChange();
         _stateChangedTime = 0;
         _player._energyGageParam.buttonState = ButtonState._isInputUp;
+        ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
     }
 
     private void MoveTarget()

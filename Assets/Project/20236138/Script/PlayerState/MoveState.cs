@@ -28,7 +28,7 @@ public class MoveState : ModeStateBase
         _player.FuelQuantity += timeFuelQuatity * Time.deltaTime;
         _player._energyGageParam.energyTimeLost = -timeFuelQuatity * Time.deltaTime;
         
-        if(_player.isBoostButton)
+        if(_stateChangedTime > _player.BoostStateUnChangeTime &&_player.isBoostButton)
         {
             stateMachine.ChangeState(ModeStateType.Boost);
         }
@@ -40,7 +40,7 @@ public class MoveState : ModeStateBase
         {
             stateMachine.ChangeState(ModeStateType.Death);
         }
-        ServiceLocator<UIMediator>.GetInstance().Reload(_player._energyGageParam);
+        ServiceLocator<UIMediator>.GetInstance().Animation(_player._energyGageParam);
 
     }
 
@@ -60,5 +60,14 @@ public class MoveState : ModeStateBase
     private void MoveTarget()
     {
         RocetMove.MoveTarget(_player, _state, _stateChangedTime);
+        //MoveData moveData = new MoveData(_player.transform,_player.GetTarget == null ? _player.transform.up : _player.GetTarget.GetTransform.position, _player.GetRigidbody.velocity);
+        //_player.transform.position =
+        //    NowRocketMove.GetOrbit(moveData, _state, _state.MaxSpeed * Time.fixedDeltaTime * _state.Curve.Evaluate(_stateChangedTime));
+        //_player.GetLineRenderer.SetPosition(0, _player.transform.position);
+        //for (int i = 1; i <= 5; i++)
+        //{
+        //    _player.GetLineRenderer
+        //        .SetPosition(i, NowRocketMove.GetOrbit(moveData, _state, _state.MaxSpeed * i));
+        //}
     }
 }

@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
+
 public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
 {
+
     public PlayerAction _playerInput ; 
     //コンポーネント
     [HideInInspector]
@@ -200,6 +202,7 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
 
     private void OnDestroy()
     {
+        ServiceLocator<SEManager>.GetInstance().StopSound(LocketFlighSound);
         ServiceLocator<IListener>.RemoveInstance(this);
     }
 }

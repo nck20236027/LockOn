@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class IngameManager : MonoBehaviour
@@ -20,11 +21,15 @@ public class IngameManager : MonoBehaviour
     private Transform _playerTransform;
     [SerializeField]
     private Transform _cameraTransform;
+    [SerializeField]
+    string _bannerMassage;
+    [SerializeField]
+    string _bannerTitle;
     private void Awake()
     {
         _bannerParam = new BannerParam();
-        _bannerParam.mainText = "コアを破壊せよ";
-        _bannerParam.titleText = "Mission";
+        _bannerParam.mainText = _bannerMassage;
+        _bannerParam.titleText = _bannerTitle;
     }
     // Start is called before the first frame update
     void Start()
@@ -36,8 +41,7 @@ public class IngameManager : MonoBehaviour
         ServiceLocator<UIMediator>.GetInstance().Init(_miniMapParam);
         try
         {
-
-        InGameFlow();
+            _ = InGameFlow();
         }
         catch {
             Debug.Log("インゲーム終了");
@@ -53,13 +57,14 @@ public class IngameManager : MonoBehaviour
         ServiceLocator<UIMediator>.GetInstance().Reload(_miniMapParam);
     }
 
-    private async void InGameFlow()
+    private async UniTask InGameFlow()
     {
         ServiceLocator<UIMediator>.GetInstance().Init(_bannerParam);
         ServiceLocator<UIMediator>.GetInstance().Show(_bannerParam);
         Time.timeScale = 0;
-
+        ServiceLocator<HandlerContllorer>.GetInstance().HandlersDisable();
         await UniTask.Delay(TimeSpan.FromSeconds(_missionDisplayTime), ignoreTimeScale: true,cancellationToken:_token);
+        ServiceLocator<HandlerContllorer>.GetInstance().HandlersEnable();
         Time.timeScale = 1;
         await UniTask.WaitUntil(() =>  _enemy.nowCoreHp <= 0, cancellationToken: _token);
         //シーン移行

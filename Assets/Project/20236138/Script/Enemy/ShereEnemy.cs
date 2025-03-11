@@ -51,6 +51,8 @@ public class ShereEnemy : EnemyBase
     public override void Damage(int damage)
     {
         ServiceLocator<SEManager>.GetInstance().PlaySound(_deathSound, true);
+        _deadParam.enemyDeadPosition = transform.position;
+        ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
         Destroy(gameObject);
     }
 
@@ -96,7 +98,6 @@ public class ShereEnemy : EnemyBase
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        _deadParam.enemyDeadPosition = transform.position;
-        ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
+
     }
 }
