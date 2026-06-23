@@ -124,19 +124,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineColor: {r: 0, g: 0, b: 0, a: 0}
-  _sreachDistance: 35.3
+  _searchDistance: 35.3
   _enemyBulletLineCount: 2
   _enemyBulletCount: 31
   _enemyBulletRotation: 40
   _enemyBulletDistance: 0.6
   _enemyBulletSpan: 5
-  _enemyBulletInstatiateDistance: 3
+  _enemyBulletInstantiateDistance: 3
   status:
-    _moveSpeed: 10
-    _bulletPowor: 20
-    _DestroyTime: 5
+    moveSpeed: 10
+    bulletPower: 20
+    destroyTime: 5
   _lookatSpeed: 0.87
-  _allermSound: {fileID: 8300000, guid: a5dce13a13d91f648a5e0208b2dd664a, type: 3}
+  _alarmSound: {fileID: 8300000, guid: a5dce13a13d91f648a5e0208b2dd664a, type: 3}
   _deathSound: {fileID: 8300000, guid: 87c6dbd41d5c68b45bcc1cb52816bc51, type: 3}
   _renderer: {fileID: 4472257386460729931}
 --- !u!120 &4801177711201226952

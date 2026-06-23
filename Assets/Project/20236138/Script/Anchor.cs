@@ -1,40 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class Anchor : MonoBehaviour,ILockTargetable
+/// <summary>
+/// 固定回復ポイントを表すコンポーネント（ロックオン対象）。
+/// - ILockTargetable を実装し、ターゲット選択や消費回復値を提供する。
+/// - シーン開始時に TargetManager に自身を登録する。
+/// </summary>
+public class Anchor : MonoBehaviour, ILockTargetable
 {
-    public Transform GetTransform => transform;
-
-    public Vector3 GetTokenPosition => transform.position;
-
-    public bool GetIsView => _renderer.isVisible;
+    [SerializeField]
+    private float _recoveryValue = 10;
 
     private Renderer _renderer;
 
-    [SerializeField]
-    private float _recoveryValue = 10;
-    float ILockTargetable.ChangeConsuptio(float _consuptio) { return _recoveryValue ;  }
+    public Transform GetTransform => transform;
+
+    public bool GetIsView => _renderer.isVisible;
+
+    public RocketEnergyEffectType EnergyEffectType => RocketEnergyEffectType.Recover;
+
+    public float ChangeConsumption => _recoveryValue;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
     }
-    // Start is called before the first frame update
+    
     void Start()
     {
         TargetManager.Instance.AddLockTarget(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnDestroy()
     {
-        TargetManager.Instance.RemoveLockTarget(this);
+        if (TargetManager.Instance != null)
+        {
+            TargetManager.Instance.RemoveLockTarget(this);
+        } 
     }
 }

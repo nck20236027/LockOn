@@ -5408,7 +5408,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act1ChanseTime
+      propertyPath: _act1ChanceTime
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
@@ -5416,7 +5416,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act2ChanseTime
+      propertyPath: _act2ChanceTime
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
@@ -5424,7 +5424,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act3ChanseTime
+      propertyPath: _act3ChanceTime
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
@@ -5432,7 +5432,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _sreachDistance
+      propertyPath: _searchDistance
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
@@ -5468,7 +5468,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act1CreatBulletInterval
+      propertyPath: _act1CreateBulletInterval
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
@@ -5476,27 +5476,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act1BulletStatus._moveSpeed
+      propertyPath: _act1BulletStatus.moveSpeed
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act2Bulletstatus._moveSpeed
+      propertyPath: _act2BulletStatus.moveSpeed
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act1BulletStatus._bulletPowor
+      propertyPath: _act1BulletStatus.bulletPower
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act2Bulletstatus._DestroyTime
+      propertyPath: _act2BulletStatus.destroyTime
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _act2Bulletstatus._bulletPowor
+      propertyPath: _act2BulletStatus.bulletPower
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}
-      propertyPath: _enemyBulletInstatiateDistance
+      propertyPath: _enemyBulletInstantiateDistance
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 573439581757699142, guid: 995e11867188e8a4cbb5d818c6cdfc03, type: 3}

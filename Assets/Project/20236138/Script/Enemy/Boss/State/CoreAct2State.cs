@@ -3,57 +3,94 @@ using System;
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// ボスの Act2（ライン攻撃やプレイヤー追跡）状態。
+/// - 範囲内のプレイヤーを検出して回転・弾発射を行う。
+/// </summary>
 public class CoreAct2State : EnemyModeStateBase
 {
-    float _attackTime = 0f;
-    public CoreAct2State(IMadeStateMachine _stateMachine, CoreEnemy enemy) : base(_stateMachine)
+    private float _attackTime = 0f;
+    private CancellationTokenSource _enterCancellation;
+    private CoreEnemy _enemy;
+    public override CoreEnemyState StateType => CoreEnemyState.Act2;
+
+    public CoreAct2State(IMadeStateMachine stateMachine, CoreEnemy enemy) : base(stateMachine)
     {
         _enemy = enemy;
     }
-    private CoreEnemy _enemy;
 
-    public override ModeStateType StateType => throw new System.NotImplementedException();
-
-    public async override void OnEnter()
+    /// <summary>
+    /// Act2状態に入り、攻撃シーケンスをキャンセル可能な非同期処理として開始する。
+    /// </summary>
+    public override void OnEnter()
     {
-        base.OnEnter();
         _enemy.LineRenderer.SetPosition(0,_enemy.transform.position);
         _enemy.LineRenderer.enabled = false;
         _attackTime = 0f;
         TargetManager.Instance.AddLockTarget(_enemy);
-        CancellationTokenSource cancellation = new();
-        CancellationTokenSource tokenSource = CancellationTokenSource.CreateLinkedTokenSource(_enemy.Token, cancellation.Token);
-
         _enemy.IsAttack = true;
+
+        CancelEnterTask();
+        _enterCancellation = new CancellationTokenSource();
+        EnterAsync(_enterCancellation.Token, _enemy.Token).Forget();
+    }
+
+    /// <summary>
+    /// Act2の弾生成と待機時間を順に処理する。
+    /// </summary>
+    private async UniTask EnterAsync(CancellationToken exitToken, CancellationToken enemyToken)
+    {
+        CancellationTokenSource attackCancellation = new();
+        CancellationTokenSource sequenceTokenSource = CancellationTokenSource.CreateLinkedTokenSource(exitToken, enemyToken);
+        CancellationTokenSource bulletTokenSource = CancellationTokenSource.CreateLinkedTokenSource(sequenceTokenSource.Token, attackCancellation.Token);
+        
         try
         {
-        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.AnimationTime),cancellationToken: tokenSource.Token); 
-
-        _ = CreatBullet(tokenSource.Token);
-        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.Act2AttackTime), cancellationToken: _enemy.Token);
-        cancellation.Cancel();
-        await UniTask.Delay(TimeSpan.FromSeconds(_enemy.Act2ChanseTime), cancellationToken: _enemy.Token);
+            // Act1と同様のシーケンスで、攻撃開始前の待機、弾生成、攻撃終了後の待機を行う
+            await UniTask.Delay(TimeSpan.FromSeconds(_enemy.AnimationTime),cancellationToken: sequenceTokenSource.Token);
+            CreateBullet(bulletTokenSource.Token).SuppressCancellationThrow().Forget();
+            await UniTask.Delay(TimeSpan.FromSeconds(_enemy.CoreEnemyAction2Data.Act2AttackTime), cancellationToken: sequenceTokenSource.Token);
+            attackCancellation.Cancel();
+            await UniTask.Delay(TimeSpan.FromSeconds(_enemy.CoreEnemyAction2Data.Act2ChanceTime), cancellationToken: sequenceTokenSource.Token);
+            stateMachine.ChangeState((int)CoreEnemyState.Idle);
         }
-        catch
+        catch (OperationCanceledException)
         {
+            if (!exitToken.IsCancellationRequested && enemyToken.IsCancellationRequested)
+            {
+                stateMachine.ChangeState((int)CoreEnemyState.Idle);
+            }
         }
-        stateMachine.ChangeState((int)CoreEnemyState.Idle);
+        finally
+        {
+            attackCancellation.Cancel();
+            bulletTokenSource.Dispose();
+            sequenceTokenSource.Dispose();
+            attackCancellation.Dispose();
+        }
     }
 
     public override void OnExit()
     {
-        base.OnExit();
+        CancelEnterTask();
         TargetManager.Instance.RemoveLockTarget(_enemy);
         _enemy.IsAttack = false;
     }
 
     public override void OnFixedUpdate()
     {
-        base.OnFixedUpdate();
+        // プレイヤーが範囲内にいる場合はプレイヤーの方向を向き、ラインレンダラーで攻撃範囲を表示する
+        //一定のペースでプレイヤーに照準を合わせる
         _attackTime += Time.fixedDeltaTime;
-        if ((_enemy.transform.position - _enemy.GetPlayerPos).sqrMagnitude < Mathf.Pow(_enemy.SreachDistance, 2))
+        if ((_enemy.transform.position - TargetManager.Instance.GetPlayerPos).sqrMagnitude < Mathf.Pow(_enemy.CoreEnemyAction2Data.SearchDistance, 2))
         {
-            _enemy.transform.rotation = Quaternion.LookRotation(TargetManager.Instance.GetPlayerPos - _enemy.transform.position, Vector3.up);
+            Quaternion targetRotation = Quaternion.LookRotation(TargetManager.Instance.GetPlayerPos - _enemy.transform.position, Vector3.up);
+            _enemy.transform.rotation = 
+                Quaternion.Lerp(
+                    _enemy.transform.rotation, 
+                    targetRotation, 
+                    Time.fixedDeltaTime * _enemy.CoreEnemyAction2Data.Act2RotationSpeed
+                    );
             _enemy.LineRenderer.enabled = true;
             _enemy.LineRenderer.SetPosition(1,  _enemy.transform.position);
         }
@@ -63,31 +100,44 @@ public class CoreAct2State : EnemyModeStateBase
         }
     }
 
-    public override void OnUpdate()
+    /// <summary>
+    /// Act2用の弾をプレイヤーに向かって扇上にキャンセルされるまで生成し続ける。
+    /// </summary>
+    private async UniTask CreateBullet(CancellationToken token)
     {
-        base.OnUpdate();
+        var data = _enemy.CoreEnemyAction2Data;
+        
+        while (!token.IsCancellationRequested)
+        {
+            await UniTask.Delay(0, cancellationToken: token);
+
+            if ((_enemy.transform.position - TargetManager.Instance.GetPlayerPos).sqrMagnitude < Mathf.Pow(_enemy.CoreEnemyAction2Data.SearchDistance, 2) ||
+                _attackTime < _enemy.CoreEnemyAction2Data.EnemyBulletSpan) continue;
+
+            _attackTime = 0;
+            for (int j = 0; j < _enemy.CoreEnemyAction2Data.Act2BulletCount; j++)
+            {
+                for (int i = -_enemy.CoreEnemyAction2Data.Act2BulletLineCount; i <= _enemy.CoreEnemyAction2Data.Act2BulletLineCount; i++)
+                {
+                    Quaternion _rotation = Quaternion.Euler(0, _enemy.CoreEnemyAction2Data.EnemyBulletRotation * i, 0) * _enemy.transform.rotation;
+                    Vector3 _pos = _rotation * Vector3.forward * _enemy.CoreEnemyAction2Data.EnemyBulletInstantiateDistance;
+                    _enemy.BulletPool.GetBullet(_enemy.transform.position + _pos, _rotation, _enemy.CoreEnemyAction2Data.Act2BulletStatus);
+                }
+                await UniTask.Delay(TimeSpan.FromSeconds(_enemy.CoreEnemyAction2Data.EnemyBulletDistance), cancellationToken:token);
+            }
+            await UniTask.Delay(TimeSpan.FromSeconds(_enemy.CoreEnemyAction2Data.EnemyBulletSpan), cancellationToken: token);
+        }
     }
 
-    private async UniTask CreatBullet(CancellationToken token)
+    /// <summary>
+    /// Act2中に開始した非同期処理を停止して参照を解放する。
+    /// </summary>
+    private void CancelEnterTask()
     {
-        while(!token.IsCancellationRequested)
-        {
+        if (_enterCancellation == null) return;
 
-            await UniTask.Delay(0, cancellationToken: token);
-        if ((_enemy.transform.position - _enemy.GetPlayerPos).sqrMagnitude < Mathf.Pow(_enemy.SreachDistance, 2) &&
-                _attackTime <_enemy.EnemyBulletSpan) continue;
-        _attackTime = 0;
-        for (int j = 0; j < _enemy.Act2BulletCount; j++)
-        {
-            for (int i = -_enemy.Act2BulletLineCount; i <= _enemy.Act2BulletLineCount; i++)
-            {
-                Quaternion _rotation =  Quaternion.Euler(0,_enemy.AnemyBulletRotation * i, 0) * _enemy.transform.rotation;
-                Vector3 _pos = _rotation * Vector3.forward * _enemy.EnemyBulletInstatiateDistance;
-                _enemy.BulletPool.GetBullet(_enemy.transform.position + _pos, _rotation, _enemy.Act2BulletStatus);
-            }
-            await UniTask.Delay(TimeSpan.FromSeconds(_enemy.EnemyBulletDistance),cancellationToken:token);
-        }
-            await UniTask.Delay(TimeSpan.FromSeconds(_enemy.EnemyBulletSpan), cancellationToken: token);
-        }
+        _enterCancellation.Cancel();
+        _enterCancellation.Dispose();
+        _enterCancellation = null;
     }
 }

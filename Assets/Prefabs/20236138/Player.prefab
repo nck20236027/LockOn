@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2466a2a4f6653544eae4b1cbf3533394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraController:
-    attachedObject: {fileID: 0}
+  cameraController:
+    _attachedObject: {fileID: 0}
   _standbyTime: 2
   changeTargetSound: {fileID: 0}
   damageSound: {fileID: 0}

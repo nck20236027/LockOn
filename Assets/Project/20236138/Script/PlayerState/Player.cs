@@ -1,169 +1,186 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-
-public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
+/// <summary>
+/// プレイヤー本体のメインコンポーネント。
+/// 移動・ブースト・被ダメージ・ターゲット切替などの入力と状態管理を行い、状態機械（StateMachine）を介して挙動を切り替える。
+/// 他のシステム（SE, UI, Camera, TargetManager 等）とは ServiceLocator を通じて連携する。
+/// </summary>
+public class Player : MonoBehaviour,IMoveObjectable,IDamageable,IListener
 {
+    [SerializeField, Header("最大燃料量")]
+    private float _maxFuelQuantity;
 
-    public PlayerAction _playerInput ; 
-    //�R���|�[�l���g
-    [HideInInspector]
-    private Rigidbody _rb;
-    public GenericInterfaceWrapper<ICameraContollorable,CameraController> _cameraController;
+    [SerializeField, Range(0, 1), Header("警告閾値（最大に対する割合）")]
+    private float _warningValue;
 
-    //�^�[�Q�b�g�̃I�u�W�F�N�g
-    private ILockTargetable _target;
-    public ILockTargetable GetTarget => _target;
+    [SerializeField, Header("無敵時間（ダメージ後の回避時間）")]
+    private float _invincibleTime = 1;
+
+    [SerializeField, Header("ブースト停止までの時間（秒）")]
+    private float _boostStopTime;
+
+    [SerializeField,Header("攻撃力（触れた相手に与えるダメージ）")]
+    private int _playerPower = 1;
+
+    [SerializeField,Header("回復できるターゲットをロックオンした際の回復値")]
+    private int _lockOnEnergyRecoveryAmount;
+
+    [SerializeField,Header("ブースト中に状態変更が許可されるまでの時間")]
+    private float _boostStatusUnChangeTime;
+
+    [SerializeField,Header("通常時の移動ステータス")]
+    private PlayerMoveStatus _normalStatus;
+
+    [SerializeField,Header("ブースト時の移動ステータス")]
+    private PlayerMoveStatus _boostStatus;
+
+    [SerializeField,Header("減速時の移動ステータス")]
+    private PlayerMoveStatus _decelerationStatus;
+
+    [SerializeField,Header("SE設定")]
+    private PlayerSoundData _playerSoundData;
 
     [SerializeField]
     private float _standbyTime = 2;
+    
+    private float _fuelQuantity;
+
+
+    // 外部から参照される入力・状態データ
+    public PlayerAction playerInput;     
+
+    public GenericInterfaceWrapper<ICameraControllable,CameraController> cameraController;
+
+    public EnergyGageParam energyGaugeParam;
+
+    public GameOverParam gameOverParam;
+
+
+    [HideInInspector]
+    public bool isBoostButton;
+
+    [HideInInspector]
+    public bool isDecelerationButton;
+
+
+    // 内部状態
+    private Rigidbody _rb;
+    
+    private ILockTargetable _target;
+    
+    private bool _isWarning;
+    
+    private float _nowIncibleTime;
+    
+    private StateMachine _stateMachine ;
+    
+    private bool _isInputBound;
+
+
+    public ILockTargetable GetTarget => _target;
+    
     public float StandbyTime => _standbyTime;
+    
+    public PlayerSoundData RocketSound => _playerSoundData;
+    
+    public float BoostStopTime => _boostStopTime;
 
-    [Header("SE�̉�")]
-    [SerializeField] private AudioClip changeTargetSound;
-    [SerializeField] private AudioClip damageSound;
-    [SerializeField] private AudioClip heelSound;
-    [SerializeField] private AudioClip warningSound;
-    [SerializeField] private AudioClip _locketFlightSound;
-    public AudioClip LocketFlighSound => _locketFlightSound;
-    public AudioClip boostSound;
+    public float BoostStatusUnChangeTime => _boostStatusUnChangeTime;
 
+    public int LockOnEnergyRecoveryAmount => _lockOnEnergyRecoveryAmount;
 
-    //player�̃X�e�[�^�X
-    [SerializeField, Header("�ő�̔R����")]
-    float _maxFuelQuantity;
-    [Header("���݂̔R����")]
-    public float _fuelQuantity;
-    public float FuelQuantity { get { return _energyGageParam.nowEnergyGauge; }
-        set { _energyGageParam.nowEnergyGauge = Mathf.Min(value, _maxFuelQuantity);
-            _fuelQuantity = _energyGageParam.nowEnergyGauge;
-            if(!_isWarning && _energyGageParam.nowEnergyGauge / _energyGageParam .maxEnergyGauge < _warningValue)
+    public float FuelQuantity 
+    { 
+        get { return energyGaugeParam.nowEnergyGauge; }
+        
+        set 
+        {
+            energyGaugeParam.nowEnergyGauge = Mathf.Min(value, _maxFuelQuantity);
+            _fuelQuantity = energyGaugeParam.nowEnergyGauge;
+            if(!_isWarning && energyGaugeParam.nowEnergyGauge / energyGaugeParam .maxEnergyGauge < _warningValue)
             {
                 _isWarning = true;
-                ServiceLocator<SEManager>.GetInstance().PlaySound(warningSound, true,true);
+                ServiceLocator<SEManager>.GetInstance().PlaySound(_playerSoundData.WarningSound, true,true);
             }
-            else if (_energyGageParam.nowEnergyGauge / _energyGageParam.maxEnergyGauge > _warningValue)
+            else if (energyGaugeParam.nowEnergyGauge / energyGaugeParam.maxEnergyGauge > _warningValue)
             {
                 _isWarning = false;
             }
-        } }
-    [SerializeField, Range(0, 1), Header("�x�����o���")]
-    private float _warningValue;
-    private bool _isWarning = false;
-    [SerializeField, Header("�_���[�W���󂯂����̖��G����")]
-    private float _invincibleTime = 1;
-    private float _nowIncibleTime = 0;
-    [Header("�u�[�X�g���J�n�����Ƃ�~�؂�ւ���Ȃ�����")]
-    public float BoostStateUnChangeTime;
-    [ Header("�ʏ�̃X�e�[�^�X")]
-    public PlayerMoveStatus normalState;
-    [Header("�u�[�X�g�̃X�e�[�^�X")]
-    public PlayerMoveStatus BoostState;
-    [Header("�����̃X�e�[�^�X")]
-    public PlayerMoveStatus decelerationState;
+        } 
+    }
 
-    [SerializeField, Header("�u�[�X�g�̒�~���Ă��鎞��")]
-    private float _boostStopTime;
-    public float BoostStopTime => _boostStopTime;
-    [HideInInspector]
-    public bool isBoostButton = false;
-    [HideInInspector]
-    public bool isDecelerationButton = false;
-    private StateMachine _stateMachine ;
+    public PlayerMoveStatus NormalStatus => _normalStatus;
 
-    public Transform GetPos => transform;
+    public PlayerMoveStatus BoostStatus => _boostStatus;
+    
+    public PlayerMoveStatus DecelerationStatus => _decelerationStatus;
+    
+
+    // 位置や剛体などのインターフェース実装
+    public Transform GetTransform => transform;
 
     public Rigidbody GetRigidbody => _rb;
 
-    public Vector3 Gettarget =>_target != null ? _target.GetTokenPosition : Vector3.zero;
+    public Vector3 GetTargetVector => _target != null ? _target.GetTransform.position : Vector3.zero;
 
-    public Vector3 ListenerPos =>transform.position;
-
-    public EnergyGageParam _energyGageParam;
-
-    public GameOverParam _gameOverParam;
+    public Vector3 ListenerPos => transform.position;
 
     private void Awake()
     {
+        // リスナーとして登録し、ステートマシンを作成
         ServiceLocator<IListener>.Register(this);
         _stateMachine = new StateMachine(this);
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        _gameOverParam = new GameOverParam();
-        _energyGageParam = new EnergyGageParam();
-        _energyGageParam.buttonState = ButtonState.Non;
-        _energyGageParam.maxEnergyGauge = _maxFuelQuantity;
+        gameOverParam = new GameOverParam();
+        energyGaugeParam = new EnergyGageParam();
+        energyGaugeParam.buttonState = ButtonState.Non;
+        energyGaugeParam.maxEnergyGauge = _maxFuelQuantity;
         _fuelQuantity = _maxFuelQuantity;
-        _energyGageParam.nowEnergyGauge = _fuelQuantity;
-        _energyGageParam.energyTimeLost = 0;
-        _energyGageParam.damageEnergyPoint = 0;
+        energyGaugeParam.nowEnergyGauge = _fuelQuantity;
+        energyGaugeParam.energyTimeLost = 0;
+        energyGaugeParam.damageEnergyPoint = 0;
 
-        _playerInput = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
-        _playerInput.Player.Boost.started += BoostAction;
-        _playerInput.Player.Boost.canceled += BoostAction;
-        _playerInput.Player.Deceleration.started += DecelerationAction;
-        _playerInput.Player.Deceleration.canceled += DecelerationAction;
+        // 入力のバインド
+        playerInput = ServiceLocator<PlayerActionManager>.GetInstance().playerAction;
+        BindInputActions();
         _rb = GetComponent<Rigidbody>();
         _stateMachine.Initialize(ModeStateType.Move);
         _stateMachine.OnEnter();
-        ServiceLocator<SEManager>.GetInstance().PlaySound(_locketFlightSound, false,true);
-        ServiceLocator<UIMediator>.GetInstance().Init(_energyGageParam);
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_playerSoundData.RocketFlightSound, false,true);
+        ServiceLocator<UIMediator>.GetInstance().Init(energyGaugeParam);
     }
 
-    // Update is called once per frame
     void Update()
     {
         _stateMachine.OnUpdate();
         _nowIncibleTime -= Time.deltaTime;
-
-
-
-
     }
+
     private void FixedUpdate()
     {
         _stateMachine.OnFixedUpdate();
-        //Vector3 lef = targetPos != null ? targetPos.position - transform.position : transform.up;
+    }
 
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(Vector3.up, lef), normalState.Bendability);
+    /// <summary>
+    /// ターゲット変更処理：新しいターゲットを受け取り、サウンドなどの反応を行う
+    /// </summary>
+    /// <param name="target">あたらしく狙う敵のインターフェース</param>
+    public void ChangeTarget(ILockTargetable target)
+    {
+        _target = target;
+        if(target == null) return;
         
-        //rb.AddForce(transform.up * normalState.MaxSpeed);
-        //if(rb.velocity.sqrMagnitude > Mathf.Pow(normalState.MaxSpeed, 2))
-        //    {
-        //    rb.velocity = rb.velocity / rb.velocity.magnitude * normalState.MaxSpeed;
-        //}
-    }
-
-
-    //�v���C���[�̈ړ�
-    private void PlayerMove()
-    {
-
-        //�����̈ړ����@
-        //Vector3 lef = targetPos.position - transform.position;
-
-        //transform.rotation =
-        //    Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lef, Vector3.up), nowState.Bendability);
-        //rb.velocity = transform.rotation * Vector3.forward * playerMoveSpeed;
-
-    }
-
-
-    //player�̃^�[�Q�b�g��ς���Ƃ��ɌĂ�
-    public void ChangeTarget(ILockTargetable _target)
-    {
-        this._target = _target;
-        bool isNullTarget = _target != null;
-        if (isNullTarget && _target.ChangeConsuptio(0) > 0)
+        if ( target.EnergyEffectType == RocketEnergyEffectType.Recover)
         {
-            ServiceLocator<SEManager>.GetInstance().PlaySound(heelSound, true);
+            ServiceLocator<SEManager>.GetInstance().PlaySound(_playerSoundData.HealSound, true);
         }
-        else if(isNullTarget)
+        else
         {
-            ServiceLocator<SEManager>.GetInstance().PlaySound(changeTargetSound, true);
+            ServiceLocator<SEManager>.GetInstance().PlaySound(_playerSoundData.ChangeTargetSound, true);
         }
     }
 
@@ -177,34 +194,79 @@ public class Player : MonoBehaviour,IMoveObjectable,IDamagable,IListener
         isDecelerationButton = callback.canceled ? false : true;
     }
 
+    /// <summary>
+    /// 指定量の燃料使用を試みる。
+    /// 条件を満たす場合は燃料を消費せず、回復処理を行う。
+    /// </summary>
+    public void TryUseFuel(float amount)
+    {
+        float timeFuelQuantity = -amount;
+        if(GetTarget != null && GetTarget.EnergyEffectType == RocketEnergyEffectType.Recover)
+        timeFuelQuantity =  LockOnEnergyRecoveryAmount;
+
+        FuelQuantity += timeFuelQuantity * Time.deltaTime;
+        energyGaugeParam.energyTimeLost = -timeFuelQuantity * Time.deltaTime;
+    }
+
+    /// <summary>
+    /// 入力アクションのイベントを登録する。
+    /// </summary>
+    private void BindInputActions()
+    {
+        if (playerInput == null || _isInputBound) return;
+
+        playerInput.Player.Boost.started += BoostAction;
+        playerInput.Player.Boost.canceled += BoostAction;
+        playerInput.Player.Deceleration.started += DecelerationAction;
+        playerInput.Player.Deceleration.canceled += DecelerationAction;
+        _isInputBound = true;
+    }
+
+    /// <summary>
+    /// 登録済みの入力イベントを解除し、破棄済みのPlayerへ通知が残らないようにする。
+    /// </summary>
+    private void UnbindInputActions()
+    {
+        if (playerInput == null || !_isInputBound) return;
+
+        playerInput.Player.Boost.started -= BoostAction;
+        playerInput.Player.Boost.canceled -= BoostAction;
+        playerInput.Player.Deceleration.started -= DecelerationAction;
+        playerInput.Player.Deceleration.canceled -= DecelerationAction;
+        _isInputBound = false;
+    }
+
+    /// <summary>
+    /// ダメージ処理（無敵時間の管理、UI更新、サウンド、カメラシェイク）
+    /// </summary>
+    /// <param name="damage"></param>
     public void Damage(int damage)
     {
         if (_nowIncibleTime >= 0) return;
-        ServiceLocator<SEManager>.GetInstance().PlaySound(damageSound,true);
+        ServiceLocator<SEManager>.GetInstance().PlaySound(_playerSoundData.DamageSound,true);
         _nowIncibleTime = _invincibleTime;
         FuelQuantity -= damage;
-        _energyGageParam.isDamage = true;
-        _energyGageParam.damageEnergyPoint = damage;
-        ServiceLocator<UIMediator>.GetInstance().Animation(_energyGageParam);
-        _energyGageParam.isDamage= false;
-        _cameraController.Interface.CameraSheikh();
-
+        energyGaugeParam.isDamage = true;
+        energyGaugeParam.damageEnergyPoint = damage;
+        ServiceLocator<UIMediator>.GetInstance().Animation(energyGaugeParam);
+        energyGaugeParam.isDamage= false;
+        cameraController.Interface.CameraShake();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        IDamagable damagable  = other.GetComponent<IDamagable>();
-        if(damagable != null)
+        IDamageable damageable  = other.GetComponent<IDamageable>();
+        if(damageable != null)
         {
-            damagable.Damage(1);
+            damageable.Damage(_playerPower);
         }
     }
 
     private void OnDestroy()
     {
-        ServiceLocator<SEManager>.GetInstance().StopSound(LocketFlighSound);
+        // 終了時の片付け：サウンド停止とリスナー解除
+        UnbindInputActions();
+        ServiceLocator<SEManager>.GetInstance().StopSound(_playerSoundData.RocketFlightSound);
         ServiceLocator<IListener>.RemoveInstance(this);
     }
 }
-
-

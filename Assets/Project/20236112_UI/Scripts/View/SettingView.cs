@@ -47,7 +47,7 @@ public class SettingView : ViewBase
         //volumeSlider.minValue = settingParam.minCameraSensitiveAffinity;
         //volumeSlider.maxValue = settingParam.maxCameraSensitiveAffinity;
 
-        //ƒXƒ‰ƒCƒ_[‚Ì‰Šú‰»
+        //ï¿½Xï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
         sliders[(int)OptionChoiseType.CameraSensitivity].value = settingParam.initCameraSensitiveAffinity;
         sliders[(int)OptionChoiseType.CameraSensitivity].minValue = settingParam.minCameraSensitiveAffinity;
         sliders[(int)OptionChoiseType.CameraSensitivity].maxValue = settingParam.maxCameraSensitiveAffinity;
@@ -109,7 +109,7 @@ public class SettingView : ViewBase
 
     public override void OnFinal<T>(T param)
     {
-        //View‚Ìíœw—ß‚ğó‚¯‚½‚ç©g‚ğíœ‚·‚é
+        //Viewï¿½Ìíœï¿½wï¿½ß‚ï¿½ï¿½ó‚¯‚ï¿½ï¿½ç©ï¿½gï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
         Destroy(gameObject);
     }
 

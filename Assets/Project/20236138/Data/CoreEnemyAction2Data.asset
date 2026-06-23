@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d688677d10dc5894d9890a69e03cbc8a, type: 3}
+  m_Name: CoreEnemyAction2Data
+  m_EditorClassIdentifier: 
+  _act2AttackTime: 8.75
+  _act2ChanceTime: 5
+  _searchDistance: 50
+  _act2BulletLineCount: 3
+  _act2BulletCount: 25
+  _enemyBulletRotation: 8
+  _enemyBulletDistance: 0.4
+  _enemyBulletSpan: 2
+  _enemyBulletInstantiateDistance: 10
+  _lineColor: {r: 1, g: 0, b: 0, a: 1}
+  _act2BulletStatus:
+    moveSpeed: 7
+    bulletPower: 4
+    destroyTime: 3
+  _act2RotationSpeed: 0.3

@@ -180,8 +180,30 @@
                 },
                 {
                     "name": "",
+                    "id": "11c68307-e6ed-4c39-ac8f-10e328fdbf75",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1ab195b0-5edd-4c87-973e-f03dadd0c942",
                     "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LLock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cce8131b-af99-48b6-b651-3d39b2e74b78",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -202,6 +224,17 @@
                 },
                 {
                     "name": "",
+                    "id": "523e4046-52b8-4d50-8b93-ce977e40231d",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RLock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "972f7b1f-b0de-43ba-9b74-b521ef456556",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
@@ -213,8 +246,30 @@
                 },
                 {
                     "name": "",
+                    "id": "2c3b1180-ce9f-40e5-b138-aa723463722e",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b94bb617-3c03-4b2f-a2ff-f93a7c36f69c",
                     "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Deceleration",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66a92a52-0168-4bd4-a7f9-2a92c8e460d6",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -961,6 +1016,17 @@
                     "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c7a8fa54-ce3e-4ea9-b408-4708638bc2ab",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false

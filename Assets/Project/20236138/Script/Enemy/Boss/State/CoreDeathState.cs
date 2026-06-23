@@ -1,26 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+/// <summary>
+/// ボスの Death（死亡）状態。
+/// - 現状はプレースホルダ的な実装。必要に応じて演出や破片生成を追加する。
+/// </summary>
 public class CoreDeathState : EnemyModeStateBase
 {
-    CoreEnemy _enemy;
-    public CoreDeathState(IMadeStateMachine _stateMachine,CoreEnemy _enemy) : base(_stateMachine)
-    {
-        this._enemy = _enemy;
-    }
-
-    public override ModeStateType StateType => throw new System.NotImplementedException();
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public CoreDeathState(IMadeStateMachine stateMachine,CoreEnemy enemy) : base(stateMachine){}
+    
+    public override CoreEnemyState StateType => CoreEnemyState.Death;
 }

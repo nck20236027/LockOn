@@ -1,200 +1,193 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-
-public class CoreEnemy : EnemyBase,ILockTargetable, ISpeaker
+/// <summary>
+/// ãƒœã‚¹ï¼ˆCoreEnemyï¼‰ã®ãƒ¡ã‚¤ãƒ³å®Ÿè£…ã‚¯ãƒ©ã‚¹ã€‚
+/// - å„ Actï¼ˆAct1/Act2/Act3ï¼‰ã‚„ Idle/Death ã®çŠ¶æ…‹ã‚’æŒã¡ã€EnemyStateMachine ã«ã‚ˆã£ã¦è¡Œå‹•ã‚’åˆ¶å¾¡ã™ã‚‹ã€‚
+/// - å¼¾ç™ºå°„ã‚„å°å‹æ•µç”Ÿæˆã€HP ç®¡ç†ã€UI é€£æºï¼ˆHPãƒãƒ¼ç­‰ï¼‰ã‚’æ‹…å½“ã™ã‚‹ã€‚
+/// </summary>
+public class CoreEnemy : EnemyBase, ISpeaker
 {
-    [SerializeField, Header("Core‚ªƒ_ƒ[ƒW‚ğ‚ğó‚¯‚é‚ÆˆÚ“®‚·‚éêŠ")]
-    Transform[] _warpPos;
-    [SerializeField, Header("ƒ{ƒX‚ÌHP(“ËŒ‚‰ñ”)")]
-    private int _MaxCoreHp = 3;
-    public int MaxCoreHp => _MaxCoreHp;
-    private int _nowCoreHp = 0;
-    public int nowCoreHp => _nowCoreHp;
-    [SerializeField, Header("Act‚Ìs“®ŠÔŠu")]
+    // å…±é€šè¨­å®š
+    [SerializeField, Header("ãƒ¯ãƒ¼ãƒ—ä½ç½®ï¼ˆãƒ©ãƒ³ãƒ€ãƒ ã«é£›ã°ã™ï¼‰")]
+    private Transform[] _warpPos;
+
+    [SerializeField, Header("ACT åˆ‡æ›¿ã®é–“éš”ï¼ˆç§’ï¼‰")]
     private float _actionInterval = 1f;
-    public float ActionIntarval => _actionInterval;
-    [SerializeField, Header("ƒAƒjƒ[ƒVƒ‡ƒ“‚ªˆÈ~‚·‚éŠÔ")]
+
+    [SerializeField, Header("çŠ¶æ…‹é·ç§»æ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æ™‚é–“ï¼ˆç§’ï¼‰")]
     private float _animationTime = 2;
-    public float AnimationTime => _animationTime;
-    [SerializeField, Header("Act1‚ÌUŒ‚ŠÔ")]
-    private float _act1AttackTime = 1f;
-    public float Act1AttackTime => _act1AttackTime;
-    [SerializeField, Header("Act1‚ÌŒ„‚ğ‚³‚ç‚·ŠÔ")]
-    private float _act1ChanseTime = 1f;
-    public float Act1ChanseTime => _act1ChanseTime;
-    [SerializeField, Header("’e‚Ì¶¬‚ÌŠÔŠu")]
-    private float _act1CreatBulletInterval = 1;
-    public float Act1CreatBulletIntarval => _act1CreatBulletInterval;
-    [SerializeField, Header("UŒ‚”ÍˆÍ‚Ì”¼Œa")]
-    private float _act1AttackDistanse = 20;
-    public float Act1AttackDistanse => _act1AttackDistanse;
-    [SerializeField,Header("’e‚ª¶¬‚³‚ê‚é‹——£")]
-    private float _distanceAttack = 2;
-    public float DistanceAttack => _distanceAttack;
-    [SerializeField, Header("’e‚ªˆêü‰½•b‚ÅI‚í‚è‚©")]
-    private float _bulletAround = 3;
-    public float BulletAround => _bulletAround;
-    public float Act1DestroyTime =>
-        (_act1AttackDistanse - _distanceAttack) / _act1BulletStatus._moveSpeed;
-    [SerializeField]
-    EnemyBulletStatus _act1BulletStatus;
-    public EnemyBulletStatus Act1BulletStatus => _act1BulletStatus;
 
-    [SerializeField, Header("Act2‚ÌUŒ‚ŠÔ")]
-    private float _act2AttackTime = 1f;
-    public float Act2AttackTime => _act2AttackTime;
-    [SerializeField, Header("Act2‚ÌŒ„‚ğ‚³‚ç‚·ŠÔ")]
-    private float _act2ChanseTime = 1f;
-    public float Act2ChanseTime => _act2ChanseTime;
-    [SerializeField, Header("Š´’m”ÍˆÍ")]
-    private float _sreachDistance = 10;
-    public float SreachDistance => _sreachDistance;
-    [SerializeField, Header("’e‚Ì‘Å‚¿o‚·”iWayj")]
-    private int _act2BulletLineCount = 2;
-    public int Act2BulletLineCount => _act2BulletLineCount;
-    [SerializeField, Header("‘Å‚¿o‚·’e‚Ì”")]
-    private int _act2BulletCount;
-    public int Act2BulletCount => _act2BulletCount;
-    [SerializeField, Header("’e‚Ì‘Å‚¿o‚·Šp“x")]
-    private int _enemyBulletRotation = 10;
-    public int AnemyBulletRotation => _enemyBulletRotation;
-    [SerializeField, Header("’e‚ğŒ‚‚Á‚½Œã‚É‚à‚¤ˆê“x’e‚ªo‚é‚Ü‚Å")]
-    private float _enemyBulletDistance = 10;
-    public float EnemyBulletDistance => _enemyBulletDistance;
-    [SerializeField, Header("ËŒ‚‚ÌŠÔŠu")]
-    private float _enemyBulletSpan = 5;
-    public float EnemyBulletSpan => _enemyBulletSpan;
-    [SerializeField, Header("’e‚ªo‚Ä‚­‚é‹——£")]
-    private int _enemyBulletInstatiateDistance = 10;
-    public int EnemyBulletInstatiateDistance => _enemyBulletInstatiateDistance;
-    [SerializeField, Header("ƒŒ[ƒU[‚ÌF")]
-    private Color _lineColor; [SerializeField]
-    public Color LineColor => _lineColor;
-    [SerializeField,Header("Act2‚Ì’e‚ÌƒXƒe[ƒ^ƒX")]
-    private EnemyBulletStatus _act2Bulletstatus;
-    public EnemyBulletStatus Act2BulletStatus => _act2Bulletstatus;
+    [SerializeField, Header("ãƒœã‚¹ã®åå‰")]
+    private string _bossName = "ã‚³ã‚¢";  
 
+    // Act1 é–¢é€£ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+    [SerializeField,Header("å¼¾ã‚’å‘¨å›²ã«ã°ã‚‰ã¾ãæ”»æ’ƒã®ãƒ‡ãƒ¼ã‚¿")]
+    private CoreEnemyAction1Data _action1Data;
 
-    [SerializeField, Header("Act3‚ÌUŒ‚ŠÔ")]
-    private float _act3AttackTime = 1f;
-    public float Act3AttackTime => _act3AttackTime;
-    [SerializeField, Header("Act3“G‚Ì¶¬‚ÌŠÔŠu")]
-    private float _act3CrealEnemyInterval = 1;
-    public float Act3CreatEnemyInterval => _act3CrealEnemyInterval;
-    [SerializeField, Header("Act3‚ÌŒ„‚ğ‚³‚ç‚·ŠÔ")]
-    private float _act3ChanseTime = 1f;
-    public float Act3ChanseTime => _act3ChanseTime;
-    [SerializeField, Header("“G‚ğ‚Ç‚ê‚­‚ç‚¢‚Í‚È‚µ‚Ä¶¬‚·‚é‚©")]
-    private float _act3EnemCreatDistance = 2;
-    public float Act3EnemyCreatDistance => _act3EnemCreatDistance;
-    [SerializeField,Header("act3‚Ì“G‚ÌƒXƒe[ƒ^ƒX")]
-    private MoveStatus _moveStatus;
-    public MoveStatus MoveStatus => _moveStatus;
-    [SerializeField,Header("“G‚ª©”š‚·‚é‚Ü‚Å‚ÌŠÔ")]
-    private float _enemyDestructionTime = 1;
-    public float EnemyDestructionTime => _enemyDestructionTime;
-    [SerializeField,Header("“G‚ª©”š‚µ‚½‚Ìƒ_ƒ[ƒW")]
-    private int _selfDistructionDamage = 10;
-    public int SelfDistructionDamage => _selfDistructionDamage;
+    // Act2 é–¢é€£ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+    [SerializeField,Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã£ã¦å¼¾ã‚’æ‰‡çŠ¶ã«é£›ã°ã™æ”»æ’ƒã®ãƒ‡ãƒ¼ã‚¿")]
+    private CoreEnemyAction2Data _action2Data;
+
+    [SerializeField,Header("è‡ªçˆ†ã™ã‚‹æ•µã‚’ç”Ÿæˆã™ã‚‹æ”»æ’ƒç”¨ãƒ‡ãƒ¼ã‚¿")]
+    // Act3 é–¢é€£ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+    private CoreEnemyAction3Data _action3Data;
+
+    // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒ»å¤–éƒ¨å‚ç…§
     [SerializeField]
     private Renderer _renderer;
 
-    LineRenderer _lineRenderer;
+    [SerializeField]
+    private TriangleEnemy _enemyPrefab;
+
+    [SerializeField]
+    private AudioClip _coreStateSound;
+    
+    private LineRenderer _lineRenderer;
+
+    private Animator _animator;
+
+    // å†…éƒ¨çŠ¶æ…‹
+    private EnemyStateMachine _stateMachine;
+    
+    private CancellationTokenSource _damageToken;
+    
+    private CancellationTokenSource _token;
+    
+    private EnemyBulletPool _bulletPool;
+    
+    private BossHpBarParam _CorehpBarParam = new();
+    
+    private bool _isAttack = false;
+
+    // å…¬é–‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+    public int NowEnemyHp => _enemyNowHP;
+
+    //å¼¾ã‚’å‘¨å›²ã«ã°ã‚‰ã¾ãæ”»æ’ƒã®å¼¾ãŒæ¶ˆæ»…ã™ã‚‹æ™‚é–“ã‚’è¨ˆç®—ã—ã¦æä¾›ã™ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+    public float Act1DestroyTime =>
+        (_action1Data.Act1AttackDistance - _action1Data.DistanceAttack) / _action1Data.Act1BulletStatus.moveSpeed;
+    
+    public bool IsAttack { get => _isAttack; set => _isAttack = value; }
+    
+    public float ActionInterval => _actionInterval;
+    
+    public float AnimationTime => _animationTime;
+    
+    public CoreEnemyAction1Data CoreEnemyAction1Data => _action1Data; 
+
+    public CoreEnemyAction2Data CoreEnemyAction2Data => _action2Data;
+
+    public CoreEnemyAction3Data CoreEnemyAction3Data => _action3Data;
+
     public LineRenderer LineRenderer => _lineRenderer;
 
-    [SerializeField]
-    Transform _player;
-    public Vector3 GetPlayerPos  => _player.position;
-
-    [SerializeField]
-    TriangleEnemy _enemy;
-
-    Animator _animator;
-
-    [SerializeField] private Vector3 corePos;
-    public Vector3 SpeakerPos => corePos;
-    public AudioClip coreStateSound;
-
-    //UŒ‚’†‚©‚Ç‚¤‚©
-    [SerializeField]
-    private bool _isAttack = false;
-    public bool IsAttack { get => _isAttack; set => _isAttack = value; }
-
-    private EnemyStateMachine _stateMachin;
-    private CancellationTokenSource _damageToken;
-    private CancellationTokenSource _token;
     public CancellationToken Token => _token.Token;
-    private EnemyBulletPool _bulletPool;
+    
     public EnemyBulletPool BulletPool => _bulletPool;
+    
     public override bool GetIsView => _renderer.isVisible;
+    
+    public Vector3 SpeakerPos => transform.position;
+    
+    public AudioClip CoreStateSound => _coreStateSound;
 
-
-    private BossHpBarParam _CorehpBarParam = new();
-    public override void Damage(int damage)
+    protected override void Awake()
     {
-        if (!_isAttack) return;
-        gameObject.transform.position = _warpPos[UnityEngine.Random.Range(0, _warpPos.Length)].position;
-        _nowCoreHp -= damage;
-        _CorehpBarParam.bossNowHp = _nowCoreHp;
-        _damageToken.Cancel();
-        _damageToken = new CancellationTokenSource();
-        _token = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(), _damageToken.Token);
-        ServiceLocator<UIMediator>.GetInstance().Animation(_CorehpBarParam);
-        if (_nowCoreHp <= 0)
-            _stateMachin.ChangeState((int)CoreEnemyState.Death);
-    }
-
-
-    private void Awake()
-    {
+        base.Awake();
         _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.startColor = _lineColor;
-        _lineRenderer.endColor = _lineColor;
+        _lineRenderer.startColor = _action2Data.LineColor;
+        _lineRenderer.endColor = _action2Data.LineColor;
         _animator = GetComponent<Animator>();
-        _nowCoreHp = _MaxCoreHp;
-        _stateMachin = new EnemyStateMachine(this);
-        _damageToken = new CancellationTokenSource();
-        _token = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),_damageToken.Token);
-
+        _enemyNowHP = _enemyMaxHP;
+        _stateMachine = new EnemyStateMachine(this);
+        CreateDamageToken();
     }
-    // Start is called before the first frame update
+
     protected override void Start()
     {
-        //base.Start();
+        base.Start();
         _bulletPool = ServiceLocator<EnemyBulletPool>.GetInstance();
-        _stateMachin.Initialize((int)CoreEnemyState.Act2);
-        _stateMachin.OnEnter();
-        _CorehpBarParam.bossName = "ƒRƒA";
-        _CorehpBarParam.bossMaxHp = _MaxCoreHp;
-        _CorehpBarParam.bossNowHp = _MaxCoreHp;
+        _stateMachine.Initialize((int)CoreEnemyState.Act2);
+        _stateMachine.OnEnter();
+        _CorehpBarParam.bossName = _bossName;
+        _CorehpBarParam.bossMaxHp = _enemyMaxHP;
+        _CorehpBarParam.bossNowHp = _enemyMaxHP;
         ServiceLocator<UIMediator>.GetInstance().Init(_CorehpBarParam);
-        corePos = gameObject.transform.position;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        _stateMachin.OnUpdate();
+        _stateMachine.OnUpdate();
         CoreAnimation();
     }
 
     private void FixedUpdate()
     {
-        _stateMachin.OnFixedUpdate();
+        _stateMachine.OnFixedUpdate();
     }
 
-    public void CreatTriangleEnemy(Vector3 _pos,Quaternion _rotation)
+    public void CreateTriangleEnemy(Vector3 pos,Quaternion rotation)
     {
-        TriangleEnemy enemy = Instantiate(_enemy, _pos, _rotation);
-        enemy.SetStatus(SelfDistructionDamage, EnemyDestructionTime, MoveStatus.MaxSpeed, MoveStatus, true);
+        TriangleEnemy enemy = Instantiate(_enemyPrefab, pos, rotation);
+        enemy.SetStatus(_action3Data.SelfDestructionDamage, _action3Data.EnemyDestructionTime, _action3Data.EnemyMoveStatus.MaxSpeed, _action3Data.EnemyMoveStatus, true);
     }
 
     private void CoreAnimation()
     {
         _animator.SetBool("isAttack", _isAttack);
+    }
+
+    /// <summary>
+    /// ç ´æ£„æ™‚ã«ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ç‰‡ä»˜ã‘ã€åŸºåº•ã‚¯ãƒ©ã‚¹ã®ç ´æ£„å‡¦ç†ã‚’å‘¼ã¶ã€‚
+    /// </summary>
+    protected override void OnDestroy()
+    {
+        _damageToken?.Cancel();
+        DisposeDamageToken();
+        base.OnDestroy();
+    }
+
+    public override void Damage(int damage)
+    {
+        if (!_isAttack) return;
+        gameObject.transform.position = _warpPos[UnityEngine.Random.Range(0, _warpPos.Length)].position;
+        _enemyNowHP -= damage;
+        _CorehpBarParam.bossNowHp = _enemyNowHP;
+        ResetDamageToken();
+        ServiceLocator<UIMediator>.GetInstance().Animation(_CorehpBarParam);
+        if (_enemyNowHP <= 0)
+            _stateMachine.ChangeState((int)CoreEnemyState.Death);
+    }
+
+    /// <summary>
+    /// è¢«å¼¾æ™‚ã«ç¾åœ¨ã®æ”»æ’ƒå‡¦ç†ã‚’æ­¢ã‚ã‚‹ãŸã‚ã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ä½œã‚Šç›´ã™ã€‚
+    /// </summary>
+    private void ResetDamageToken()
+    {
+        _damageToken?.Cancel();
+        DisposeDamageToken();
+        CreateDamageToken();
+    }
+
+    /// <summary>
+    /// ãƒœã‚¹ç”¨ã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ç”Ÿæˆã™ã‚‹ã€‚
+    /// </summary>
+    private void CreateDamageToken()
+    {
+        _damageToken = new CancellationTokenSource();
+        _token = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(), _damageToken.Token);
+    }
+
+    /// <summary>
+    /// ãƒœã‚¹ç”¨ã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ç ´æ£„ã™ã‚‹ã€‚
+    /// </summary>
+    private void DisposeDamageToken()
+    {
+        _token?.Dispose();
+        _damageToken?.Dispose();
+        _token = null;
+        _damageToken = null;
     }
 }

@@ -1,180 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class NowRocketMove 
+/// <summary>
+/// ãƒ­ã‚±ãƒƒãƒˆç³»ã®ç§»å‹•è¨ˆç®—ã‚’è¡Œã†ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ï¼ˆRocketMoveï¼‰ã€‚
+/// ç›®æ¨™æ–¹å‘ã¸ã®é å¿ƒ/å‘å¿ƒåŠ›çš„ãªåŠ›ã‚’è¨ˆç®—ã—ã¦é€Ÿåº¦ã«åŠ ç®—ã—ã€å›è»¢è£œé–“ã‚’è¡Œã†ã€‚
+/// IMoveObjectable ã¨ MoveStatus ã‚’å—ã‘å–ã‚Šã€FixedUpdate ã”ã¨ã«å‘¼ã³å‡ºã—ã¦ç‰©ç†æŒ™å‹•ã‚’æ›´æ–°ã™ã‚‹ã€‚
+/// </summary>
+public class RocketMove
 {
-    private const int BEZIER_SAMPLES = 10000;
-    private  static List<float> GaussLegendrePoints = new List<float>() {  
-        -0.8611363f,
-                -0.3399810f,
-                0.3399810f,
-                0.8611363f,};
-    private static List<float> GaussLegendreWeights = new List<float>() {                
-        0.3478548f,
-                0.6521452f,
-                0.6521452f,
-                0.3478548f,
-    };
-
-    public static Vector3 GetOrbit(MoveData _moveData,MoveStatus _statu,float _moveDistance)
+    /// <summary>
+    /// æŒ‡å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ MoveStatus ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«å¾“ã£ã¦ç§»å‹•ã•ã›ã‚‹ã€‚
+    /// - moveObject: IMoveObjectableï¼ˆä½ç½®ãƒ»å‰›ä½“ãƒ»ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæƒ…å ±ã‚’æŒã¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼‰
+    /// - status: ç§»å‹•ã«é–¢ã™ã‚‹å„ç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼ˆMaxSpeed, Bendability, Propulsion, Damping, Curve ãªã©ï¼‰
+    /// - time: ã‚¹ãƒ†ãƒ¼ãƒˆçµŒéæ™‚é–“ï¼ˆCurve ã®è©•ä¾¡ã«ä½¿ç”¨ï¼‰
+    /// </summary>
+    public static void MoveTarget(IMoveObjectable moveObject,MoveStatus status,float time)
     {
-        var length = GetBezierLength(
-    _moveData.StartPos.position,
-    _moveData.StartPos.position + _moveData.MovePowor,
-    _moveData.EndPos,
-    _moveData.EndPos -(_moveData.EndPos - _moveData.StartPos.position)
-);
-
-        // 0‚ğ‹N“_‚É‘O‰ñ‚ÌˆÊ’u‚ğü•ª‚¾‚Á‚½ê‡‚É’u‚«Š·‚¦‚Äæ“¾‚·‚é
-        var previousLength = Vector3.Lerp(Vector3.zero, _moveData.StartPos.position,_moveData._MovePoint).magnitude;
-        // ‚±‚ÌƒtƒŒ[ƒ€‚Å•Ï‰»‚µ‚½ƒxƒWƒF‹Èü‚Ì’·‚³‚É‡‚í‚¹‚½ˆÚ“®—Ê‚ğ‹‚ß‚é
-        float latestT = math.unlerp(0, length, previousLength);
-        latestT = Mathf.Clamp(latestT,0,1);   // 0~1‚ÉŠÛ‚ß‚é
-
-        // Œ»İ‚Ì‘¬“x‚Å1ƒtƒŒ[ƒ€‚Éi‚Ş—Ê
-        var moveAmount = _statu.MaxSpeed * Time.deltaTime;
-
-        // while‚Åg‚¤•Ï”
-        // ƒTƒ“ƒvƒ‹‚Ì”•ªˆÚ“®‚µ‚½‹——£
-        var traveledDistance = 0f;
-        // ˆÚ“®êŠ‚ÌŒ‹‰Ê(ƒŠƒUƒ‹ƒg)
-        var moveLocation = Vector3.zero;
-        // ˆê‚Â‘O‚Ìwhileƒ‹[ƒv‚Åæ“¾‚µ‚½À•W(Œ»İ‚Ì‘JˆÚŠ„‡‚Å‰Šú‰»)
-        var previousPosition = GetBezier(
-    _moveData.StartPos.position,
-    _moveData.StartPos.position + _moveData.MovePowor,
-    _moveData.EndPos,
-    _moveData.EndPos - _moveData.StartPos.position,
-                latestT
-            );
-        var safety = 0;
-        while (traveledDistance < moveAmount)
+        Vector3 toTarget = moveObject.GetTargetVector != Vector3.zero ?
+            moveObject.GetTargetVector - moveObject.GetTransform.position : moveObject.GetTransform.up;
+        Vector3 vn = moveObject.GetRigidbody.velocity.normalized;
+        float dot = Vector3.Dot(toTarget, vn);
+        Vector3 centripetalAccel = toTarget - (vn * dot);
+        float centripetalAccelMagnitude = centripetalAccel.magnitude;
+        
+        if (centripetalAccelMagnitude > 1f)
         {
-            // ƒTƒ“ƒvƒ‹”•ª™X‚É‘‚â‚µ‚Ä‚¢‚­
-            latestT += 1f / BEZIER_SAMPLES;
-            latestT = math.saturate(latestT);
-
-            // ƒxƒWƒF‹Èü‚ÌŒ»İÀ•W‚ğ‹‚ß‚é
-            moveLocation = GetBezier(
-    _moveData.StartPos.position,
-    _moveData.StartPos.position + _moveData.MovePowor,
-    _moveData.EndPos,
-    _moveData.EndPos - _moveData.StartPos.position,
-                latestT
-            );
-
-            // Œ»İˆÊ’u‚©‚ç‚Ç‚ê‚¾‚¯ˆÚ“®‚Å‚«‚½‚©‹‚ß‚é
-            traveledDistance += Mathf.Abs((moveLocation - previousPosition).magnitude);
-            // ¡‰ñ‚ÌˆÊ’u‚ğ•Û‘¶
-            previousPosition = moveLocation;
-
-            // –³ŒÀƒ‹[ƒvˆÀ‘Sˆ—
-            safety++;
-            if (BEZIER_SAMPLES <= safety)
-            {
-                // ƒTƒ“ƒvƒ‹”‚ğ’´‚¦‚½ƒ‹[ƒv‰ñ”‚É’B‚µ‚½‚ç‚±‚±‚ÅI—¹‚·‚é
-                break;
-            }
+            centripetalAccel /= centripetalAccelMagnitude;
         }
 
-        // Œ»İ‚Ìis•ûŒü‚ğæ“¾
-        var moveForward = _moveData.StartPos.forward;
-        // Œ»İ‚ÌˆÊ’u‚©‚çˆÚ“®æ‚Ü‚Å‚Ì•ûŒü‚ğ‹‚ß‚é
-        Vector3 moveTargetDirection = (moveLocation - _moveData.StartPos.position).normalized;
-        var cosHalf = math.cos(_statu.Damping / 2 * Mathf.Rad2Deg);
-        var innerProduct = Vector3.Dot(moveForward, moveTargetDirection);
-
-        var lookRotation = Quaternion.LookRotation(moveTargetDirection, Vector3.up);
-        _moveData._MovePoint = latestT;
-        Vector3 _movePos = Vector3.zero;
-        if (cosHalf < innerProduct)
-        {
-            // Ÿ‚Ì’n“_‚ªù‰ñ‰Â”\‚È”ÍˆÍ“à‚Å‚ ‚ê‚ÎŸ‚Ì’n“_‚Ì•ûŒü‚Ö‹@‘Ì‚ğŒX‚¯‚é
-            _moveData.StartPos.rotation = lookRotation;
-            // ˆÚ“®’n“_‚ğXV‚·‚é
-            _movePos = moveLocation;
-        }
-        else
-        {
-            // ŒÀŠE‚Ü‚Å‰ñ“]‚³‚¹‚é
-            _moveData.StartPos.rotation = RotateTowards(
-                _moveData.StartPos.rotation,
-                lookRotation,
-                _statu.Damping * Time.deltaTime);
-
-
-            // Œ»İ‚ÌŒü‚¢‚Ä‚¢‚é•ûŒü‚Öi‚Ş
-            _movePos = _moveData.StartPos.position + _moveData.StartPos.transform.forward * _statu.MaxSpeed * Time.deltaTime;
-        }
-
-        // ˆ—I—¹‚Ì‘JˆÚó‘Ô‚ğ•Û‘¶
-
-
-        return _movePos;
-    }
-
-    private static float GetBezierLength(Vector3 start, Vector3 startTangent, Vector3 end,Vector3 endTangent)
-    {
-        // Œ‹‰Ê‚Æ‚È‚é’·‚³‚Ì‰Šú’l
-        var length = 0f;
-
-        for (int i = 0; i < GaussLegendrePoints.Count; i++)
-        {
-            // Še“_‚ÌƒxƒWƒFÀ•W‚©‚ç’·‚³‚ğ‹‚ß‚é
-            var t = 0.5f * (GaussLegendrePoints[i] + 1f);
-            var bezierCurve = GetBezier(start, startTangent, end, endTangent, t);
-            length += GaussLegendreWeights[i] * math.length(bezierCurve);
-        }
-
-        // ŒvZ‚Ì”¼•ª‚ğŒ‹‰Ê‚Æ‚µ‚Ä•Ô‚·
-        return length * 0.5f;
-    }
-
-    private static Vector3 GetBezier(Vector3 start, Vector3 startTangent, Vector3 end, Vector3 endTangent, float t)
-    {
-        // ‘JˆÚ‚ğ”½“]
-        var oneMinus = 1f - t;
-        // ƒxƒWƒF‹Èü‚ğŒvZ‚µ‚½Œ‹‰Ê‚ğ•Ô‚·
-        return
-              Mathf.Pow(oneMinus, 3) * start
-            + 3f * Mathf.Pow(oneMinus, 2) * t * startTangent
-            + 3f * oneMinus * Mathf.Pow(t, 2) * endTangent
-            + Mathf.Pow(t, 3) * end;
-    }
-
-    private static Quaternion RotateTowards(Quaternion current, Quaternion target, float deltaAngle)
-    {
-        // –Ú•W‚Ü‚Å‚Ì‰ñ“]Šp“x‚ğŒvZ
-        var dot = Mathf.Abs(Quaternion.Dot(current, target));
-        var radian = Mathf.Acos(Mathf.Min(dot, 1f));
-        var angle = math.degrees(radian);
-
-        var t = Mathf.Min(1f, deltaAngle / angle);
-        return Quaternion.Slerp(current, target, t);
-    }
-}
-
-public class MoveData
-{
-    public Transform StartPos;
-    public Vector3 MovePowor;
-
-    public Vector3 EndPos;
-    public float _MovePoint = 0;
-    public MoveData(Transform StartPos,Vector3 EndPos,Vector3 movePowor)
-    {
-        this.StartPos = StartPos;
-        this.MovePowor = movePowor;
-        this.EndPos = EndPos;
-    }
-    public MoveData(MoveData data)
-    {
-        _MovePoint = data._MovePoint;
-        StartPos = data.StartPos;
-        MovePowor = data.MovePowor; 
-        EndPos = data.EndPos;
-
+        // Bendability ãŒ 0 ã®å ´åˆã§ã‚‚ç‰©ç†å€¤ãŒ NaN/Infinity ã«ãªã‚‰ãªã„ã‚ˆã†ã«ä¸‹é™ã‚’è¨­ã‘ã‚‹ã€‚
+        float bendability = Mathf.Max(0.001f, status.Bendability);
+        // ä¸­å¿ƒå‘ãã®åŠ é€Ÿåº¦æˆåˆ†ï¼ˆåˆ¶å¾¡ï¼‰
+        Vector3 force = centripetalAccel * Mathf.Pow(status.MaxSpeed, 2) / bendability;
+        // å‰æ–¹ã¸ã®æ¨é€²åŠ›ã‚’åŠ ãˆã‚‹
+        force += vn * status.Propulsion;
+        // æ¸›è¡°ï¼ˆé€Ÿåº¦ã«æ¯”ä¾‹ï¼‰ã‚’å¼•ã
+        force -= moveObject.GetRigidbody.velocity * status.Damping;
+        // ã‚«ãƒ¼ãƒ–è©•ä¾¡ã‚’å…ˆã«å–å¾—ã—ã¦ã‹ã‚‰ä¹—ç®—ã™ã‚‹ï¼ˆåŠ¹ç‡åŒ–ï¼‰
+        float curveValue = status.Curve.Evaluate(time);
+        moveObject.GetRigidbody.velocity += force * curveValue * Time.fixedDeltaTime;
+        // å›è»¢è£œé–“ï¼šç¾åœ¨ã®å›è»¢ã‹ã‚‰é€Ÿåº¦æ–¹å‘ã¸æ»‘ã‚‰ã‹ã«å‘ã‘ã‚‹
+        moveObject.GetTransform.rotation =
+        Quaternion.Lerp(moveObject.GetTransform.rotation,
+            Quaternion.FromToRotation(Vector3.up,
+            curveValue == 0f ? toTarget : moveObject.GetRigidbody.velocity), bendability);
     }
 }

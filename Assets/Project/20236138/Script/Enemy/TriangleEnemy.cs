@@ -1,125 +1,163 @@
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// 三角形型の敵（TriangleEnemy）。
+/// - プレイヤー接近時に一定時間後に自爆するタイプと追跡するタイプがある。
+/// - RocketMove を利用して追跡/移動を行い、破壊時に範囲ダメージを与える。
+/// </summary>
 public class TriangleEnemy :EnemyBase,IMoveObjectable
 {
-    [SerializeField, Header("�T�m�͈�")]
-    private float _sreachDistance = 10;
-    [SerializeField, Header("��������܂ł̎���")]
+    // Inspector で設定する値
+    [SerializeField, Header("探索距離")]
+    private float _searchDistance = 10;
+
+    [SerializeField, Header("自爆までの時間")]
     private float _timeDestruction = 4f;
-    [SerializeField,Header("�ǐՎ��̑��x")]
+
+    [SerializeField, Header("追跡速度")]
     private float _chaseSpeed = 10;
-    private float _nowTimeDestruntion = 0;
-    [SerializeField, Header("�������̍U����")]
-    private int _selfDistructionDamage = 10;
-    [SerializeField,Header("�����͈̔�")]
-    private float _selfDistructionScale = 10;
-    [SerializeField,Header("�����O�ɉ����o��^�C�~���O")]
-    float _selfDistructionSpeed = 10;
+
+    [SerializeField, Header("自爆ダメージ")]
+    private int _selfDestructionDamage = 10;
+
+    [SerializeField, Header("自爆範囲スケール")]
+    private float _selfDestructionScale = 10;
+
+    [SerializeField, Header("自爆発動までの時間")]
+    private float _selfDestructionSpeed = 10;
+
     [SerializeField]
-    LayerMask _mask;
+    private LayerMask _mask;
+
     [SerializeField]
-    AudioClip _allermSound;
+    private AudioClip _alarmSound;
+
     [SerializeField]
-    AudioClip _deathSound;
+    private AudioClip _deathSound;
+
     [SerializeField]
     private MoveStatus _moveStatus;
-    private CancellationToken token;
 
+    [SerializeField]
+    private Renderer _renderer;
+
+    // 内部状態
+    private float _nowTimeDestruction = 0;
+    private CancellationToken _token;
     private EnemyDeadParam _deadParam = new();
+    private Rigidbody _rb;
+    private bool _isTracking = false;
+
+    // 公開プロパティ
     public override bool GetIsView => _renderer.isVisible;
-
-    public Transform GetPos => transform;
-
-    public Rigidbody GetRigidbody => rb;
-
-    public Vector3 Gettarget => TargetManager.Instance.GetPlayerPos ;
+    public Transform GetTransform => transform;
+    public Rigidbody GetRigidbody => _rb;
+    public Vector3 GetTargetVector => TargetManager.Instance.GetPlayerPos ;
 
     public override void Damage(int damage)
     {
+        _enemyNowHP -= damage;
+        
+        if(_enemyNowHP > 0) return;
+        
         ServiceLocator<SEManager>.GetInstance().PlaySound(_deathSound, true);
         _deadParam.enemyDeadPosition = transform.position;
         ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
         Destroy(gameObject);
     }
 
-    //�R���|�[�l���g
-    [SerializeField]
-    private Renderer _renderer;
-    private Rigidbody rb;
+    /// <summary>
+    /// 自爆する時間や動きの性能などのステータスをセットする関数
+    /// </summary>
+    /// <param name="selfDestructionDamage"></param>
+    /// <param name="timeDestruction"></param>
+    /// <param name="chaseSpeed"></param>
+    /// <param name="status"></param>
+    /// <param name="isTracking"></param>
+    public void SetStatus(int selfDestructionDamage , float timeDestruction,float chaseSpeed,MoveStatus status,bool isTracking)
+    {
+        _selfDestructionDamage = selfDestructionDamage;
+        _timeDestruction = timeDestruction;
+        _chaseSpeed = chaseSpeed;
+        _moveStatus = status;
+        _isTracking = isTracking;
+    }
 
-    private bool _isTracking = false;
-    public void SetStatus(int _selfDestructionDamage , float _timeDestruction,float _chaseSpeed,MoveStatus status,bool _isTracking)
+    protected override void Awake()
     {
-        this._selfDistructionDamage = _selfDestructionDamage;
-        this._timeDestruction = _timeDestruction;
-        this._chaseSpeed = _chaseSpeed;
-        this._moveStatus = status;
-        this._isTracking = _isTracking;
+        base.Awake();
+        _rb = GetComponent<Rigidbody>();
     }
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
-    // Start is called before the first frame update
+
     protected override void Start()
     {
-        //base.Start();
-        token = this.GetCancellationTokenOnDestroy();
+        base.Start();
+        _token = this.GetCancellationTokenOnDestroy();
         _deadParam.enemyDeadPosition = transform.position;
         ServiceLocator<UIMediator>.GetInstance().Init(_deadParam);
     }
 
-    // Update is called once per frame
-    async void FixedUpdate()
+    private void FixedUpdate()
     {
-            RocetMove.MoveTarget(this, _moveStatus, _nowTimeDestruntion);
-        if ((GetPos.position - Gettarget).sqrMagnitude < Mathf.Pow(_sreachDistance, 2))
+        RocketMove.MoveTarget(this, _moveStatus, _nowTimeDestruction);
+        if ((GetTransform.position - GetTargetVector).sqrMagnitude < Mathf.Pow(_searchDistance, 2))
         {
             if (!_isTracking)
             {
-                try
-                {
-            Attack();
-                await UniTask.Delay(TimeSpan.FromSeconds(_timeDestruction - _selfDistructionSpeed),cancellationToken:token);
-                ServiceLocator<SEManager>.GetInstance().PlaySound(_allermSound, true);
-                await UniTask.Delay(TimeSpan.FromSeconds(_selfDistructionSpeed), cancellationToken: token);
-                    _deadParam.enemyDeadPosition = transform.position;
-                    ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
-                    Destroy(gameObject);
-
-                }
-                catch
-                {
-
-                }
+                AttackAsync(_token).Forget();
             }
-        _nowTimeDestruntion += Time.fixedDeltaTime;
+            _nowTimeDestruction += Time.fixedDeltaTime;
         }
     }
 
+    /// <summary>
+    /// 自爆攻撃の待機、警告音、破壊処理を順に実行する。
+    /// </summary>
+    private async UniTask AttackAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            Attack();
+            float waitTime = Mathf.Max(0f, _timeDestruction - _selfDestructionSpeed);
+            await UniTask.Delay(TimeSpan.FromSeconds(waitTime),cancellationToken:cancellationToken);
+            ServiceLocator<SEManager>.GetInstance().PlaySound(_alarmSound, true);
+            await UniTask.Delay(TimeSpan.FromSeconds(_selfDestructionSpeed), cancellationToken: cancellationToken);
+            _deadParam.enemyDeadPosition = transform.position;
+            ServiceLocator<UIMediator>.GetInstance().Animation(_deadParam);
+            Destroy(gameObject);
+        }
+        catch (OperationCanceledException)
+        {
+            // キャンセルは正常な終了として扱うため、何もしない。
+        }
+        catch (Exception exception)
+        {
+            Debug.LogException(exception);
+        }
+    }
+
+    /// <summary>
+    /// 自爆攻撃の追跡状態へ切り替える。
+    /// </summary>
     private void Attack()
     {
         _isTracking = true;
         _moveStatus.MaxSpeed = _chaseSpeed;
-
-            
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, _selfDistructionScale, Vector3.forward,0.0001f,_mask);
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, _selfDestructionScale, Vector3.forward,0.0001f,_mask);
         for (int i = 0; i < hits.Length; i++)
         {
-            IDamagable damage = hits[i].transform.GetComponent<IDamagable>();
+            IDamageable damage = hits[i].transform.GetComponent<IDamageable>();
             if(damage != null)
             {
-                damage.Damage(_selfDistructionDamage);
+                damage.Damage(_selfDestructionDamage);
             }
         }
 

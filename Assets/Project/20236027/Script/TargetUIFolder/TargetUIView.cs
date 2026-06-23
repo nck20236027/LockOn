@@ -2,33 +2,33 @@ using LitMotion;
 using UnityEngine;
 using UnityEngine.UI;
 
-//¶¬‚ÆƒŠƒ[ƒhtarget‚ªÁ‚¦‚½‚Æ‚«‚ÌƒVƒ‡ƒE‚ÆƒnƒCƒh‚ª‚¢‚é@‚Ù‚Æ‚ñ‚ÇŒp³
-//ƒfƒŠƒQ[ƒg‚Åƒ”ƒFƒNƒ^[3‚Å•Ô‚·ƒƒ\ƒbƒh‚Â‚­‚Á‚Ätarget‚Ìƒ|ƒWƒVƒ‡ƒ“‚ğ•Ô‚·
+//ï¿½ï¿½ï¿½ï¿½ï¿½Æƒï¿½ï¿½ï¿½ï¿½[ï¿½htargetï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÌƒVï¿½ï¿½ï¿½Eï¿½Æƒnï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Ù‚Æ‚ï¿½ÇŒpï¿½ï¿½
+//ï¿½fï¿½ï¿½ï¿½Qï¿½[ï¿½gï¿½Åƒï¿½ï¿½Fï¿½Nï¿½^ï¿½[3ï¿½Å•Ô‚ï¿½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½targetï¿½Ìƒ|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 public class TargetUIView : ViewBase
 {
     [SerializeField]
     private Image targetUIImage;
-    [Header("‰ñ“]İ’èQƒ‹[ƒv")]
-    [SerializeField] private Vector3 _eulerStartPos;      //ƒŠƒbƒgƒ‚[ƒVƒ‡ƒ“‰Šúó‘Ô
-    [SerializeField] private Vector3 _eulerEndPos;        //ƒŠƒbƒgƒ‚[ƒVƒ‡ƒ“
-    [SerializeField] private float _eulerMoveUITimer;     //“®‚©‚µ‚½‚¢ŠÔ
-    [SerializeField] private int _eulerLoopCount;         //‰½‰ñƒ‹[ƒv‚·‚é‚©
-    [SerializeField] private LoopType _eulerLoopType;     //‚Ç‚ñ‚Èƒ‹[ƒv‚ğ‚·‚Ì‚©
-    [SerializeField] private Ease _eulerEaseType;         //‚Ç‚ñ‚È“®‚«‚©
-    [Header("ƒJƒ‰[İ’èQƒ‹[ƒv")]
-    [SerializeField] private Color _colorStart;      //ƒŠƒbƒgƒ‚[ƒVƒ‡ƒ“‰Šúó‘Ô
-    [SerializeField] private Color _colorEnd;        //ƒŠƒbƒgƒ‚[ƒVƒ‡ƒ“
-    [SerializeField] private float _colorMoveUITimer;     //“®‚©‚µ‚½‚¢ŠÔ
-    [SerializeField] private int _colorLoopCount;         //‰½‰ñƒ‹[ƒv‚·‚é‚©
-    [SerializeField] private LoopType _colorLoopType;     //‚Ç‚ñ‚Èƒ‹[ƒv‚ğ‚·‚Ì‚©
-    [SerializeField] private Ease _colorEaseType;         //‚Ç‚ñ‚È“®‚«‚©
-    [Header("Šg‘åk¬İ’èQƒ‹[ƒv")]
-    [SerializeField] private Vector3 _ScaleStart;      //ƒŠƒbƒgƒ‚[ƒVƒ‡ƒ“‰Šúó‘Ô
-    [SerializeField] private Vector3 _scaleEnd;        //ƒŠƒbƒgƒ‚[ƒVƒ‡ƒ“
-    [SerializeField] private float _scaleMoveUITimer;     //“®‚©‚µ‚½‚¢ŠÔ
-    [SerializeField] private int _scaleLoopCount;         //‰½‰ñƒ‹[ƒv‚·‚é‚©
-    [SerializeField] private LoopType _scaleLoopType;     //‚Ç‚ñ‚Èƒ‹[ƒv‚ğ‚·‚Ì‚©
-    [SerializeField] private Ease _scaleEaseType;         //‚Ç‚ñ‚È“®‚«‚©
+    [Header("ï¿½ï¿½]ï¿½İ’ï¿½Qï¿½ï¿½ï¿½[ï¿½v")]
+    [SerializeField] private Vector3 _eulerStartPos;      //ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private Vector3 _eulerEndPos;        //ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private float _eulerMoveUITimer;     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private int _eulerLoopCount;         //ï¿½ï¿½ï¿½ñƒ‹[ï¿½vï¿½ï¿½ï¿½é‚©
+    [SerializeField] private LoopType _eulerLoopType;     //ï¿½Ç‚ï¿½Èƒï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
+    [SerializeField] private Ease _eulerEaseType;         //ï¿½Ç‚ï¿½È“ï¿½ï¿½ï¿½ï¿½ï¿½
+    [Header("ï¿½Jï¿½ï¿½ï¿½[ï¿½İ’ï¿½Qï¿½ï¿½ï¿½[ï¿½v")]
+    [SerializeField] private Color _colorStart;      //ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private Color _colorEnd;        //ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private float _colorMoveUITimer;     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private int _colorLoopCount;         //ï¿½ï¿½ï¿½ñƒ‹[ï¿½vï¿½ï¿½ï¿½é‚©
+    [SerializeField] private LoopType _colorLoopType;     //ï¿½Ç‚ï¿½Èƒï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
+    [SerializeField] private Ease _colorEaseType;         //ï¿½Ç‚ï¿½È“ï¿½ï¿½ï¿½ï¿½ï¿½
+    [Header("ï¿½gï¿½ï¿½kï¿½ï¿½ï¿½İ’ï¿½Qï¿½ï¿½ï¿½[ï¿½v")]
+    [SerializeField] private Vector3 _ScaleStart;      //ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private Vector3 _scaleEnd;        //ï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private float _scaleMoveUITimer;     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private int _scaleLoopCount;         //ï¿½ï¿½ï¿½ñƒ‹[ï¿½vï¿½ï¿½ï¿½é‚©
+    [SerializeField] private LoopType _scaleLoopType;     //ï¿½Ç‚ï¿½Èƒï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
+    [SerializeField] private Ease _scaleEaseType;         //ï¿½Ç‚ï¿½È“ï¿½ï¿½ï¿½ï¿½ï¿½
 
     IhasTargetPos targetPos;
     protected override ParamBase GetUseParamBase() => new TargetUIParam();
@@ -58,7 +58,7 @@ public class TargetUIView : ViewBase
     }
     //public override void OnFinal<T>(T param)
     //{
-    //    //View‚Ìíœw—ß‚ğó‚¯‚½‚ç©g‚ğíœ‚·‚é
+    //    //Viewï¿½Ìíœï¿½wï¿½ß‚ï¿½ï¿½ó‚¯‚ï¿½ï¿½ç©ï¿½gï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
     //    Destroy(gameObject);
     //}
     public override void OnAnimation<T>(T param)
@@ -79,25 +79,25 @@ public class TargetUIView : ViewBase
         //    .WithEase(Ease.Linear)
         //    .BindToColor(targetUIImage.GetComponent<Image>());
 
-        //LMotion.Create(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(0.5f, 0.5f, 0.5f), 1f) // 1•b‚©‚¯‚ÄƒXƒP[ƒ‹‚ğ•Ï‰»
+        //LMotion.Create(new Vector3(1.5f, 1.5f, 1.5f), new Vector3(0.5f, 0.5f, 0.5f), 1f) // 1ï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ÄƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½Ï‰ï¿½
         //    .WithLoops(-1, LoopType.Yoyo)
         //    .WithEase(Ease.Linear)
-        //    .BindToLocalScale(transform);// transform.localScale‚É•R‚Ã‚¯
+        //    .BindToLocalScale(transform);// transform.localScaleï¿½É•Rï¿½Ã‚ï¿½
 
     }
     public void OnDestroy()
     {
-        ServiceLocator<UIMediator>.GetInstance().Final(new TargetUIParam()); //‚·‚×‚Ä‚Ìview‚É‚±‚ê‚ğ‘‚©‚È‚¢‚ÆƒoƒO‚é
+        ServiceLocator<UIMediator>.GetInstance().Final(new TargetUIParam()); //ï¿½ï¿½ï¿½×‚Ä‚ï¿½viewï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Æƒoï¿½Oï¿½ï¿½
     }
     void Update()
     {
-        //‚±‚±‚É‚Á‚Ä‚«‚½Vector‚ğg‚Á‚Ätarget‚ÌêŠ‚ÉUI‚ğ’u‚­
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Vectorï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½targetï¿½ÌêŠï¿½ï¿½UIï¿½ï¿½uï¿½ï¿½
         if (targetPos.GetTarget== null)
         {
             targetUIImage.gameObject.SetActive(false);
             return;
         }
-        targetUIImage.transform.position = Camera.main.WorldToScreenPoint(targetPos.GetTarget.GetTokenPosition);
+        targetUIImage.transform.position = Camera.main.WorldToScreenPoint(targetPos.GetTarget.GetTransform.position);
 
         targetUIImage.gameObject.SetActive(targetPos.GetTarget.GetIsView);
 

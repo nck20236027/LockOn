@@ -7,25 +7,23 @@ public class ServiceMonoBehaviour<T> : MonoBehaviour, IServiceClass where T : Mo
 
     protected virtual void Awake()
     {
-        //ƒVƒ“ƒOƒ‹ƒgƒ“‚Ìˆ—
-        //ƒT[ƒrƒXƒƒP[ƒ^‚ÉŽ©g‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ð“o˜^
+        // ã‚µãƒ¼ãƒ“ã‚¹ãƒ­ã‚±ãƒ¼ã‚¿ãƒ¼ã«è‡ªèº«ã‚’ç™»éŒ²
         ServiceLocator<T>.Register(this as T);
 
-        //ƒƒP[ƒ^[‚É“o˜^‚³‚ê‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚ªŽ©•ªŽ©g‚Å‚ ‚é‚È‚ç
+        // ç™»éŒ²ã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒè‡ªèº«ã§ã‚ã‚Œã°ã€ã‚·ãƒ¼ãƒ³ã‚’è·¨ã„ã§ç ´å£Šã•ã‚Œãªã„ã‚ˆã†ã«ã™ã‚‹
         if (ServiceLocator<T>.GetInstance() == this)
         {
-            //Ž©g‚ð—Ìˆæ‚É’Ç‰Á
             DontDestroyOnLoad(gameObject);
         }
         else
         {
-            //‚»‚¤‚Å‚È‚¯‚ê‚Îíœ
             Destroy(gameObject);
         }
     }
 
     protected virtual void OnDestroy()
     {
+        // ã‚µãƒ¼ãƒ“ã‚¹ãƒ­ã‚±ãƒ¼ã‚¿ãƒ¼ã‹ã‚‰è‡ªèº«ã‚’å‰Šé™¤
         ServiceLocator<T>.RemoveInstance(this as T);
     }
 }

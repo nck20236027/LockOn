@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1fb654241d6b0b4ca459188d40a29ca, type: 3}
+  m_Name: PlayerSoundData
+  m_EditorClassIdentifier: 
+  _changeTargetSound: {fileID: 8300000, guid: f30231cb3e123a04e87d6b8e439e03b9, type: 3}
+  _damageSound: {fileID: 8300000, guid: f468b3992fae31b4392d41e214eb3fda, type: 3}
+  _healSound: {fileID: 8300000, guid: 3096355ef0d5f844f92ed71e7bd23e65, type: 3}
+  _warningSound: {fileID: 8300000, guid: 50b3df12f1b0df440964e19874be7001, type: 3}
+  _rocketFlightSound: {fileID: 8300000, guid: 63d0292fe5ad28b42a1933670b0d6c4a, type: 3}
+  _boostSound: {fileID: 8300000, guid: d3e9adbdaab0e5145a3a5683384d7e54, type: 3}

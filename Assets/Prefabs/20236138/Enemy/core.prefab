@@ -137,73 +137,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163047db172c0d542b74e20fbab1a86b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxCoreHp: 3
+  _enemyMaxHP: 3
+  _warpPos: []
   _actionInterval: 3
   _animationTime: 2
-  _act1AttackTime: 5
-  _act1ChanseTime: 3
-  _act1CreatBulletInterval: 0.2
-  _act1AttackDistanse: 20
-  _distanceAttack: 2
-  _bulletAround: 3
-  _act1BulletStatus:
-    _moveSpeed: 6
-    _bulletPowor: 10
-    _DestroyTime: 0
-  _act2AttackTime: 8.75
-  _act2ChanseTime: 5
-  _sreachDistance: 50
-  _act2BulletLineCount: 3
-  _act2BulletCount: 25
-  _enemyBulletRotation: 8
-  _enemyBulletDistance: 0.4
-  _enemyBulletSpan: 2
-  _enemyBulletInstatiateDistance: 2
-  _lineColor: {r: 1, g: 0, b: 0, a: 1}
-  _act2Bulletstatus:
-    _moveSpeed: 2
-    _bulletPowor: 6
-    _DestroyTime: 2
-  _act3AttackTime: 9.55
-  _act3CrealEnemyInterval: 1
-  _act3ChanseTime: 10
-  _act3EnemCreatDistance: 2
-  _moveStatus:
-    _curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    _maxSpeed: 11.96
-    _bendability: 12.61
-    _damping: 1.16
-  _enemyDestructionTime: 5.81
-  _selfDistructionDamage: 10
+  _bossName: "\u30B3\u30A2"
+  _action1Data: {fileID: 11400000, guid: 84f8c2f27d4321a4bb7b5cd6302268d9, type: 2}
+  _action2Data: {fileID: 11400000, guid: 7d4a52a7c8d04f84b9da85eb53626e9d, type: 2}
+  _action3Data: {fileID: 11400000, guid: dda1b986277c28d4784955fe4c734c9d, type: 2}
   _renderer: {fileID: 3340794289527779621}
-  _player: {fileID: 0}
-  _enemy: {fileID: 8715235238063857669, guid: 83efa8dc070ee1d4cae5737ad0808181, type: 3}
-  corePos: {x: 0, y: 0, z: 0}
-  coreStateSound: {fileID: 8300000, guid: b0fdfd70eb167414fadb9ba497123541, type: 3}
-  _isAttack: 0
+  _enemyPrefab: {fileID: 8715235238063857669, guid: 83efa8dc070ee1d4cae5737ad0808181, type: 3}
+  _coreStateSound: {fileID: 0}
 --- !u!120 &8205928085702379623
 LineRenderer:
   serializedVersion: 2

@@ -48,16 +48,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b9ee6bf0887d544a61ec888eb9c19e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sreachDistance: 78.1
+  _searchDistance: 78.1
   _timeDestruction: 10
   _chaseSpeed: 10
-  _selfDistructionDamage: 10
-  _selfDistructionScale: 10
-  _selfDistructionSpeed: 1
+  _selfDestructionDamage: 10
+  _selfDestructionScale: 10
+  _selfDestructionSpeed: 1
   _mask:
     serializedVersion: 2
     m_Bits: 8
-  _allermSound: {fileID: 8300000, guid: 00e7a8341c865e340aa88a94bec81d4b, type: 3}
+  _alarmSound: {fileID: 8300000, guid: 00e7a8341c865e340aa88a94bec81d4b, type: 3}
   _deathSound: {fileID: 8300000, guid: 87c6dbd41d5c68b45bcc1cb52816bc51, type: 3}
   _moveStatus:
     _curve:
